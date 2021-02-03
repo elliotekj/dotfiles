@@ -1,0 +1,511 @@
+"---------------------------------------
+" BASICS
+"---------------------------------------
+
+set nocompatible
+filetype plugin indent on
+syntax on
+
+let g:mapleader = ' '
+let g:maplocalleader = ','
+
+runtime macros/matchit.vim
+
+set backspace=indent,eol,start
+set colorcolumn=80
+set display+=lastline
+set encoding=utf-8
+set expandtab
+set foldmethod=syntax
+set foldlevelstart=50 " open files with all folds open
+set gdefault
+set hidden
+set laststatus=2
+set lazyredraw
+set list listchars=tab:»·,trail:·,nbsp:·|
+set nobackup
+set nojoinspaces
+set noswapfile
+set nowritebackup
+set relativenumber
+set scrolloff=999
+set shiftround
+set shiftwidth=4
+set showtabline=1
+set sidescroll=1
+set sidescrolloff=5
+set smartindent
+set smarttab
+set smarttab
+set softtabstop=4
+set splitbelow
+set splitright
+set timeoutlen=500
+set ttimeoutlen=0
+set updatetime=300
+set visualbell
+
+set encoding=utf-8
+scriptencoding utf-8
+
+let g:netrw_localrmdir='rm -r'
+let g:netrw_banner=0
+
+"
+" Persistent undos
+set undodir=$HOME/.vim_undos
+set undofile
+set undolevels=1000
+set undoreload=1000
+set history=50
+
+"
+" Save all when focus is lost
+au FocusLost * :silent! wall
+
+"
+" Wildmenu
+set wildmenu
+set wildmode=list:longest
+set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
+
+"
+" Format options
+set formatoptions=tc " Wrap text and comments using textwidth
+set formatoptions+=r " Continue comments when pressing ENTER in insert mode
+set formatoptions+=q " Enable formatting of comments with gq
+set formatoptions+=n " Detect lists for formatting
+set formatoptions+=b " Auto-wrap in insert mode, and do not wrap old long lines
+
+"
+" search
+set hlsearch " Highlight matches
+set incsearch " Search incrementally
+set ignorecase " Turn off case sensitivity when searching…
+set smartcase " …unless there's a capital letter included
+
+"---------------------------------------
+" PLUGINS
+"---------------------------------------
+
+" Auto-install Vim Plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged\')
+
+let g:coc_global_extensions = [
+  \ 'coc-snippets'
+  \ ]
+
+"
+" Theme
+Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
+Plug 'itchyny/lightline.vim'
+
+"
+" UI Features
+Plug 'airblade/vim-gitgutter'
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-vinegar'
+
+"
+" Unit testing
+Plug 'janko-m/vim-test', { 'on': ['TestFile', 'TestLast', 'TestNearest', 'TestSuite', 'TestVisit'] }
+Plug 'tpope/vim-dispatch'
+
+"
+" Find & replace
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'jremmen/vim-ripgrep'
+
+"
+" Editor features
+Plug 'SirVer/ultisnips'
+Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'antoinemadec/coc-fzf'
+Plug 'chip/vim-fat-finger'
+Plug 'dense-analysis/ale'
+Plug 'derekprior/vim-trimmer'
+Plug 'duggiefresh/vim-easydir'
+Plug 'neoclide/coc-snippets'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'sheerun/vim-polyglot'
+Plug 'soywod/unfog.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vimwiki/vimwiki'
+Plug 'wakatime/vim-wakatime'
+call plug#end()
+
+"
+" vim-test
+let test#strategy = 'dispatch'
+map <leader>sr :TestSuite<CR>
+map <leader>ss :TestNearest<CR>
+map <leader>sf :TestFile<CR>
+map <leader>sl :TestLast<CR>
+
+"
+" lightline
+" function! CocCurrentFunction()
+"     return get(b:, 'coc_current_function', '')
+" endfunction
+
+" let g:lightline = {
+"   \ 'separator': { 'left': '', 'right': '' },
+"   \ 'active': {
+"   \   'left': [ [ 'mode', 'paste' ],
+"   \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+"   \ },
+"   \ 'component_function': {
+"   \   'cocstatus': 'coc#status',
+"   \   'currentfunction': 'CocCurrentFunction'
+"   \ },
+"   \ }
+
+"
+" ripgrep
+if executable('rg')
+  " use Ripgrep over Grep
+  set grepprg="rg --color never --no-heading"
+endif
+
+"
+" vim-gitgutter
+let g:gitgutter_override_sign_column_highlight = 0
+
+"
+" unfog.vim
+nmap <leader>u :Unfog<cr>
+nmap <leader>U :tabnew Unfog<cr>
+
+"---------------------------------------
+" COLOURS
+"---------------------------------------
+
+" let base16colorspace=256
+set background=light
+colorscheme solarized
+
+" base16-gruvbox-dark-hard
+" nope - base16-horizon-dark
+" base16-eighties
+
+"
+" set colorscheme to match base16 in term
+" if filereadable(expand("~/.vimrc_background"))
+"   source ~/.vimrc_background
+" else
+  " colorscheme base16-gruvbox-dark-hard
+" endif
+
+"
+" https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf
+set guifont=InconsolataForPowerline:h14
+
+"
+" SignColumn with same color as line column
+highlight clear SignColumn
+
+"
+" current line
+set cursorline
+set cursorcolumn
+hi CursorLineNr term=bold cterm=bold ctermfg=012 gui=bold
+
+if &background ==# 'dark'
+  "
+  " vim-gitgutter bg color
+  highlight SignColumn ctermbg=black
+  highlight GitGutterAdd ctermbg=black
+  highlight GitGutterChange ctermbg=black
+  highlight GitGutterDelete ctermbg=black
+  highlight GitGutterChangeDelete ctermbg=black
+
+  "
+  " line number column to match text bg
+  highlight LineNr ctermfg=darkgrey ctermbg=black
+else
+  "
+  " vim-gitgutter bg color
+  highlight SignColumn ctermbg=white
+  highlight GitGutterAdd ctermbg=white
+  highlight GitGutterChange ctermbg=white
+  highlight GitGutterDelete ctermbg=white
+  highlight GitGutterChangeDelete ctermbg=white
+
+  "
+  " line number column to match text bg
+  highlight LineNr ctermfg=darkgrey ctermbg=white
+endif
+
+"
+" highlight ale
+highlight ALEError ctermfg=01 ctermbg=18
+highlight AleWarning ctermfg=blue ctermbg=black
+highlight ALEStyleWarningSign ctermfg=yellow ctermbg=black
+highlight ALEWarningSign ctermfg=yellow ctermbg=black
+highlight ALEErrorSign ctermfg=red ctermbg=black
+highlight ALEStyleErrorSign ctermfg=red ctermbg=black
+
+"
+" coc.nvim colors
+highlight CocErrorHighlight cterm=underline ctermfg=01 ctermbg=18
+highlight CocErrorFloat ctermfg=grey ctermbg=18
+
+"
+" search highligh
+" highlight Search ctermbg=darkgrey ctermfg=black
+
+"
+" spellchecker
+highlight SpellBad cterm=NONE
+
+"---------------------------------------
+" MAPPINGS
+"---------------------------------------
+
+"
+" Escaping
+inoremap jk <esc>
+
+"
+" Move up/down by visual line
+noremap j gj
+noremap k gk
+
+"
+" Quitting & writing buffers
+nmap <leader>q :bp <bar> bd #<cr>
+nnoremap <leader>k :w<cr>
+
+"
+" Toggle the two most recent buffers
+nnoremap <leader><leader> <c-^>
+
+"
+" Copy & paste
+if executable('xclip')
+    " https://vim.fandom.com/wiki/In_line_copy_and_paste_to_system_clipboard
+    vmap <silent> cp y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
+    nmap <silent> cv :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
+else
+    vnoremap cp "*y
+    vnoremap cv "*p
+    nnoremap cv "*p
+end
+
+set pastetoggle=<F2>
+
+"
+" buffer navigation
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-h> :wincmd h<CR>
+nmap <silent> <C-l> :wincmd l<CR>
+
+"
+" Grow and shrink splits
+nnoremap <leader>0 <c-w>=
+nnoremap <leader>= <c-w>999+
+nnoremap <leader>- <c-w>999-
+
+"
+" EOL / BOL movement
+noremap H ^
+noremap L $
+vnoremap L g_
+
+"
+" Turn off search highlights until next search
+nnoremap <localleader><space> :nohls<cr>
+
+"
+" Pair expansion on the cheap
+inoremap (<CR>  (<CR>)<Esc>O
+inoremap (;     (<CR>);<Esc>O
+inoremap (,     (<CR>),<Esc>O
+inoremap {<CR>  {<CR>}<Esc>O
+inoremap {;     {<CR>};<Esc>O
+inoremap {,     {<CR>},<Esc>O
+inoremap [<CR>  [<CR>]<Esc>O
+inoremap [;     [<CR>];<Esc>O
+inoremap [,     [<CR>],<Esc>O
+inoremap -><CR> -><CR>end)<Esc>O
+
+"---------------------------------------
+" AUTOGROUPS
+"---------------------------------------
+
+"
+" Keep the cursor line in the middle of the screen
+augroup v_center_cursor
+  au!
+
+  au BufEnter,WinEnter,VimResized *,*.*
+        \ let &scrolloff=winheight(win_getid())/2
+augroup END
+
+augroup global
+    au!
+
+    " Only show cursor line in the current window and only when in a non-insert mode
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
+
+"---------------------------------------
+" PLUGIN: ALE
+"---------------------------------------
+
+let g:ale_sign_column_always = 1
+let g:ale_emit_conflict_warnings = 0
+let g:ale_sign_error = '→'
+let g:ale_sign_warning = '→'
+" let g:ale_fix_on_save = 1
+let g:ale_elixir_elixir_ls_release = $HOME . './elixir_ls'
+
+let g:ale_linters = {
+      \ 'elixir': [],
+      \ }
+
+let g:ale_fixers = {
+      \  'elixir': ['mix_format'],
+      \  'javascript': ['standard'],
+      \}
+
+nnoremap <localleader>f :ALEFix<cr>
+
+function! LoadNearestMixFormatter()
+  let l:formatters = []
+  let l:directory = fnameescape(expand('%:p:h'))
+
+  let l:git_root = system('git rev-parse --show-toplevel')[:-2]
+
+  let l:fmt = findfile('.formatter.exs', l:git_root)
+
+  let g:ale_elixir_mix_format_options = '--dot-formatter ' . l:fmt
+endfunction
+
+call LoadNearestMixFormatter()
+
+function! AddLinterIfFileExists(lang, linter, file, lint, fix)
+  let l:current = g:ale_linters[a:lang]
+
+  if filereadable(a:file) && index(l:current, a:linter) == -1
+    if a:lint
+      let g:ale_linters[a:lang] = g:ale_linters[a:lang] + [a:linter]
+    endif
+    if a:fix
+      let g:ale_fixers[a:lang] = g:ale_fixers[a:lang] + [a:linter]
+    end
+  endif
+endfunction
+
+
+call AddLinterIfFileExists('elixir', 'credo', 'config/.credo.exs', 1, 0)
+
+"---------------------------------------
+" PLUGIN: coc
+"---------------------------------------
+
+augroup vimrc_plugins_coc
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+augroup END
+
+"
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+"
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+"
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+"
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+"---------------------------------------
+" PLUGIN: coc-snippets & UltiSnips
+"---------------------------------------
+
+let g:UltiSnipsSnippetDirectories=["custom-snippets"]
+
+"
+" otherwise it hijacks our <tab> - coc config
+let g:UltiSnipsExpandTrigger="<C-e>"
+
+"imap <C-j> <Plug>(coc-snippets-expand)
+
+"
+" Use <C-j> for select text for visual placeholder of snippet.
+" vmap <C-j> <Plug>(coc-snippets-select)
+
+"
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+"
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+" imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+"---------------------------------------
+" PLUGIN: FZF
+"---------------------------------------
+
+augroup vimrc_plugin_fzf
+  autocmd! FileType fzf
+  autocmd  FileType fzf set nonu nornu
+augroup END
+
+let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(blue)%C(bold)%cr%C(white)"'
+let $FZF_DEFAULT_OPTS='--layout=reverse --bind ctrl-a:select-all'
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+
+nmap <localleader>e :FzfFiles<CR>
+nmap <localleader>s :FzfRg<CR>
+
+"---------------------------------------
+" PLUGIN: vimwiki
+"---------------------------------------
+
+let g:vimwiki_list = [{'path': '~/vimwiki/'}]
