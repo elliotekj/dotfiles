@@ -128,6 +128,7 @@ Plug 'chip/vim-fat-finger'
 Plug 'dense-analysis/ale'
 Plug 'derekprior/vim-trimmer'
 Plug 'duggiefresh/vim-easydir'
+Plug 'lambdalisue/gina.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
@@ -156,13 +157,14 @@ if executable('rg')
 endif
 
 "
-" vim-gitgutter
-let g:gitgutter_override_sign_column_highlight = 0
-
-"
 " unfog.vim
 nmap <leader>u :Unfog<cr>
 nmap <leader>U :tabnew Unfog<cr>
+
+"
+" gina.vim
+nnoremap <leader>gs :Gina status -s<cr>
+nnoremap <leader>gc :Gina commit<cr>
 
 "---------------------------------------
 " COLOURS
@@ -255,8 +257,9 @@ noremap j gj
 noremap k gk
 
 "
-" Quitting & writing buffers
+" Quitting & writing buffers & tabs
 nmap <leader>q :bp <bar> bd #<cr>
+nnoremap <C-q> :tabc<cr>
 nnoremap <leader>k :w<cr>
 
 "
@@ -415,3 +418,59 @@ nmap <localleader>s :FzfRg<CR>
 "---------------------------------------
 
 let g:vimwiki_list = [{'path': '~/vimwiki/'}]
+
+"---------------------------------------
+" PLUGIN: gitgutter
+"---------------------------------------
+
+function! NextHunkAllBuffers()
+  let line = line('.')
+  GitGutterNextHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bnext
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      1
+      GitGutterNextHunk
+      return
+    endif
+  endwhile
+endfunction
+
+function! PrevHunkAllBuffers()
+  let line = line('.')
+  GitGutterPrevHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bprevious
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      normal! G
+      GitGutterPrevHunk
+      return
+    endif
+  endwhile
+endfunction
+
+let g:gitgutter_map_keys = 0
+let g:gitgutter_override_sign_column_highlight = 0
+
+nmap <silent> ]c :call NextHunkAllBuffers()<CR>
+nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+
+nmap gdp <Plug>(GitGutterStageHunk)
+nmap gdu <Plug>(GitGutterUndoHunk)
+nmap gdd <Plug>(GitGutterPreviewHunk)
