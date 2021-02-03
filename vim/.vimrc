@@ -123,10 +123,12 @@ Plug 'jremmen/vim-ripgrep'
 "
 " Editor features
 Plug 'SirVer/ultisnips'
+Plug 'ackyshake/VimCompletesMe'
 Plug 'chip/vim-fat-finger'
 Plug 'dense-analysis/ale'
 Plug 'derekprior/vim-trimmer'
 Plug 'duggiefresh/vim-easydir'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
 Plug 'tpope/vim-commentary'
