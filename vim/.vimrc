@@ -128,12 +128,12 @@ Plug 'chip/vim-fat-finger'
 Plug 'dense-analysis/ale'
 Plug 'derekprior/vim-trimmer'
 Plug 'duggiefresh/vim-easydir'
-Plug 'lambdalisue/gina.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -162,9 +162,8 @@ nmap <leader>u :Unfog<cr>
 nmap <leader>U :tabnew Unfog<cr>
 
 "
-" gina.vim
-nnoremap <leader>gs :Gina status -s<cr>
-nnoremap <leader>gc :Gina commit<cr>
+" fugitive.vim
+nnoremap <leader>gs :Gstatus<cr>
 
 "---------------------------------------
 " COLOURS
