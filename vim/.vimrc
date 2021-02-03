@@ -97,10 +97,6 @@ endif
 
 call plug#begin('~/.vim/plugged\')
 
-let g:coc_global_extensions = [
-  \ 'coc-snippets'
-  \ ]
-
 "
 " Theme
 Plug 'altercation/vim-colors-solarized'
@@ -127,14 +123,10 @@ Plug 'jremmen/vim-ripgrep'
 "
 " Editor features
 Plug 'SirVer/ultisnips'
-Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
-Plug 'antoinemadec/coc-fzf'
 Plug 'chip/vim-fat-finger'
 Plug 'dense-analysis/ale'
 Plug 'derekprior/vim-trimmer'
 Plug 'duggiefresh/vim-easydir'
-Plug 'neoclide/coc-snippets'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
 Plug 'tpope/vim-commentary'
@@ -153,24 +145,6 @@ map <leader>sr :TestSuite<CR>
 map <leader>ss :TestNearest<CR>
 map <leader>sf :TestFile<CR>
 map <leader>sl :TestLast<CR>
-
-"
-" lightline
-" function! CocCurrentFunction()
-"     return get(b:, 'coc_current_function', '')
-" endfunction
-
-" let g:lightline = {
-"   \ 'separator': { 'left': '', 'right': '' },
-"   \ 'active': {
-"   \   'left': [ [ 'mode', 'paste' ],
-"   \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
-"   \ },
-"   \ 'component_function': {
-"   \   'cocstatus': 'coc#status',
-"   \   'currentfunction': 'CocCurrentFunction'
-"   \ },
-"   \ }
 
 "
 " ripgrep
@@ -256,11 +230,6 @@ highlight ALEStyleWarningSign ctermfg=yellow ctermbg=black
 highlight ALEWarningSign ctermfg=yellow ctermbg=black
 highlight ALEErrorSign ctermfg=red ctermbg=black
 highlight ALEStyleErrorSign ctermfg=red ctermbg=black
-
-"
-" coc.nvim colors
-highlight CocErrorHighlight cterm=underline ctermfg=01 ctermbg=18
-highlight CocErrorFloat ctermfg=grey ctermbg=18
 
 "
 " search highligh
@@ -415,76 +384,11 @@ endfunction
 call AddLinterIfFileExists('elixir', 'credo', 'config/.credo.exs', 1, 0)
 
 "---------------------------------------
-" PLUGIN: coc
-"---------------------------------------
-
-augroup vimrc_plugins_coc
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-  autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-augroup END
-
-"
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-"
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-"
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-"
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-"---------------------------------------
-" PLUGIN: coc-snippets & UltiSnips
+" PLUGIN: UltiSnips
 "---------------------------------------
 
 let g:UltiSnipsSnippetDirectories=["custom-snippets"]
-
-"
-" otherwise it hijacks our <tab> - coc config
 let g:UltiSnipsExpandTrigger="<C-e>"
-
-"imap <C-j> <Plug>(coc-snippets-expand)
-
-"
-" Use <C-j> for select text for visual placeholder of snippet.
-" vmap <C-j> <Plug>(coc-snippets-select)
-
-"
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-"
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-" imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 "---------------------------------------
 " PLUGIN: FZF
