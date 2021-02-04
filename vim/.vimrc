@@ -12,12 +12,13 @@ let g:maplocalleader = ','
 runtime macros/matchit.vim
 
 set backspace=indent,eol,start
-set colorcolumn=80
+set cursorline
+set diffopt=vertical " show diffs vertically
 set display+=lastline
 set encoding=utf-8
 set expandtab
-set foldmethod=syntax
 set foldlevelstart=50 " open files with all folds open
+set foldmethod=syntax
 set gdefault
 set hidden
 set laststatus=2
@@ -27,11 +28,10 @@ set nobackup
 set nojoinspaces
 set noswapfile
 set nowritebackup
-set relativenumber
 set scrolloff=999
 set shiftround
 set shiftwidth=4
-set showtabline=1
+set showtabline=2
 set sidescroll=1
 set sidescrolloff=5
 set smartindent
@@ -42,7 +42,7 @@ set splitbelow
 set splitright
 set timeoutlen=500
 set ttimeoutlen=0
-set updatetime=300
+set updatetime=200
 set visualbell
 
 set encoding=utf-8
@@ -98,14 +98,9 @@ endif
 call plug#begin('~/.vim/plugged\')
 
 "
-" Theme
-Plug 'altercation/vim-colors-solarized'
-Plug 'chriskempson/base16-vim'
-Plug 'itchyny/lightline.vim'
-
-"
 " UI Features
 Plug 'airblade/vim-gitgutter'
+Plug 'jonathanfilip/vim-lucius'
 Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-vinegar'
 
@@ -167,81 +162,31 @@ nmap <leader>U :tabnew Unfog<cr>
 nnoremap <leader>gs :Gstatus<cr>
 
 "---------------------------------------
+" STATUSLINE
+"---------------------------------------
+
+set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+
+"---------------------------------------
 " COLOURS
 "---------------------------------------
 
-" let base16colorspace=256
-set background=light
-colorscheme solarized
-
-" base16-gruvbox-dark-hard
-" nope - base16-horizon-dark
-" base16-eighties
-
-"
-" set colorscheme to match base16 in term
-" if filereadable(expand("~/.vimrc_background"))
-"   source ~/.vimrc_background
-" else
-  " colorscheme base16-gruvbox-dark-hard
-" endif
+let g:lucius_no_term_bg = 1
+colorscheme lucius
+LuciusDark
 
 "
 " https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf
 set guifont=InconsolataForPowerline:h14
 
 "
-" SignColumn with same color as line column
-highlight clear SignColumn
-
-"
-" current line
-set cursorline
-set cursorcolumn
-hi CursorLineNr term=bold cterm=bold ctermfg=012 gui=bold
-
-if &background ==# 'dark'
-  "
-  " vim-gitgutter bg color
-  highlight SignColumn ctermbg=black
-  highlight GitGutterAdd ctermbg=black
-  highlight GitGutterChange ctermbg=black
-  highlight GitGutterDelete ctermbg=black
-  highlight GitGutterChangeDelete ctermbg=black
-
-  "
-  " line number column to match text bg
-  highlight LineNr ctermfg=darkgrey ctermbg=black
-else
-  "
-  " vim-gitgutter bg color
-  highlight SignColumn ctermbg=white
-  highlight GitGutterAdd ctermbg=white
-  highlight GitGutterChange ctermbg=white
-  highlight GitGutterDelete ctermbg=white
-  highlight GitGutterChangeDelete ctermbg=white
-
-  "
-  " line number column to match text bg
-  highlight LineNr ctermfg=darkgrey ctermbg=white
-endif
-
-"
 " highlight ale
-highlight ALEError ctermfg=01 ctermbg=18
-highlight AleWarning ctermfg=blue ctermbg=black
-highlight ALEStyleWarningSign ctermfg=yellow ctermbg=black
-highlight ALEWarningSign ctermfg=yellow ctermbg=black
-highlight ALEErrorSign ctermfg=red ctermbg=black
-highlight ALEStyleErrorSign ctermfg=red ctermbg=black
-
-"
-" search highligh
-" highlight Search ctermbg=darkgrey ctermfg=black
-
-"
-" spellchecker
-highlight SpellBad cterm=NONE
+" highlight ALEError ctermfg=01 ctermbg=18
+" highlight AleWarning ctermfg=blue ctermbg=black
+" highlight ALEStyleWarningSign ctermfg=yellow ctermbg=black
+" highlight ALEWarningSign ctermfg=yellow ctermbg=black
+" highlight ALEErrorSign ctermfg=red ctermbg=black
+" highlight ALEStyleErrorSign ctermfg=red ctermbg=black
 
 "---------------------------------------
 " MAPPINGS
@@ -277,8 +222,6 @@ else
     vnoremap cv "*p
     nnoremap cv "*p
 end
-
-set pastetoggle=<F2>
 
 "
 " buffer navigation
@@ -465,8 +408,11 @@ function! PrevHunkAllBuffers()
   endwhile
 endfunction
 
+let g:gitgutter_enabled = 0
 let g:gitgutter_map_keys = 0
 let g:gitgutter_override_sign_column_highlight = 0
+
+nnoremap <leader>gg :GitGutterToggle<cr>
 
 nmap <silent> ]c :call NextHunkAllBuffers()<CR>
 nmap <silent> [c :call PrevHunkAllBuffers()<CR>
@@ -474,3 +420,9 @@ nmap <silent> [c :call PrevHunkAllBuffers()<CR>
 nmap gdp <Plug>(GitGutterStageHunk)
 nmap gdu <Plug>(GitGutterUndoHunk)
 nmap gdd <Plug>(GitGutterPreviewHunk)
+
+highlight SignColumn ctermbg=black
+highlight GitGutterAdd ctermbg=black
+highlight GitGutterChange ctermbg=black
+highlight GitGutterDelete ctermbg=black
+highlight GitGutterChangeDelete ctermbg=black
