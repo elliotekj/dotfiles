@@ -124,6 +124,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale'
 Plug 'derekprior/vim-trimmer'
 Plug 'duggiefresh/vim-easydir'
+Plug 'justinmk/vim-sneak'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
@@ -258,6 +259,12 @@ inoremap [<CR>  [<CR>]<Esc>O
 inoremap [;     [<CR>];<Esc>O
 inoremap [,     [<CR>],<Esc>O
 inoremap -><CR> -><CR>end)<Esc>O
+inoremap do<CR> do<CR>end<Esc>O
+
+"
+" Self-explanatory
+set pastetoggle=<F2>
+imap <C-l> <space>-><space>
 
 "---------------------------------------
 " AUTOGROUPS
