@@ -13,7 +13,6 @@ runtime macros/matchit.vim
 
 set backspace=indent,eol,start
 set cursorline
-set diffopt=vertical " show diffs vertically
 set display+=lastline
 set encoding=utf-8
 set expandtab
@@ -99,7 +98,6 @@ call plug#begin('~/.vim/plugged\')
 
 "
 " UI Features
-Plug 'airblade/vim-gitgutter'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-vinegar'
@@ -130,7 +128,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -157,10 +154,6 @@ endif
 " unfog.vim
 nmap <leader>u :Unfog<cr>
 nmap <leader>U :tabnew Unfog<cr>
-
-"
-" fugitive.vim
-nnoremap <leader>gs :Gstatus<cr>
 
 "---------------------------------------
 " STATUSLINE
@@ -370,67 +363,12 @@ nmap <localleader>s :FzfRg<CR>
 let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
 
-"---------------------------------------
-" PLUGIN: gitgutter
-"---------------------------------------
 
-function! NextHunkAllBuffers()
-  let line = line('.')
-  GitGutterNextHunk
-  if line('.') != line
-    return
-  endif
-
-  let bufnr = bufnr('')
-  while 1
-    bnext
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      1
-      GitGutterNextHunk
-      return
-    endif
-  endwhile
 endfunction
 
-function! PrevHunkAllBuffers()
-  let line = line('.')
-  GitGutterPrevHunk
-  if line('.') != line
-    return
-  endif
 
-  let bufnr = bufnr('')
-  while 1
-    bprevious
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      normal! G
-      GitGutterPrevHunk
-      return
-    endif
-  endwhile
 endfunction
 
-let g:gitgutter_enabled = 0
-let g:gitgutter_map_keys = 0
-let g:gitgutter_override_sign_column_highlight = 0
 
-nnoremap <leader>gg :GitGutterToggle<cr>
 
-nmap <silent> ]c :call NextHunkAllBuffers()<CR>
-nmap <silent> [c :call PrevHunkAllBuffers()<CR>
 
-nmap gdp <Plug>(GitGutterStageHunk)
-nmap gdu <Plug>(GitGutterUndoHunk)
-nmap gdd <Plug>(GitGutterPreviewHunk)
-
-highlight SignColumn ctermbg=black
-highlight GitGutterAdd ctermbg=black
-highlight GitGutterChange ctermbg=black
-highlight GitGutterDelete ctermbg=black
-highlight GitGutterChangeDelete ctermbg=black
