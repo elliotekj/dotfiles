@@ -1,0 +1,8 @@
+{
+  "codeLens.enable": true,
+  "languageserver": {
+    "elixirLS": {
+      "filetypes": ["elixir", "eelixir"]
+    }
+  }
+}
