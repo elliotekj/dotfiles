@@ -83,7 +83,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
-Plug 'soywod/unfog.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
@@ -180,9 +179,6 @@ map <leader>sr :TestSuite<CR>
 map <leader>ss :TestNearest<CR>
 map <leader>sf :TestFile<CR>
 map <leader>sl :TestLast<CR>
-
-nmap <leader>u :Unfog<cr>
-nmap <leader>U :tabnew Unfog<cr>
 
 "---------------------------------------
 " COLOURS
