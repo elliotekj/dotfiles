@@ -66,6 +66,7 @@ endif
 call plug#begin('~/.vim/plugged\')
 " UI
 Plug 'itchyny/lightline.vim'
+Plug 'joshdick/onedark.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-vinegar'
 " Unit testing
@@ -187,9 +188,11 @@ nmap <leader>U :tabnew Unfog<cr>
 " COLOURS
 "---------------------------------------
 
+if (has("termguicolors"))
+  set termguicolors
+endif
 
-" https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf
-set guifont=InconsolataForPowerline:h14
+colorscheme onedark
 
 "---------------------------------------
 " AUTOGROUPS
