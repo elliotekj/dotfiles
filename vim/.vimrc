@@ -23,7 +23,6 @@ set list listchars=tab:»·,trail:·,nbsp:·|
 set scrolloff=999 sidescroll=1 sidescrolloff=5
 set showtabline=2
 set splitbelow splitright
-set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 
 " Perf
 set lazyredraw
@@ -66,7 +65,7 @@ endif
 
 call plug#begin('~/.vim/plugged\')
 " UI
-Plug 'jonathanfilip/vim-lucius'
+Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-vinegar'
 " Unit testing
@@ -77,12 +76,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'jremmen/vim-ripgrep'
 " Editor features
-Plug 'SirVer/ultisnips'
-" Plug 'dense-analysis/ale'
 Plug 'derekprior/vim-trimmer'
 Plug 'duggiefresh/vim-easydir'
 Plug 'easymotion/vim-easymotion'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
 Plug 'soywod/unfog.vim'
 Plug 'tpope/vim-commentary'
@@ -145,6 +143,22 @@ nnoremap <localleader><space> :nohls<cr>
 map  <localleader><localleader> <Plug>(easymotion-bd-f)
 nmap <localleader><localleader> <Plug>(easymotion-overwin-f)
 
+" coc
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <leader>rn <Plug>(coc-rename)
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" coc-snippets
+imap <C-e> <Plug>(coc-snippets-expand)
+vmap <C-j> <Plug>(coc-snippets-select)
+let g:coc_snippet_next = '<c-j>'
+let g:coc_snippet_prev = '<c-k>'
+
 " Pair expansion on the cheap
 inoremap (<CR>  (<CR>)<Esc>O
 inoremap (;     (<CR>);<Esc>O
@@ -155,7 +169,6 @@ inoremap {,     {<CR>},<Esc>O
 inoremap [<CR>  [<CR>]<Esc>O
 inoremap [;     [<CR>];<Esc>O
 inoremap [,     [<CR>],<Esc>O
-inoremap -><CR> -><CR>end)<Esc>O
 inoremap do<CR> do<CR>end<Esc>O
 
 imap <C-l> <space>-><space>
@@ -174,9 +187,6 @@ nmap <leader>U :tabnew Unfog<cr>
 " COLOURS
 "---------------------------------------
 
-let g:lucius_no_term_bg = 1
-colorscheme lucius
-LuciusDark
 
 " https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf
 set guifont=InconsolataForPowerline:h14
@@ -192,13 +202,13 @@ augroup v_center_cursor
         \ let &scrolloff=winheight(win_getid())/2
 augroup END
 
-" augroup global
-"     au!
+augroup global
+    au!
 
-"     " Only show cursor line in the current window and only when in a non-insert mode
-"     au WinLeave,InsertEnter * set nocursorline
-"     au WinEnter,InsertLeave * set cursorline
-" augroup END
+    " Only show cursor line in the current window and only when in a non-insert mode
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
 
 "---------------------------------------
 " PLUGIN: ALE
@@ -230,13 +240,70 @@ augroup END
 " highlight ALEStyleErrorSign ctermfg=red ctermbg=black
 
 "---------------------------------------
-" PLUGIN: UltiSnips
+" PLUGIN: Coc
 "---------------------------------------
 
-let g:UltiSnipsSnippetDirectories=["custom-snippets"]
-let g:UltiSnipsExpandTrigger="<C-e>"
-let g:UltiSnipsJumpForwardTrigger="<C-j>"
-let g:UltiSnipsJumpBackwardTrigger="<C-p>"
+let g:coc_global_extensions = [
+            \ 'coc-css',
+            \ 'coc-elixir',
+            \ 'coc-emmet',
+            \ 'coc-html',
+            \ 'coc-rls',
+            \ 'coc-snippets'
+            \ ]
+
+set shortmess+=c
+
+if has("patch-8.1.1564")
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+"---------------------------------------
+" PLUGIN: Lightline
+"---------------------------------------
+
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
+let g:lightline = {
+            \ 'separator': { 'left': '', 'right': '' },
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status',
+            \   'currentfunction': 'CocCurrentFunction'
+            \ },
+            \ }
 
 "---------------------------------------
 " PLUGIN: FZF
