@@ -1,3 +1,5 @@
 [user]
-	email = elliot@elliotekj.com
+	email = elliotekj@mailbox.org
 	name = Elliot Jackson
+[commit]
+	gpgsign = true
