@@ -184,11 +184,19 @@ map <leader>sl :TestLast<CR>
 " COLOURS
 "---------------------------------------
 
-if (has("termguicolors"))
-  set termguicolors
+if (empty($TMUX))
+  if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+
+  if (has("termguicolors"))
+    set termguicolors
+  endif
 endif
 
 colorscheme onedark
+
+hi Normal ctermbg=NONE
 
 "---------------------------------------
 " AUTOGROUPS
