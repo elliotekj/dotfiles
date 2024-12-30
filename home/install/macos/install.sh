@@ -94,8 +94,7 @@ asdf install ruby 3.3.5
 asdf global ruby 3.3.5
 asdf plugin list | grep -q "^python$" || asdf plugin add python https://github.com/asdf-community/asdf-python 
 asdf install python 3.12.2
-asdf install python 2.7.18
-asdf global python 3.12.2 2.7.18
+asdf global python 3.12.2 
 asdf plugin list | grep -q "^golang$" || asdf plugin add golang https://github.com/asdf-community/asdf-golang
 asdf install golang latest
 asdf global golang latest
@@ -123,6 +122,7 @@ defaults write com.apple.dock mru-spaces -bool false
 defaults write com.apple.dock magnification -int 0
 defaults write com.apple.dock mineffect "scale"
 defaults write com.apple.dock minimize-to-application -int 1
+defaults write com.apple.dock persistent-apps -array
 
 defaults write com.apple.textedit RichText -int 0
 
@@ -141,6 +141,10 @@ if ! grep -q "app.autostart-mode" "$HOME/Library/Application\ Support/Spotify/pr
   echo 'app.autostart-mode="off"' >>"$HOME/Library/Application\ Support/Spotify/prefs"
   echo 'app.autostart-banner-seen=true' >>"$HOME/Library/Application\ Support/Spotify/prefs"
 fi
+
+# Setup homeshick
+rm -rf "$HOME/install"
+$($brew --prefix homeshick) clone elliotekj/dotfiles
 
 killall Finder
 killall Dock
