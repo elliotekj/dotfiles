@@ -32,6 +32,8 @@ if [ ! -e "/Library/Developer/CommandLineTools/usr/bin/git" ]; then
   sudo rm -f "$clt_placeholder"
 fi
 
+export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+
 # -----------------------------------------------------------------------------
 # Homebrew
 # -----------------------------------------------------------------------------
@@ -74,8 +76,10 @@ if [ ! -d "$HOME/.asdf" ]; then
   . "$HOME/.asdf/asdf.sh"
 fi
 
+# TODO Remove once https://github.com/asdf-vm/asdf-erlang/issues/319 is resolved.
+ulimit -n 65536
+
 asdf plugin list | grep -q "^erlang$" || asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
-export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$($brew --prefix openssl@1.1)"
 asdf install erlang latest
 asdf global erlang latest
 asdf plugin list | grep -q "^elixir$" || asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
