@@ -1,16 +1,18 @@
 # Dotfiles
 
+> [!CAUTION]
+> This repo is not intended for general use. Feel free to cherry-pick from it
+> but running it as-is will not work.
+
 Managed by homeshick: https://github.com/andsens/homeshick
 
 ## Setup
 
-1. Give Terminal full disk access
-2. `$ curl -LO https://github.com/elliotekj/dotfiles/archive/refs/heads/main.zip`
-3. `$ unzip main.zip`
-4. `$ mv dotfiles-main/home/install ~`
-5. `$ ./install/macos/install.sh`
+1. `$ curl -LO https://github.com/elliotekj/dotfiles/archive/refs/heads/main.zip`
+2. `$ unzip main.zip`
+3. `$ mv dotfiles-main/home/install ~`
+4. `$ ./install/macos/install.sh`
 
 ## Post-Setup
 
-1. `$ rm -rf install`
-2. `$ homeshick clone elliotekj/dotfiles`
+- Check Neovim health: `nvim +checkhealth`
