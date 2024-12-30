@@ -12,3 +12,5 @@ Managed by homeshick: https://github.com/andsens/homeshick
 
 ## Post-Setup
 
+1. `$ rm -rf install`
+2. `$ homeshick clone elliotekj/dotfiles`

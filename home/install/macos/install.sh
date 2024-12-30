@@ -70,24 +70,28 @@ fi
 if [ ! -d "$HOME/.asdf" ]; then
   git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.15.0
   . "$HOME/.asdf/asdf.sh"
-  asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
-  export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
-  asdf install erlang latest
-  asdf global erlang latest
-  asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
-  asdf install elixir latest
-  asdf global elixir latest
-  asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-  asdf install nodejs latest
-  asdf global nodejs latest
-  asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
-  asdf install ruby latest
-  asdf global ruby latest
-  asdf plugin add python https://github.com/asdf-community/asdf-python 
-  asdf install python 3.12.2
-  asdf install python 2.7.18
-  asdf global python 3.12.2 2.7.18
 fi
+
+asdf plugin list | grep -q "^erlang$" || asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
+export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
+asdf install erlang latest
+asdf global erlang latest
+asdf plugin list | grep -q "^elixir$" || asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
+asdf install elixir latest
+asdf global elixir latest
+asdf plugin list | grep -q "^nodejs$" || asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf install nodejs latest
+asdf global nodejs latest
+asdf plugin list | grep -q "^ruby$" || asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+asdf install ruby latest
+asdf global ruby latest
+asdf plugin list | grep -q "^python$" || asdf plugin add python https://github.com/asdf-community/asdf-python 
+asdf install python 3.12.2
+asdf install python 2.7.18
+asdf global python 3.12.2 2.7.18
+asdf plugin list | grep -q "^golang$" || asdf plugin add golang https://github.com/asdf-community/asdf-golang
+asdf install golang latest
+asdf global golang latest
 
 # -----------------------------------------------------------------------------
 # Config
