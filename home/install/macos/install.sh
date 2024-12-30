@@ -144,7 +144,7 @@ fi
 
 # Setup homeshick
 rm -rf "$HOME/install"
-$($brew --prefix homeshick) clone elliotekj/dotfiles
+$($brew --prefix homeshick)/bin/homeshick clone elliotekj/dotfiles
 
 killall Finder
 killall Dock
