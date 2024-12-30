@@ -5,8 +5,10 @@ Managed by homeshick: https://github.com/andsens/homeshick
 ## Setup
 
 1. Give Terminal full disk access
-2. `git clone https://github.com/elliotekj/dotfiles.git`
-3. Run `install/macos/install.sh`
+2. `$ curl -LO https://github.com/elliotekj/dotfiles/archive/refs/heads/main.zip`
+3. `$ unzip main.zip`
+4. `$ mv dotfiles-main/home/install ~`
+5. `$ ./install/macos/install.sh`
 
 ## Post-Setup
 
