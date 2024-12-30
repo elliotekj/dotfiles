@@ -58,6 +58,7 @@ export RUSTUP_HOME="$XDG_TOOLCHAINS_HOME/rust/rustup"
 mkdir -p "$CARGO_HOME"
 mkdir -p "$RUSTUP_HOME"
 if ! command -v rustup &>/dev/null; then
+  echo "Install rust..."
   curl -fsSL https://sh.rustup.rs | /bin/sh -s -- -y --no-modify-path
 fi
 "$CARGO_HOME"/bin/rustup default stable
@@ -68,12 +69,13 @@ fi
 # -----------------------------------------------------------------------------
 
 if [ ! -d "$HOME/.asdf" ]; then
+  echo "Install asdf..."
   git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.15.0
   . "$HOME/.asdf/asdf.sh"
 fi
 
 asdf plugin list | grep -q "^erlang$" || asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
-export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
+export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$($brew --prefix openssl@1.1)"
 asdf install erlang latest
 asdf global erlang latest
 asdf plugin list | grep -q "^elixir$" || asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
