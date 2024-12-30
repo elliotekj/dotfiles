@@ -88,9 +88,10 @@ asdf global elixir latest
 asdf plugin list | grep -q "^nodejs$" || asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 asdf install nodejs latest
 asdf global nodejs latest
+export RUBY_CONFIGURE_OPTS="--with-zlib-dir=$(brew --prefix zlib) --with-openssl-dir=$(brew --prefix openssl@3) --with-readline-dir=$(brew --prefix readline) --with-libyaml-dir=$(brew --prefix libyaml)"
 asdf plugin list | grep -q "^ruby$" || asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
-asdf install ruby latest
-asdf global ruby latest
+asdf install ruby 3.3.5
+asdf global ruby 3.3.5
 asdf plugin list | grep -q "^python$" || asdf plugin add python https://github.com/asdf-community/asdf-python 
 asdf install python 3.12.2
 asdf install python 2.7.18
