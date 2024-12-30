@@ -1,0 +1,21 @@
+[core]
+	editor = nvim
+[user]
+	name = Elliot Jackson
+	email = elliot@elliotekj.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPS1Dn3cvsMmriH4+iyrt0F26twaFj40nYbbuzdfJ4Mn
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+	allowedSignersFile = ~/.config/git/allowed_signers
+[commit]
+	gpgsign = true
+[diff]
+	tool = difftastic
+	algorithm = patience
+	compactionHeuristic = true
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
