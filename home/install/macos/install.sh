@@ -155,6 +155,7 @@ fi
 # Setup homeshick
 rm -rf "$HOME/install"
 $($brew --prefix homeshick)/bin/homeshick clone elliotekj/dotfiles
+cd "$HOME/.homesick/repos/dotfiles/" && git remote set-url origin git@github.com:elliotekj/dotfiles.git && cd "$HOME"
 
 killall Finder
 killall Dock
