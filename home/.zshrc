@@ -1,5 +1,7 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
+
 . "$HOME/.cargo/env"
 . "$HOME/.asdf/asdf.sh"
 
