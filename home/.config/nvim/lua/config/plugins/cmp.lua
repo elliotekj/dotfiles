@@ -12,10 +12,11 @@ return {
         sources = {
           -- { name = 'copilot' },
           { name = 'nvim_lsp' },
+          { name = 'vim-dadbod-completion' },
           { name = 'nvim_lua' },
           { name = 'vsnip' },
           { name = 'path' },
-          { name = 'buffer',  keyword_length = 2 },
+          { name = 'buffer',               keyword_length = 2 },
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-e>'] = cmp.mapping.abort(),
