@@ -16,7 +16,6 @@ return {
           { name = 'vsnip' },
           { name = 'path' },
           { name = 'buffer',  keyword_length = 2 },
-          { name = 'org' },
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-e>'] = cmp.mapping.abort(),

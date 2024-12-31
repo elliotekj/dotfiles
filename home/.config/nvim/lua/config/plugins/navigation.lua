@@ -60,25 +60,8 @@ return {
           ['--layout'] = 'default',
           ['--border'] = 'none',
         },
-        fzf_colors = {
-          -- Just use the telescope theme that will match other pickers...
-          ['fg'] = { 'fg', 'TelescopeNormal' },
-          ['bg'] = { 'bg', 'TelescopeNormal' },
-          ['hl'] = { 'fg', 'TelescopeMatching' },
-          ['fg+'] = { 'fg', 'TelescopeSelection' },
-          ['bg+'] = { 'bg', 'TelescopeSelection' },
-          ['hl+'] = { 'fg', 'TelescopeMatching' },
-          ['info'] = { 'fg', 'TelescopeMultiSelection' },
-          ['border'] = { 'fg', 'TelescopeBorder' },
-          ['gutter'] = '-1',
-          ['query'] = { 'fg', 'TelescopePromptNormal' },
-          ['prompt'] = { 'fg', 'TelescopePromptPrefix' },
-          ['pointer'] = { 'fg', 'TelescopeSelectionCaret' },
-          ['marker'] = { 'fg', 'TelescopeSelectionCaret' },
-          ['header'] = { 'fg', 'TelescopeTitle' },
-        },
       })
-      vim.keymap.set('n', '<leader><leader>', fzf.files, { silent = true })
+      -- vim.keymap.set('n', '<leader><leader>', fzf.files, { silent = true })
     end,
   },
 
@@ -90,12 +73,9 @@ return {
       local builtin = require('telescope.builtin')
       local actions = require('telescope.actions')
 
-      -- vim.keymap.set('n', '<leader>;', builtin.buffers)
-      -- vim.keymap.set('n', ';', builtin.buffers)
-      -- vim.keymap.set('n', '<leader>t', builtin.find_files)
-      -- vim.keymap.set('n', '<leader>g', builtin.git_files)
-      -- vim.keymap.set('n', '<leader>s', builtin.git_status)
-      -- vim.keymap.set('n', '//', builtin.current_buffer_fuzzy_find)
+      vim.keymap.set('n', '<leader>;', builtin.buffers)
+      vim.keymap.set('n', '<leader><leader>', builtin.find_files)
+      vim.keymap.set('n', '//', builtin.current_buffer_fuzzy_find)
 
       telescope.setup({
         defaults = {
@@ -179,9 +159,7 @@ return {
       })
 
       telescope.load_extension('fzf')
-      -- telescope.load_extension('toggleterm_manager')
-      -- telescope.load_extension('termfinder')
-      -- telescope.load_extension('vim_bookmarks')
+      telescope.load_extension('vim_bookmarks')
     end,
     dependencies = {
       'nvim-lua/popup.nvim',
@@ -197,30 +175,10 @@ return {
     end,
   },
   {
-    "toggleterm-manager.nvim",
-    dir = "~/dev/toggleterm-manager.nvim",
-    dependencies = {
-      "akinsho/toggleterm.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-lua/plenary.nvim",
-    },
-    config = true
-  },
-  -- {
-  --   "ryanmsnyder/toggleterm-manager.nvim",
-  --   dependencies = {
-  --     "akinsho/toggleterm.nvim",
-  --     "nvim-telescope/telescope.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   config = true
-  -- },
-  {
     "akinsho/toggleterm.nvim",
     version = "*",
     config = true
   },
-  -- 'tknightz/telescope-termfinder.nvim',
   {
     'smoka7/hop.nvim',
     version = "*",
@@ -283,30 +241,31 @@ return {
       },
     },
   },
-  -- {
-  --   'mattesgroeger/vim-bookmarks',
-  --   config = function()
-  --     vim.g.bookmark_save_per_working_dir = true
-  --     vim.g.bookmark_auto_save = true
-  --     vim.g.bookmark_display_annotation = true
-  --     vim.g.bookmark_show_toggle_warning = false
-  --
-  --     local bookmarks = require('telescope').extensions.vim_bookmarks
-  --
-  --     local common_settings = {
-  --       layout_strategy = 'vertical',
-  --     }
-  --
-  --     local function all()
-  --       bookmarks.all(common_settings)
-  --     end
-  --
-  --     local function current_file()
-  --       bookmarks.current_file(common_settings)
-  --     end
-  --
-  --     vim.keymap.set('n', 'ma', all)
-  --     vim.keymap.set('n', 'mb', current_file)
-  --   end,
-  -- }
+  {
+    'mattesgroeger/vim-bookmarks',
+    config = function()
+      vim.g.bookmark_save_per_working_dir = true
+      vim.g.bookmark_auto_save = true
+      vim.g.bookmark_display_annotation = true
+      vim.g.bookmark_show_toggle_warning = false
+
+      local bookmarks = require('telescope').extensions.vim_bookmarks
+
+      local common_settings = {
+        layout_strategy = 'vertical',
+      }
+
+      local function all()
+        bookmarks.all(common_settings)
+      end
+
+      local function current_file()
+        bookmarks.current_file(common_settings)
+      end
+
+      vim.keymap.set('n', 'mg', current_file)
+      vim.keymap.set('n', 'mG', all)
+    end,
+  },
+  'ddeville/telescope-vim-bookmarks.nvim',
 }
