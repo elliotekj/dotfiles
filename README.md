@@ -8,10 +8,7 @@ Managed by homeshick: https://github.com/andsens/homeshick
 
 ## Setup
 
-1. `$ curl -LO https://github.com/elliotekj/dotfiles/archive/refs/heads/main.zip`
-2. `$ unzip main.zip`
-3. `$ mv dotfiles-main/home/install ~`
-4. `$ ./install/macos/install.sh`
+`$ curl -fsSL https://elliotekj.com/setup.sh | bash`
 
 ## Post-Setup
 
