@@ -11,6 +11,14 @@ return {
     config = function()
       vim.opt.showmode = false
 
+      local function buffer_offset()
+        local byte_offset = vim.fn.line2byte(vim.fn.line('.')) + vim.fn.col('.') - 1
+        if byte_offset < 0 then
+          byte_offset = 0
+        end
+        return byte_offset
+      end
+
       require('lualine').setup({
         options = {
           icons_enabled = false,
@@ -23,7 +31,7 @@ return {
           lualine_b = { 'branch' },
           lualine_c = { 'filename' },
           lualine_x = { 'diagnostics', 'encoding', 'fileformat', 'filetype' },
-          lualine_y = { 'progress' },
+          lualine_y = { 'progress', buffer_offset },
           lualine_z = { 'location' },
         },
         inactive_sections = {
