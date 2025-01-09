@@ -103,6 +103,9 @@ asdf global golang latest
 # Apps
 # -----------------------------------------------------------------------------
 
+# Amphetamine
+mas install 937984704
+
 # Things
 mas install 904280696
 
