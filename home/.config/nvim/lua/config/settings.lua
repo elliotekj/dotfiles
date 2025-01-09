@@ -1,5 +1,6 @@
 -- dark background is better
 vim.opt.background = 'dark'
+vim.cmd.colorscheme("night-owl")
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
