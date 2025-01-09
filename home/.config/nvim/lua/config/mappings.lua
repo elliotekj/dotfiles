@@ -1,6 +1,8 @@
 -- set leader to space instead of the default backslash
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ","
 vim.keymap.set('n', '<space>', '<nop>')
+vim.keymap.set('n', ',', '<nop>')
 
 -- disable arrow keys
 vim.keymap.set('', '<up>', '<nop>')
@@ -17,18 +19,6 @@ vim.keymap.set('i', '<right>', '<nop>')
 -- jk to escape
 vim.keymap.set('i', 'jk', '<esc>')
 
--- search current selection in visual mode with */#
--- vim.cmd([[
--- function! DamienVSetSearch()
---   let temp = @@
---   norm! gvy
---   let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
---   let @@ = temp
--- endfunction
--- ]])
--- vim.keymap.set('v', '*', ':<C-u>call DamienVSetSearch()<CR>//<CR><c-o>')
--- vim.keymap.set('v', '#', ':<C-u>call DamienVSetSearch()<CR>??<CR><c-o>')
-
 -- move lines up and down when in visual mode
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -39,14 +29,6 @@ vim.keymap.set('n', '<C-l>', ':nohl<CR><C-l>')
 -- make Y behave like D and C
 vim.keymap.set('n', 'Y', 'y$')
 
--- support deleting without clobbering the default register
--- vim.keymap.set('n', '<leader>d', '"_d')
--- vim.keymap.set('v', '<leader>d', '"_d')
--- vim.keymap.set('n', '<leader>D', '"_D')
--- vim.keymap.set('n', '<leader>c', '"_c')
--- vim.keymap.set('v', '<leader>c', '"_c')
--- vim.keymap.set('n', '<leader>C', '"_C')
-
 -- integration with system clipboard
 vim.keymap.set('n', '<leader>cy', '"+y')
 vim.keymap.set('v', '<leader>cy', '"+y')
@@ -56,10 +38,10 @@ vim.keymap.set('v', '<leader>cp', '"+p')
 vim.keymap.set('n', '<leader>cP', '"+P')
 
 -- diagnostic
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-vim.keymap.set('n', '[g', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']g', vim.diagnostic.goto_next)
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+-- vim.keymap.set('n', '[g', vim.diagnostic.goto_prev)
+-- vim.keymap.set('n', ']g', vim.diagnostic.goto_next)
 
 -- windows
 vim.keymap.set('n', '<leader>ws', ':split<cr>')
@@ -77,16 +59,11 @@ vim.keymap.set('n', 'gs/', ':HopPattern<cr>')
 
 -- files
 vim.keymap.set('n', '<leader>fs', ':w<cr>')
-vim.keymap.set('n', '<leader>fe', ':Oil<cr>')
 
 -- git
 vim.keymap.set('n', '<leader>gg', ':Neogit<cr>')
 
 -- terminal
--- vim.keymap.set('n', '<leader>tt', ':ToggleTerm dir=git_dir direction=float name=dev <cr>')
--- vim.keymap.set('n', '<leader>tT', ':Telescope termfinder find<cr>')
--- vim.keymap.set('n', '<d-j>', ':Telescope termfinder find<cr>')
--- vim.keymap.set('n', '<d-j>', ':Telescope toggleterm_manager<cr>')
 vim.keymap.set('n', '<d-j>', function()
   local terms = require('toggleterm.terminal').get_all()
   if #terms > 0 then
@@ -100,7 +77,6 @@ vim.keymap.set('n', '<d-j>', function()
   end
 end)
 
-vim.keymap.set('n', '<leader>tn', ':ToggleTerm dir=git_dir direction=float name=')
 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
 vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
 vim.keymap.set('t', '<C-h>', [[<C-\><C-n><C-w>h]])
@@ -118,13 +94,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- buffer local mappings.
     local opts = { buffer = args.buf }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)
+    -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    -- vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, opts)
+    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    -- vim.keymap.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, opts)
   end,
 })
