@@ -29,14 +29,6 @@ vim.keymap.set('n', '<C-l>', ':nohl<CR><C-l>')
 -- make Y behave like D and C
 vim.keymap.set('n', 'Y', 'y$')
 
--- integration with system clipboard
-vim.keymap.set('n', '<leader>cy', '"+y')
-vim.keymap.set('v', '<leader>cy', '"+y')
-vim.keymap.set('n', '<leader>cY', '"+Y')
-vim.keymap.set('n', '<leader>cp', '"+p')
-vim.keymap.set('v', '<leader>cp', '"+p')
-vim.keymap.set('n', '<leader>cP', '"+P')
-
 -- diagnostic
 -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
