@@ -10,6 +10,7 @@ return {
         cmd = {
             "ObsidianOpen",
             "ObsidianNew",
+            "ObsidianToday",
             "ObsidianSearch",
         },
         dependencies = {
@@ -46,5 +47,17 @@ return {
             { "<leader>on", "<cmd>ObsidianNew<CR>" },
             { "<leader>ot", "<cmd>ObsidianToday<CR>" },
         },
+    },
+    {
+        "https://git.sr.ht/~swaits/scratch.nvim",
+        lazy = true,
+        keys = {
+            { "<leader>os", "<cmd>Scratch<cr>", desc = "Scratch Buffer", mode = "n" },
+        },
+        cmd = {
+            "Scratch",
+            "ScratchSplit",
+        },
+        opts = {},
     }
 }
