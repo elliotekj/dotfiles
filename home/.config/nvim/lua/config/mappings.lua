@@ -44,7 +44,7 @@ vim.keymap.set('n', '<leader>wk', '<C-w>k')
 vim.keymap.set('n', '<leader>wh', '<C-w>h')
 
 -- buffers
-vim.keymap.set('n', '<leader>bk', ':bd<cr>')
+vim.keymap.set('n', '<leader>bk', ':bp|bd #<CR>')
 vim.keymap.set('n', '<leader>bn', ':bnext<cr>')
 vim.keymap.set('n', '<leader>bp', ':bprevious<cr>')
 vim.keymap.set('n', 'gs/', ':HopPattern<cr>')
