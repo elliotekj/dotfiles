@@ -52,52 +52,10 @@ $brew upgrade
 export PATH="$brew":$PATH
 
 # -----------------------------------------------------------------------------
-# Rust
+# Mise
 # -----------------------------------------------------------------------------
 
-export CARGO_HOME="$XDG_TOOLCHAINS_HOME/rust/cargo"
-export RUSTUP_HOME="$XDG_TOOLCHAINS_HOME/rust/rustup"
-mkdir -p "$CARGO_HOME"
-mkdir -p "$RUSTUP_HOME"
-if ! command -v rustup &>/dev/null; then
-  echo "Install rust..."
-  curl -fsSL https://sh.rustup.rs | /bin/sh -s -- -y --no-modify-path
-fi
-"$CARGO_HOME"/bin/rustup default stable
-"$CARGO_HOME"/bin/rustup component add rust-src rustfmt clippy
-
-# -----------------------------------------------------------------------------
-# ASDF
-# -----------------------------------------------------------------------------
-
-if [ ! -d "$HOME/.asdf" ]; then
-  echo "Install asdf..."
-  git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.15.0
-  . "$HOME/.asdf/asdf.sh"
-fi
-
-# TODO Remove once https://github.com/asdf-vm/asdf-erlang/issues/319 is resolved.
-ulimit -n 65536
-
-asdf plugin list | grep -q "^erlang$" || asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
-asdf install erlang latest
-asdf global erlang latest
-asdf plugin list | grep -q "^elixir$" || asdf plugin add elixir https://github.com/asdf-vm/asdf-elixir.git
-asdf install elixir latest
-asdf global elixir latest
-asdf plugin list | grep -q "^nodejs$" || asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf install nodejs latest
-asdf global nodejs latest
-export RUBY_CONFIGURE_OPTS="--with-zlib-dir=$($brew --prefix zlib) --with-openssl-dir=$($brew --prefix openssl@3) --with-readline-dir=$($brew --prefix readline) --with-libyaml-dir=$($brew --prefix libyaml)"
-asdf plugin list | grep -q "^ruby$" || asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
-asdf install ruby 3.3.5
-asdf global ruby 3.3.5
-asdf plugin list | grep -q "^python$" || asdf plugin add python https://github.com/asdf-community/asdf-python 
-asdf install python 3.12.2
-asdf global python 3.12.2 
-asdf plugin list | grep -q "^golang$" || asdf plugin add golang https://github.com/asdf-community/asdf-golang
-asdf install golang latest
-asdf global golang latest
+curl https://mise.run | sh
 
 # -----------------------------------------------------------------------------
 # Apps
