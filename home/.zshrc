@@ -1,5 +1,6 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(~/.local/bin/mise activate zsh)"
+eval "$(direnv hook zsh)"
 
 export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
 
