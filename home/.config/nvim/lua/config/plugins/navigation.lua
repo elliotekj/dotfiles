@@ -1,3 +1,15 @@
+function get_visual_selection()
+    -- Yank the visual selection into register 'v'
+    vim.cmd('noau normal! "vy"')
+    -- Get the contents of register 'v'
+    local text = vim.fn.getreg('v')
+    -- Reset the register
+    vim.fn.setreg('v', {})
+    -- Remove any newlines and return the text
+    text = string.gsub(text, "\n", "")
+    return text
+end
+
 return {
   {
     'MagicDuck/grug-far.nvim',
@@ -17,6 +29,10 @@ return {
       -- Project mappings
       vim.keymap.set('n', '<leader><leader>', builtin.find_files)
       vim.keymap.set('n', '<leader>/', builtin.live_grep)
+      vim.keymap.set('v', '<leader>/', function()
+        local selected_text = get_visual_selection()
+        builtin.live_grep({ default_text = selected_text })
+      end)
       vim.keymap.set('n', 'gps', builtin.lsp_workspace_symbols)
 
       -- Buffer mappings
