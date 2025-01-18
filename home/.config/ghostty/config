@@ -1,2 +1,3 @@
 font-family = "GeistMono Nerd Font Mono"
 theme = iceberg
+adjust-cell-height = 20%
