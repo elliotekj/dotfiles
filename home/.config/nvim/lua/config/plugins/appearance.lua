@@ -1,11 +1,12 @@
 return {
   'mhinz/vim-startify',
-  {
-    "oxfist/night-owl.nvim",
-    lazy = false,
-    priority = 1000,
-    config = true
-  },
+  'oahlen/iceberg.nvim',
+  -- {
+  --   "oxfist/night-owl.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = true
+  -- },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -22,7 +23,8 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = false,
-          theme = 'night-owl',
+          -- theme = 'night-owl',
+          theme = 'iceberg',
           component_separators = { left = '|', right = '|' },
           section_separators = { left = '', right = '' },
         },

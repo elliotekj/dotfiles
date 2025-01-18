@@ -1,6 +1,7 @@
 -- dark background is better
 vim.opt.background = 'dark'
-vim.cmd.colorscheme("night-owl")
+vim.cmd.colorscheme("iceberg")
+-- vim.cmd.colorscheme("night-owl")
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
@@ -44,7 +45,7 @@ vim.opt.sidescrolloff = 5
 vim.opt.ruler = true
 
 -- display the line number on the left
-vim.opt.number = true
+vim.opt.number = false
 
 -- show the diagnostic ui where the number goes
 vim.opt.signcolumn = 'number'
