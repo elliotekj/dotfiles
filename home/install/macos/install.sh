@@ -79,7 +79,7 @@ mas install 1450874784
 # Config
 # -----------------------------------------------------------------------------
 
-cp '~/Library/Mobile Documents/com~apple~CloudDocs/Fonts/TX-02-Variable.otf' ~/Library/Fonts/
+cp ~/Library/Mobile\ Documents/com~apple~CloudDocs/Fonts/TX-02-Variable.otf ~/Library/Fonts/
 
 chflags nohidden "$HOME/Library"
 if [[ -d "$HOME/Applications" ]]; then
