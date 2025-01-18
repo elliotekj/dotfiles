@@ -48,5 +48,18 @@ return {
       })
     end,
   },
-  'arnamak/stay-centered.nvim'
+  'arnamak/stay-centered.nvim',
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = function(_, opts)
+      return require("indent-rainbowline").make_opts(opts)
+    end,
+    dependencies = {
+      "TheGLander/indent-rainbowline.nvim",
+    },
+    keys = {
+      { "<localleader>ti", "<cmd>IBLToggle<cr>", desc = "Toggle indent lines" },
+    },
+  }
 }
