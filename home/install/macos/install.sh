@@ -40,9 +40,9 @@ export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
 
 arch_name="$(uname -m)"
 if [ "${arch_name}" = "arm64" ]; then
-  brew_path=/opt/homebrew/bin/brew
+  brew=/opt/homebrew/bin/brew
 else
-  brew_path=/usr/local/bin/brew
+  brew=/usr/local/bin/brew
 fi
 
 if [ ! -x $brew ]; then
