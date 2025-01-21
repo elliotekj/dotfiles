@@ -14,6 +14,7 @@ autoload -Uz compinit && compinit
 # persist iex shell history
 export ERL_AFLAGS="-kernel shell_history enabled"
 
+alias n="nvim"
 alias phx="iex -S mix phx.server"
 
 if [ -f ~/.zshrc.local ]; then
