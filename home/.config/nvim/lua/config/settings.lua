@@ -57,8 +57,8 @@ vim.opt.colorcolumn = '120'
 -- highlight the current line
 vim.opt.cursorline = true
 
--- always show the status line even when there is only one window
-vim.opt.laststatus = 2
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3
 
 -- autoload file changes
 vim.opt.autoread = true
