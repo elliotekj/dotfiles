@@ -1,7 +1,8 @@
 -- dark background is better
-vim.opt.background = 'dark'
-vim.cmd.colorscheme("iceberg")
+-- vim.opt.background = 'dark'
+-- vim.cmd.colorscheme("iceberg")
 -- vim.cmd.colorscheme("night-owl")
+  vim.cmd.colorscheme("poimandres")
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true

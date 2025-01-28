@@ -7,6 +7,18 @@ return {
   --   priority = 1000,
   --   config = true
   -- },
+  { 
+    'olivercederborg/poimandres.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('poimandres').setup {}
+    end,
+
+    init = function()
+      vim.cmd("colorscheme poimandres")
+    end
+  },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -24,7 +36,8 @@ return {
         options = {
           icons_enabled = false,
           -- theme = 'night-owl',
-          theme = 'iceberg',
+          -- theme = 'iceberg',
+          theme = 'poimandres',
           component_separators = { left = '|', right = '|' },
           section_separators = { left = '', right = '' },
         },
