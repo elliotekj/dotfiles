@@ -20,6 +20,27 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 
 alias v="nvim"
 alias phx="iex -S mix phx.server"
+alias master="git checkout master && git pull && mix deps.get"
+
+branch() {
+  if [ -z "$1" ]; then
+    echo "Usage: branch <branch-name>"
+    return 1
+  fi
+
+  if git show-ref --verify --quiet refs/heads/"$1"; then
+    echo "🎯 Existing branch '$1'..."
+    git checkout "$1"
+    git pull origin "$1"
+  else
+    echo "✨ New branch '$1'..."
+    git checkout -b "$1"
+  fi
+
+  if [ -f "mix.exs" ]; then
+    mix deps.get
+  fi
+}
 
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
