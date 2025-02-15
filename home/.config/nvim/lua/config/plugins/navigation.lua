@@ -1,13 +1,13 @@
 function get_visual_selection()
-    -- Yank the visual selection into register 'v'
-    vim.cmd('noau normal! "vy"')
-    -- Get the contents of register 'v'
-    local text = vim.fn.getreg('v')
-    -- Reset the register
-    vim.fn.setreg('v', {})
-    -- Remove any newlines and return the text
-    text = string.gsub(text, "\n", "")
-    return text
+  -- Yank the visual selection into register 'v'
+  vim.cmd('noau normal! "vy"')
+  -- Get the contents of register 'v'
+  local text = vim.fn.getreg('v')
+  -- Reset the register
+  vim.fn.setreg('v', {})
+  -- Remove any newlines and return the text
+  text = string.gsub(text, "\n", "")
+  return text
 end
 
 return {
@@ -134,5 +134,25 @@ return {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
+  },
+  {
+    "famiu/bufdelete.nvim",
+    keys = {
+      { "<leader>bk", "<cmd>Bdelete<cr>",  desc = "Delete buffer" },
+      { "<leader>bK", "<cmd>Bdelete!<cr>", desc = "Force delete buffer" },
+    }
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+      harpoon:setup()
+
+      vim.keymap.set("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+      vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end)
+      vim.keymap.set("n", "<leader>hd", function() harpoon:list():delete() end)
+    end
   }
 }
