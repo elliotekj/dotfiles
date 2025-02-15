@@ -5,7 +5,8 @@ return {
         cmd = { 'AvanteAsk', 'AvanteToggle', 'AvanteChat', 'AvanteEdit' },
         keys = {
             { '<leader>aa', '<cmd>AvanteToggle<cr>', desc = 'Toggle Avante' },
-            { '<leader>ae', '<cmd>AvanteEdit<cr>' }
+            { '<leader>ae', '<cmd>AvanteEdit<cr>' },
+            { '<leader>at', '<cmd>AvanteToggle<cr>' },
         },
         opts = {
             hints = { enabled = false },
