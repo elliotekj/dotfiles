@@ -1,3 +1,4 @@
-theme = poimandres
+theme = catppuccin-mocha
 font-family = TX-02
+font-size = 13
 adjust-cell-height = 20%

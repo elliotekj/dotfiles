@@ -1,8 +1,9 @@
 -- dark background is better
--- vim.opt.background = 'dark'
+vim.opt.background = 'dark'
 -- vim.cmd.colorscheme("iceberg")
 -- vim.cmd.colorscheme("night-owl")
-  vim.cmd.colorscheme("poimandres")
+-- vim.cmd.colorscheme("poimandres")
+vim.cmd.colorscheme("catppuccin")
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
@@ -51,8 +52,11 @@ vim.opt.number = false
 -- show the diagnostic ui where the number goes
 vim.opt.signcolumn = 'number'
 
+-- hide concealed text
+vim.opt.conceallevel = 2
+
 -- display a column at 120 char
-vim.opt.colorcolumn = '120'
+-- vim.opt.colorcolumn = '120'
 
 -- highlight the current line
 vim.opt.cursorline = true

@@ -1,23 +1,9 @@
 return {
   'mhinz/vim-startify',
-  'oahlen/iceberg.nvim',
-  -- {
-  --   "oxfist/night-owl.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = true
-  -- },
-  { 
-    'olivercederborg/poimandres.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('poimandres').setup {}
-    end,
-
-    init = function()
-      vim.cmd("colorscheme poimandres")
-    end
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000
   },
   {
     'nvim-lualine/lualine.nvim',
@@ -35,11 +21,9 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = false,
-          -- theme = 'night-owl',
-          -- theme = 'iceberg',
-          theme = 'poimandres',
-          component_separators = { left = '|', right = '|' },
-          section_separators = { left = '', right = '' },
+          theme = 'catppuccin',
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
         },
         sections = {
           lualine_a = { 'mode' },
@@ -73,6 +57,18 @@ return {
     },
     keys = {
       { "<localleader>ti", "<cmd>IBLToggle<cr>", desc = "Toggle indent lines" },
+    },
+  },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
     },
   }
 }
