@@ -5,6 +5,25 @@ vim.opt.background = 'dark'
 -- vim.cmd.colorscheme("poimandres")
 vim.cmd.colorscheme("catppuccin")
 
+-- make background transparent
+vim.cmd [[
+  highlight Normal guibg=NONE ctermbg=NONE
+  highlight NonText guibg=NONE ctermbg=NONE
+  highlight NormalNC guibg=NONE ctermbg=NONE
+  highlight NormalFloat guibg=NONE ctermbg=NONE
+  highlight TelescopeNormal guibg=NONE ctermbg=NONE
+  highlight TelescopeBorder guibg=NONE ctermbg=NONE
+  highlight SignColumn guibg=NONE ctermbg=NONE
+  highlight VertSplit guibg=NONE ctermbg=NONE
+  highlight EndOfBuffer guibg=NONE ctermbg=NONE
+  highlight Folded guibg=NONE ctermbg=NONE
+  highlight FloatBorder guibg=NONE ctermbg=NONE
+  highlight Pmenu guibg=NONE ctermbg=NONE
+  highlight LineNr guibg=NONE ctermbg=NONE
+  highlight CursorLineNr guibg=NONE ctermbg=NONE
+  highlight WinSeparator guibg=NONE ctermbg=NONE
+]]
+
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
 
