@@ -10,10 +10,10 @@ eval "$(starship init zsh)"
 
 export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
 
-eval ". $(brew --prefix)/etc/profile.d/z.sh"
-
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 autoload -Uz compinit && compinit
+
+eval "$(zoxide init zsh)"
 
 # persist iex shell history
 export ERL_AFLAGS="-kernel shell_history enabled"
