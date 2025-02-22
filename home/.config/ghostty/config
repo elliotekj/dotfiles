@@ -1,6 +1,6 @@
-theme = catppuccin-mocha
+theme = faroutnight
 font-family = TX-02
-font-size = 13
+font-size = 14
 adjust-cell-height = 20%
-background-opacity = 0.9
-background-blur = true
+#background-opacity = 0.9
+#background-blur = true

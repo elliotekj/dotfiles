@@ -6,6 +6,12 @@ return {
     priority = 1000
   },
   {
+    "thallada/farout.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     'nvim-lualine/lualine.nvim',
     config = function()
       vim.opt.showmode = false
@@ -21,7 +27,8 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = false,
-          theme = 'catppuccin',
+          -- theme = 'catppuccin',
+          theme = 'farout',
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
         },
@@ -68,7 +75,7 @@ return {
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
     opts = {
-      -- configurations go here
+      theme = 'farout'
     },
   }
 }
