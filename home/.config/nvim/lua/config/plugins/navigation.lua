@@ -40,6 +40,9 @@ return {
       vim.keymap.set('n', 'gbs', builtin.lsp_document_symbols)
       vim.keymap.set('n', 'gbt', builtin.treesitter)
 
+      -- Other
+      vim.keymap.set('n', '<leader>r', builtin.resume)
+
       telescope.setup({
         defaults = {
           mappings = {
