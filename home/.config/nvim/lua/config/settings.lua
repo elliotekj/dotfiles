@@ -1,10 +1,6 @@
 -- dark background is better
 vim.opt.background = 'dark'
--- vim.cmd.colorscheme("iceberg")
--- vim.cmd.colorscheme("night-owl")
--- vim.cmd.colorscheme("poimandres")
--- vim.cmd.colorscheme("catppuccin")
-vim.cmd.colorscheme("farout")
+vim.cmd.colorscheme("gruber-darker")
 
 -- make background transparent
 vim.cmd [[

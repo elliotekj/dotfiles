@@ -1,16 +1,6 @@
 return {
   'mhinz/vim-startify',
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000
-  },
-  {
-    "thallada/farout.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
+  'blazkowolf/gruber-darker.nvim',
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -27,8 +17,6 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = false,
-          -- theme = 'catppuccin',
-          theme = 'farout',
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
         },
@@ -73,9 +61,6 @@ return {
     dependencies = {
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      theme = 'farout'
-    },
+    }
   }
 }
