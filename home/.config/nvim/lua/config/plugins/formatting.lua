@@ -50,7 +50,7 @@ return {
   {
     "cappyzawa/trim.nvim",
     opts = {
-      trim_on_write = false
+      trim_on_write = true
     }
   }
 }
