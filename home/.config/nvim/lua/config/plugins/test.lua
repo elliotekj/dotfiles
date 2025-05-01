@@ -53,6 +53,14 @@ return {
           neotest.output.open({ last_run = true, enter = true })
         end
       )
+
+      vim.keymap.set(
+        "n",
+        "<leader>ts",
+        function()
+          neotest.summary.close()
+        end
+      )
     end
   }
 }
