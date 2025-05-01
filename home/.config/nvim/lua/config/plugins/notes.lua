@@ -46,6 +46,7 @@ return {
             { "<leader>oo", "<cmd>ObsidianSearch<CR>" },
             { "<leader>on", "<cmd>ObsidianNew<CR>" },
             { "<leader>ot", "<cmd>ObsidianToday<CR>" },
+            { "<leader>oT", "<cmd>ObsidianTomorrow<CR>" },
         },
     },
     {
