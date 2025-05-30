@@ -9,6 +9,7 @@ eval "$(atuin init zsh)"
 eval "$(starship init zsh)"
 
 export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
+export PATH="$HOME/.local/share/mise/installs/node/$(mise current -C ~ node)/bin:$PATH"
 
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 autoload -Uz compinit && compinit
