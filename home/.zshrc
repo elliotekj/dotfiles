@@ -43,6 +43,42 @@ branch() {
   fi
 }
 
+worktree() {
+  if [ -z "$1" ]; then
+    echo "Usage: worktree <branch-name>"
+    return 1
+  fi
+
+  BRANCH="$1"
+  DIR_NAME=$(basename "$PWD")
+  PATH_TO_WORKTREE="../${DIR_NAME}_worktrees/${BRANCH}"
+  WINDOW_NAME="${DIR_NAME} ${BRANCH}"
+
+  mkdir -p "../${DIR_NAME}_worktrees/feat"
+  mkdir -p "../${DIR_NAME}_worktrees/fix"
+
+  echo "🔄 Fetching latest from origin..."
+  git fetch origin master
+
+  if git show-ref --verify --quiet refs/heads/"$BRANCH"; then
+    echo "🎯 Existing branch '$BRANCH', adding worktree at '$PATH_TO_WORKTREE'..."
+    git worktree add "$PATH_TO_WORKTREE" "$BRANCH"
+  else
+    echo "✨ New branch '$BRANCH', creating worktree at '$PATH_TO_WORKTREE'..."
+    git worktree add -b "$BRANCH" "$PATH_TO_WORKTREE" origin/master
+  fi
+
+  echo "🚀 Worktree ready at '$PATH_TO_WORKTREE'!"
+
+  # Create a new tmux window
+  tmux new-window -n "$WINDOW_NAME" "cd '$PATH_TO_WORKTREE' && \
+    if [ -f mix.exs ]; then \
+      echo '📦 Found mix.exs, setting up dependencies...' && \
+      mix deps.get && \
+      mix setup; \
+    fi; \
+    exec zsh"
+}
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi

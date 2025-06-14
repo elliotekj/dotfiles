@@ -24,9 +24,6 @@ vim.cmd [[
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
 
--- recommended session config for rmagatti/auto-session
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
 -- if no known file type keep the same indent as the current line
 vim.opt.autoindent = true
 
