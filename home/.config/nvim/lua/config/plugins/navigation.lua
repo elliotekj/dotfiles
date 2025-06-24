@@ -91,11 +91,6 @@ return {
     end,
   },
   {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    config = true
-  },
-  {
     'smoka7/hop.nvim',
     version = "*",
     opts = {
