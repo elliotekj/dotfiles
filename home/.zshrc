@@ -80,6 +80,16 @@ worktree() {
     fi; \
     exec zsh"
 }
+
+yank() {
+  if [ -f "$1" ]; then
+    pbcopy < "$1"
+    echo "Yanked contents of '$1' to clipboard."
+  else
+    echo "Error: '$1' is not a valid file."
+  fi
+}
+
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
