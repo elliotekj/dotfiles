@@ -51,6 +51,14 @@ return {
           enable = true,
           additional_vim_regex_highlighting = false,
         },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "e",
+            node_incremental = "e",
+            node_decremental = "E",
+          },
+        },
       })
     end,
     build = function()
