@@ -1,6 +1,7 @@
 export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
 export PATH="$HOME/.local/share/mise/installs/node/$(mise current -C ~ node)/bin:$PATH"
 [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
+[ -d "/Volumes/External/dev/leo" ] && export PATH=PATH="/Volumes/External/dev/leo:$PATH"
 
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 autoload -Uz compinit && compinit
@@ -77,9 +78,7 @@ if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
 
-# bun completions
-[ -s "/Users/elliotekj/.bun/_bun" ] && source "/Users/elliotekj/.bun/_bun"
-
 # bun
+[ -s "$HOME/.bun/_bun" ] && source "/Users/elliotekj/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
