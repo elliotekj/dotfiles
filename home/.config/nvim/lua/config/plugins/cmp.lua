@@ -12,7 +12,6 @@ return {
         sources = {
           -- { name = 'copilot' },
           { name = 'nvim_lsp' },
-          { name = 'vim-dadbod-completion' },
           { name = 'nvim_lua' },
           { name = 'vsnip' },
           { name = 'path' },
