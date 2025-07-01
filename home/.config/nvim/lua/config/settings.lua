@@ -83,6 +83,17 @@ vim.opt.laststatus = 3
 -- autoload file changes
 vim.opt.autoread = true
 
+-- automatically reload buffer when file changes
+local auto_reload_ag = vim.api.nvim_create_augroup('AutoReload', { clear = true })
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  group = auto_reload_ag,
+  command = 'if mode() != "c" | checktime | endif',
+})
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  group = auto_reload_ag,
+  command = 'echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None',
+})
+
 -- open new splits on right and bottom
 vim.opt.splitbelow = true
 vim.opt.splitright = true
