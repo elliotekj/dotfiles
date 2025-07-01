@@ -3,14 +3,17 @@
 # Suppress terminal error output
 exec 2>/dev/null
 
-# Base directory where yazi should start
-BASE_DIR=~/dev
-
 # Cleanup any old chooser file
 rm -f /tmp/yazi-dir-pick
 
 # Run yazi and wait for selection
-yazi "$BASE_DIR" --chooser-file /tmp/yazi-dir-pick
+if [ "$USER" = "elliot" ]; then
+  DEV_DIR="/Volumes/External/dev"
+else
+  DEV_DIR="$HOME/dev"
+fi
+
+yazi "$DEV_DIR" --chooser-file /tmp/yazi-dir-pick
 
 # Exit if nothing was selected
 [[ ! -f /tmp/yazi-dir-pick ]] && exit 0

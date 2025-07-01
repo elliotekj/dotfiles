@@ -72,13 +72,10 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
 
-. "/Users/elliotekj/.deno/env"
+[ -d "$HOME/.deno" ] && . "$HOME/.deno/env"
 
-if [ -f ~/.zshrc.local ]; then
-  source ~/.zshrc.local
-fi
-
-# bun
-[ -s "$HOME/.bun/_bun" ] && source "/Users/elliotekj/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+[ -s ~/.zshrc.local ] && source ~/.zshrc.local
