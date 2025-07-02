@@ -1,4 +1,5 @@
-theme = gruber-darker
+# theme = gruber-darker
+theme = everforest-dark
 font-family = TX-02
 font-size = 14
 adjust-cell-height = 20%

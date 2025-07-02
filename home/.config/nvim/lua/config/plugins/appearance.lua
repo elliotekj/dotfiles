@@ -1,6 +1,11 @@
 return {
   'mhinz/vim-startify',
-  'blazkowolf/gruber-darker.nvim',
+  -- 'blazkowolf/gruber-darker.nvim',
+  {
+    'sainnhe/everforest',
+    lazy = false,
+    priority = 1000
+  },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -19,6 +24,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
+          theme = 'everforest'
         },
         sections = {
           lualine_a = { 'mode' },

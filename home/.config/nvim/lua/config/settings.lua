@@ -1,6 +1,9 @@
 -- dark background is better
 vim.opt.background = 'dark'
-vim.cmd.colorscheme("gruber-darker")
+vim.g.everforest_background = 'hard'
+vim.g.everforest_enable_italic = true
+vim.cmd.colorscheme('everforest')
+-- vim.cmd.colorscheme("gruber-darker")
 
 -- make background transparent
 vim.cmd [[
