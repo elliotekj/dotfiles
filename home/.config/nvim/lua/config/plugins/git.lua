@@ -26,5 +26,15 @@ return
         map('n', '[h', gs.prev_hunk, 'Prev Hunk')
       end,
     }
+  },
+  {
+    "elliotekj/claude-commit.nvim",
+    ft = "gitcommit",
+    config = function()
+      require("claude-commit").setup({
+        auto_suggest = true, -- default
+        timeout = 10000,     -- default
+      })
+    end,
   }
 }
