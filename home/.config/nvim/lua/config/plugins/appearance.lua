@@ -46,7 +46,37 @@ return {
       })
     end,
   },
-  'arnamak/stay-centered.nvim',
+  {
+    "arnamak/stay-centered.nvim",
+    config = function()
+      require("stay-centered").setup()
+
+      -- Disable in Diffview panels
+      local disable_ft = {
+        DiffviewFiles = true,
+        DiffviewFilePanel = true,
+        DiffviewFileHistoryPanel = true,
+      }
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          local ft = vim.bo[args.buf].filetype
+          if disable_ft[ft] then
+            require("stay-centered").disable()
+          end
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("BufWinLeave", {
+        callback = function(args)
+          local ft = vim.bo[args.buf].filetype
+          if disable_ft[ft] then
+            require("stay-centered").enable()
+          end
+        end,
+      })
+    end,
+  },
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
