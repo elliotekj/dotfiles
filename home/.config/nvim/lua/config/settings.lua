@@ -6,23 +6,23 @@ vim.cmd.colorscheme('everforest')
 -- vim.cmd.colorscheme("gruber-darker")
 
 -- make background transparent
--- vim.cmd [[
---   highlight Normal guibg=NONE ctermbg=NONE
---   highlight NonText guibg=NONE ctermbg=NONE
---   highlight NormalNC guibg=NONE ctermbg=NONE
---   highlight NormalFloat guibg=NONE ctermbg=NONE
---   highlight TelescopeNormal guibg=NONE ctermbg=NONE
---   highlight TelescopeBorder guibg=NONE ctermbg=NONE
---   highlight SignColumn guibg=NONE ctermbg=NONE
---   highlight VertSplit guibg=NONE ctermbg=NONE
---   highlight EndOfBuffer guibg=NONE ctermbg=NONE
---   highlight Folded guibg=NONE ctermbg=NONE
---   highlight FloatBorder guibg=NONE ctermbg=NONE
---   highlight Pmenu guibg=NONE ctermbg=NONE
---   highlight LineNr guibg=NONE ctermbg=NONE
---   highlight CursorLineNr guibg=NONE ctermbg=NONE
---   highlight WinSeparator guibg=NONE ctermbg=NONE
--- ]]
+vim.cmd [[
+  highlight Normal guibg=NONE ctermbg=NONE
+  highlight NonText guibg=NONE ctermbg=NONE
+  highlight NormalNC guibg=NONE ctermbg=NONE
+  highlight NormalFloat guibg=NONE ctermbg=NONE
+  highlight TelescopeNormal guibg=NONE ctermbg=NONE
+  highlight TelescopeBorder guibg=NONE ctermbg=NONE
+  highlight SignColumn guibg=NONE ctermbg=NONE
+  highlight VertSplit guibg=NONE ctermbg=NONE
+  highlight EndOfBuffer guibg=NONE ctermbg=NONE
+  highlight Folded guibg=NONE ctermbg=NONE
+  highlight FloatBorder guibg=NONE ctermbg=NONE
+  highlight Pmenu guibg=NONE ctermbg=NONE
+  highlight LineNr guibg=NONE ctermbg=NONE
+  highlight CursorLineNr guibg=NONE ctermbg=NONE
+  highlight WinSeparator guibg=NONE ctermbg=NONE
+]]
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
@@ -176,34 +176,3 @@ function CopyMixTestCommand()
 end
 
 vim.api.nvim_set_keymap("n", "<leader>tc", ":lua CopyMixTestCommand()<CR>", { noremap = true, silent = true })
-
--- -- setup gutter signs for diagnostics
--- vim.fn.sign_define('DiagnosticSignError', { text = 'E', texthl = 'DiagnosticSignError', priority = 40 })
--- vim.fn.sign_define('DiagnosticSignWarn', { text = 'W', texthl = 'DiagnosticSignWarn', priority = 30 })
--- vim.fn.sign_define('DiagnosticSignInfo', { text = 'I', texthl = 'DiagnosticDefaultInfo', priority = 20 })
--- vim.fn.sign_define('DiagnosticSignHint', { text = 'H', texthl = 'DiagnosticDefaultHint', priority = 10 })
---
--- -- diagnostic highlights
--- vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = 'Red', ctermfg = 'Red' })
--- vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { fg = 'Red', ctermfg = 'Red', cterm = { underline = true } })
--- vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextError', { fg = 'Red', ctermfg = 'Red' })
--- vim.api.nvim_set_hl(0, 'DiagnosticFloatingError', { fg = 'Red', ctermfg = 'Red' })
--- vim.api.nvim_set_hl(0, 'DiagnosticSignError', { fg = 'Red', ctermfg = 'Red' })
---
--- vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = 'Yellow', ctermfg = 'Yellow' })
--- vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { fg = 'Yellow', ctermfg = 'Yellow', cterm = { underline = true } })
--- vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextWarn', { fg = 'Yellow', ctermfg = 'Yellow' })
--- vim.api.nvim_set_hl(0, 'DiagnosticFloatingWarn', { fg = 'Yellow', ctermfg = 'Yellow' })
--- vim.api.nvim_set_hl(0, 'DiagnosticSignWarn', { fg = 'Yellow', ctermfg = 'Yellow' })
---
--- vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = 'White', ctermfg = 'White' })
--- vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { fg = 'White', ctermfg = 'White', cterm = { underline = true } })
--- vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextInfo', { fg = 'White', ctermfg = 'White' })
--- vim.api.nvim_set_hl(0, 'DiagnosticFloatingInfo', { fg = 'White', ctermfg = 'White' })
--- vim.api.nvim_set_hl(0, 'DiagnosticSignInfo', { fg = 'White', ctermfg = 'White' })
---
--- vim.api.nvim_set_hl(0, 'DiagnosticHint', { fg = 'Gray', ctermfg = 'Gray' })
--- vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { fg = 'Gray', ctermfg = 'Gray', cterm = { underline = true } })
--- vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { fg = 'Gray', ctermfg = 'Gray' })
--- vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { fg = 'Gray', ctermfg = 'Gray' })
--- vim.api.nvim_set_hl(0, 'DiagnosticSignHint', { fg = 'Gray', ctermfg = 'Gray' })
