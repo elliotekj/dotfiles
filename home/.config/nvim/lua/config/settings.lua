@@ -165,6 +165,18 @@ vim.diagnostic.config({
   float = { scope = 'line' },
 })
 
+-- elixir: copy test cmd to clipboard
+
+function CopyMixTestCommand()
+  local file = vim.fn.expand("%")
+  local line = vim.fn.line(".")
+  local cmd = string.format("mix test %s:%d", file, line)
+  vim.fn.system("pbcopy", cmd)
+  print("Copied to clipboard: " .. cmd)
+end
+
+vim.api.nvim_set_keymap("n", "<leader>tc", ":lua CopyMixTestCommand()<CR>", { noremap = true, silent = true })
+
 -- -- setup gutter signs for diagnostics
 -- vim.fn.sign_define('DiagnosticSignError', { text = 'E', texthl = 'DiagnosticSignError', priority = 40 })
 -- vim.fn.sign_define('DiagnosticSignWarn', { text = 'W', texthl = 'DiagnosticSignWarn', priority = 30 })
