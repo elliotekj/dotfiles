@@ -15,7 +15,7 @@ return {
     'MagicDuck/grug-far.nvim',
     config = function()
       require('grug-far').setup();
-      vim.keymap.set('n', 'gpS', '<cmd>GrugFar<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', 'gpr', '<cmd>GrugFar<CR>', { noremap = true, silent = true })
     end
   },
   {
@@ -108,7 +108,7 @@ return {
   {
     'tpope/vim-projectionist',
     config = function()
-      vim.keymap.set("n", "<leader>fa", ":A<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "gfa", ":A<CR>", { noremap = true, silent = true })
     end,
   },
   {
