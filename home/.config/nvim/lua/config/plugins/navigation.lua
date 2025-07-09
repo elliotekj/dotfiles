@@ -152,5 +152,14 @@ return {
       vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end)
       vim.keymap.set("n", "<leader>hd", function() harpoon:list():delete() end)
     end
-  }
+  },
+  {
+    "hedyhli/outline.nvim",
+    config = function()
+      vim.keymap.set("n", "<localleader>to", "<cmd>Outline<CR>",
+        { desc = "Toggle Outline" })
+
+      require("outline").setup {}
+    end,
+  },
 }
