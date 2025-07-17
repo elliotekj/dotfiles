@@ -176,3 +176,17 @@ function CopyMixTestCommand()
 end
 
 vim.api.nvim_set_keymap("n", "<leader>tc", ":lua CopyMixTestCommand()<CR>", { noremap = true, silent = true })
+
+-- Copy relative path to clipboard
+vim.keymap.set('n', '<leader>fc', function()
+  local path = vim.fn.expand('%')
+  vim.fn.system("pbcopy", path)
+  print('Copied relative path: ' .. path)
+end, { desc = 'Copy relative file path to clipboard' })
+
+-- Copy absolute path to clipboard
+vim.keymap.set('n', '<leader>fC', function()
+  local path = vim.fn.expand('%:p')
+  vim.fn.system("pbcopy", path)
+  print('Copied absolute path: ' .. path)
+end, { desc = 'Copy absolute file path to clipboard' })
