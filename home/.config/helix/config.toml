@@ -1,0 +1,64 @@
+theme = "gruvbox_dark_hard"
+
+[editor]
+bufferline = "never"
+color-modes = true
+cursorline = false
+file-picker.hidden = false
+idle-timeout = 0
+shell = [ "nu", "--commands" ]
+text-width = 100
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline.mode]
+insert = "INSERT"
+normal = "NORMAL"
+select = "SELECT"
+
+[editor.whitespace.characters]
+tab = "→"
+
+[editor.whitespace.render]
+tab = "all"
+
+[keys.normal]
+D = "extend_to_line_end"
+
+[keys.select]
+D = "extend_to_line_end"
+
+[keys.normal.space]
+e = [
+  ':sh rm -f /tmp/unique-file-h21a434',
+  ':insert-output (yazi "%{buffer_name}" --chooser-file=/tmp/unique-file-h21a434)',
+  ':insert-output (["\u{1b}[?1049h"] | str join "" | into binary | save --raw --force /dev/tty)',
+  ':open %sh{cat /tmp/unique-file-h21a434}',
+  ':redraw',
+  ":reload-all"
+]
+w = ":w"
+
+[keys.normal.space.t]
+c = ":sh echo \"mix test %{buffer_name}:%{cursor_line}\" | pbcopy"
+
+[keys.normal.space.x]
+c = ":sh echo \"%{buffer_name}\" | pbcopy"
+C = ":sh echo \"%{buffer_name}\" | tr -d '\n' | pbcopy"
+b = ":sh git blame %{buffer_name} -L %{cursor_line},%{cursor_line}"
+r = [
+  ":write-all",
+  ':insert-output (scooter | save --raw --force /dev/tty)',
+  ":redraw",
+  ":reload-all"
+]
+g = [
+  ":write-all",
+  ':insert-output (lazygit | save --raw --force /dev/tty)',
+  ":redraw",
+  ":reload-all"
+]
+  
