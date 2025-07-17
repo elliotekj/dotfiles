@@ -1,7 +1,28 @@
-# theme = gruber-darker
-theme = everforest-dark
+theme = GruvboxDarkHard 
 font-family = TX-02
 font-size = 14
 adjust-cell-height = 20%
-#background-opacity = 0.9
-#background-blur = true
+background-opacity = 0.9
+background-blur = true
+
+# Split panes
+keybind = shift+cmd+backslash=new_split:right
+keybind = shift+cmd+minus=new_split:down
+
+# Navigate panes
+keybind = shift+cmd+h=goto_split:left
+keybind = shift+cmd+l=goto_split:right
+keybind = shift+cmd+k=goto_split:up
+keybind = shift+cmd+j=goto_split:down
+
+# Resize panes
+keybind = shift+cmd+left=resize_split:left,10
+keybind = shift+cmd+right=resize_split:right,10
+keybind = shift+cmd+up=resize_split:up,10
+keybind = shift+cmd+down=resize_split:down,10
+
+# Toggle pane fullscreen
+keybind = shift+cmd+z=toggle_split_zoom
+
+# Close pane
+keybind = shift+cmd+x=close_surface
