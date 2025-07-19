@@ -17,6 +17,7 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
+$env.Path = ($env.Path | prepend '/usr/local/bin')
 $env.Path = ($env.Path | prepend '/opt/homebrew/bin')
 $env.Path = ($env.Path | prepend ($env.HOME | path join '.local/bin'))
 $env.Path = ($env.Path | prepend ($env.HOME | path join '.local/share/mise/shims'))
