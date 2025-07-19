@@ -22,3 +22,5 @@
 	cmd = difft "$LOCAL" "$REMOTE"
 [url "ssh://git@github.com/tellerhq/utls"]
 	insteadOf = https://github.com/tellerhq/utls
+[init]
+	defaultBranch = master
