@@ -25,6 +25,7 @@ $env.VISUAL = "hx"
 $env.ERL_AFLAGS = "-kernel shell_history enabled"
 
 alias phx = iex -S mix phx.server
+alias lg = lazygit
 alias c = claude --dangerously-skip-permissions --model claude-sonnet-4-20250514
 
 ulimit -n 512
