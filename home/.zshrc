@@ -15,8 +15,8 @@ alias phx="iex -S mix phx.server"
 alias master="git checkout master && git pull && mix deps.get"
 alias c="claude --dangerously-skip-permissions"
 
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=hx
+export VISUAL=hx
 
 branch() {
   if [ -z "$1" ]; then
