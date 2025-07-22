@@ -28,8 +28,6 @@ alias phx = iex -S mix phx.server
 alias g = gitu
 alias c = claude --dangerously-skip-permissions --model claude-sonnet-4-20250514
 
-ulimit -n 512
-
 def prompt [] {
   let dir = (pwd | str replace $env.HOME "~")
 
