@@ -52,7 +52,7 @@ w = ":w"
 c = ":sh echo \"mix test %{buffer_name}:%{cursor_line}\" | pbcopy"
 
 [keys.normal.space.x]
-c = ":sh echo \"%{buffer_name}\" | pbcopy"
+c = ":sh echo \"%{buffer_name}:%{cursor_line}\" | pbcopy"
 C = ":sh echo \"%{buffer_name}\" | tr -d '\n' | pbcopy"
 b = ":sh git blame %{buffer_name} -L %{cursor_line},%{cursor_line}"
 r = [
