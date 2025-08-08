@@ -68,6 +68,21 @@ def branch [branch_name: string] {
   }
 }
 
+def tc [] {
+  let test_files = (
+    git diff --name-only origin/master
+    | lines 
+    | where ($it | str ends-with "_test.exs")
+  )
+  
+  if ($test_files | is-empty) {
+    print "No test files found in changes"
+  } else {
+    print $"mix test ($test_files | str join ' ')"
+    mix test ...$test_files
+  }
+}
+
 def yank [file: path] {
   if ($file | path exists) {
     open $file | pbcopy
