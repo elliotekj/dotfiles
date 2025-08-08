@@ -1,6 +1,8 @@
 [core]
 	editor = hx
 	excludesfile = ~/.config/git/gitignore_global
+[init]
+	defaultBranch = master
 [user]
 	name = Elliot Jackson
 	email = elliot@elliotekj.com
@@ -12,6 +14,8 @@
 	allowedSignersFile = ~/.config/git/allowed_signers
 [commit]
 	gpgsign = true
+[push]
+	autoSetupRemote = true
 [diff]
 	tool = difftastic
 	algorithm = patience
@@ -22,5 +26,8 @@
 	cmd = difft "$LOCAL" "$REMOTE"
 [url "ssh://git@github.com/tellerhq/utls"]
 	insteadOf = https://github.com/tellerhq/utls
-[init]
-	defaultBranch = master
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
