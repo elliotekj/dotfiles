@@ -26,7 +26,7 @@ $env.ERL_AFLAGS = "-kernel shell_history enabled"
 
 alias phx = iex -S mix phx.server
 alias g = gitu
-alias c = claude --dangerously-skip-permissions --model claude-sonnet-4-20250514
+alias c = claude --dangerously-skip-permissions --model opusplan
 
 def prompt [] {
   let dir = (pwd | str replace $env.HOME "~")
