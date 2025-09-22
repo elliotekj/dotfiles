@@ -116,18 +116,26 @@ def yank [file: path] {
   }
 }
 
-def od [] {
-    let today = (date now | format date "%Y-%m-%d")
-    let obsidian_uri = $"obsidian://advanced-uri?vault=Elliot&daily=true&mode=new"
+def open_daily_note [day_offset: int = 0] {
+    let target_date = (date now) + ($day_offset * 1day) | format date "%Y-%m-%d"
+    let obsidian_uri = "obsidian://advanced-uri?vault=Elliot&daily=true&mode=new"
     
     open $obsidian_uri
     sleep 200ms
     
     let vault_path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Elliot"
     let daily_notes_folder = "00 Daily"
-    let daily_note_path = $"($vault_path)/($daily_notes_folder)/($today).md"
+    let daily_note_path = $"($vault_path)/($daily_notes_folder)/($target_date).md"
     
     hx $daily_note_path
+}
+
+def od [] {
+    open_daily_note 0
+}
+
+def ot [] {
+    open_daily_note 1
 }
 
 source ~/.zoxide.nu
