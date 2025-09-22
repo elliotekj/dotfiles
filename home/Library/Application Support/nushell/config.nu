@@ -68,6 +68,30 @@ def branch [branch_name: string] {
   }
 }
 
+def tt [] {
+    let test_files = (glob **/*_test.exs)
+    
+    if ($test_files | length) == 0 {
+        print "No test files found ending in '_test.exs'"
+        return
+    }
+    
+    let cwd = (pwd)
+    let relative_files = ($test_files | each { |file| 
+        $file | str replace $"($cwd)/" ""
+    })
+    
+    let selected_files = ($relative_files | str join "\n" | fzf --multi | lines)
+    
+    if ($selected_files | is-empty) {
+        print "No files selected"
+        return
+    }
+    
+    print $"mix test ($selected_files | str join ' ')"
+    mix test ...$selected_files
+}
+
 def tc [] {
   let test_files = (
     git diff --name-only origin/master
