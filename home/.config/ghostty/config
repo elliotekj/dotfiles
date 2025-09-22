@@ -1,9 +1,7 @@
-theme = GruvboxDarkHard 
+theme = Monokai Pro
 font-family = TX-02
-font-size = 14
+font-size = 16
 adjust-cell-height = 20%
-background-opacity = 0.9
-background-blur = true
 
 # Split panes
 keybind = shift+cmd+backslash=new_split:right
