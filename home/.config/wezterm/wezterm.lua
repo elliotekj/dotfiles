@@ -11,6 +11,12 @@ config.use_fancy_tab_bar = false
 config.window_decorations = 'RESIZE'
 
 config.keys = {
+  -- Fix shift+enter for claude code
+  {
+    key="Enter",
+    mods="SHIFT",
+    action=wezterm.action{SendString="\x1b\r"}
+  },
   -- Pane splitting
   {
     key = 'd',
