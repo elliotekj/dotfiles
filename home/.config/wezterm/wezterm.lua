@@ -10,6 +10,8 @@ config.line_height = 1.2
 config.use_fancy_tab_bar = false
 config.window_decorations = 'RESIZE'
 
+config.scrollback_lines = 5000
+
 config.keys = {
   -- Fix shift+enter for claude code
   {
