@@ -21,12 +21,13 @@ $env.config.show_banner = false
 
 $env.EDITOR = "hx"
 $env.VISUAL = "hx"
-
 $env.ERL_AFLAGS = "-kernel shell_history enabled"
+$env.SSH_AUTH_SOCK = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 alias phx = iex -S mix phx.server
 alias g = gitu
 alias c = claude --dangerously-skip-permissions --model opusplan
+alias j = just
 
 def prompt [] {
   let dir = (pwd | str replace $env.HOME "~")
@@ -150,5 +151,7 @@ def od [] {
 def ot [] {
     open_daily_note 1
 }
+
+source ~/.config/nushell_local/config.nu
 
 source ~/.zoxide.nu
