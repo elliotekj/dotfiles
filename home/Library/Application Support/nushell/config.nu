@@ -73,6 +73,14 @@ def branch [branch_name: string] {
   }
 }
 
+def fix [branch_name: string] {
+  branch $"fix/($branch_name)"
+}
+
+def feat [branch_name: string] {
+  branch $"feat/($branch_name)"
+}
+
 def tt [] {
     let test_files = (glob **/*_test.exs)
     
