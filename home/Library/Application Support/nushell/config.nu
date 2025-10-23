@@ -45,6 +45,11 @@ def prompt [] {
 
 $env.PROMPT_COMMAND = { prompt }
 
+def --env mkcd [path: string] {
+    mkdir $path
+    cd $path
+}
+
 def master [] {
   git checkout master
   git pull
