@@ -47,8 +47,9 @@ def prompt [] {
 $env.PROMPT_COMMAND = { prompt }
 
 def --env mkcd [path: string] {
-    mkdir $path
-    cd $path
+    let expanded_path = ($path | path expand)
+    mkdir $expanded_path
+    cd $expanded_path
 }
 
 def master [] {
