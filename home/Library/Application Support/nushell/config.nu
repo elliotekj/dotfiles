@@ -53,6 +53,15 @@ def --env mkcd [path: string] {
     cd $expanded_path
 }
 
+def --env mktouch [path: string] {
+    let expanded_path = ($path | path expand)
+    let filename = ($expanded_path | path basename)
+    let dir_path = ($expanded_path | path dirname)
+    
+    mkdir $dir_path
+    touch $expanded_path
+}
+
 def master [] {
   git checkout master
   git pull
