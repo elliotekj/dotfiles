@@ -17,6 +17,10 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
+#######################################################################
+# Generic
+#######################################################################
+
 $env.config.show_banner = false
 
 $env.EDITOR = "hx"
@@ -24,11 +28,12 @@ $env.VISUAL = "hx"
 $env.ERL_AFLAGS = "-kernel shell_history enabled"
 $env.SSH_AUTH_SOCK = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
-alias phx = iex -S mix phx.server
-alias g = gitu
-alias lg = lazygit
 alias c = claude --dangerously-skip-permissions --model opusplan
+alias g = gitu
 alias j = just
+alias lg = lazygit
+alias phx = iex -S mix phx.server
+alias tsn = tmux new -s 
 
 def prompt [] {
   let dir = (pwd | str replace $env.HOME "~")
@@ -47,6 +52,10 @@ def prompt [] {
 
 $env.PROMPT_COMMAND = { prompt }
 
+#######################################################################
+# Filesystem
+#######################################################################
+
 def --env mkcd [path: string] {
     let expanded_path = ($path | path expand)
     mkdir $expanded_path
@@ -61,6 +70,19 @@ def --env mktouch [path: string] {
     mkdir $dir_path
     touch $expanded_path
 }
+
+def yank [file: path] {
+  if ($file | path exists) {
+    open $file | pbcopy
+    print $"Yanked contents of '($file)' to clipboard."
+  } else {
+    print $"Error: '($file)' is not a valid file."
+  }
+}
+
+#######################################################################
+# Git
+#######################################################################
 
 def master [] {
   git checkout master
@@ -92,6 +114,112 @@ def fix [branch_name: string] {
 def feat [branch_name: string] {
   branch $"feat/($branch_name)"
 }
+
+def _get_parent_project [] {
+  let origin = (git config --get remote.origin.url)
+
+  $origin
+  | str replace --regex '.*[/:]' ''      # Get everything after last / or :
+  | str replace --regex '\.[^.]*$' ''    # Remove extension (last . and everything after)
+}
+
+def --env _setup_worktree [worktree_path: string, parent: string] {
+  cd $worktree_path
+
+  mix deps.get
+
+  let env_file = ($"../($parent)/.env" | path expand)
+  if ($env_file | path exists) {
+    cp $env_file .
+  }
+}
+
+def --env mkwt [name: string] {
+  let parent = (_get_parent_project)
+
+  let dir_name = ($name | str replace --all '/' '-')
+  let worktree_path = ($"../worktree-($parent)-($dir_name)" | path expand)
+
+  git worktree add -b $name $worktree_path
+  _setup_worktree $worktree_path $parent
+
+  print $"Worktree created at ($worktree_path) with branch ($name)"
+}
+
+def --env cowt [branch_name: string] {
+  let parent = (_get_parent_project)
+
+  let dir_name = ($branch_name | str replace --all '/' '-')
+  let worktree_path = ($"../worktree-($parent)-($dir_name)" | path expand)
+
+  git worktree add $worktree_path $branch_name
+
+  _setup_worktree $worktree_path $parent
+
+  print $"Worktree created at ($worktree_path) checking out branch ($branch_name)"
+}
+
+def --env rmwt [] {
+    let current_dir = ($env.PWD)
+    let branch_name = (git branch --show-current)
+    
+    # Check if we're in a worktree by checking if .git is a file (not a directory)
+    # In worktrees, .git is a file that points to the main repo
+    # In the main repo, .git is a directory
+    let git_path = ($current_dir | path join ".git")
+    
+    if not ($git_path | path exists) {
+        error make { msg: "Not in a git repository." }
+    }
+    
+    if ($git_path | path type) == "dir" {
+        error make { msg: "Not in a worktree directory. This command must be run from within a worktree." }
+    }
+    
+    print $"This will delete:"
+    print $"  - Worktree: ($current_dir)"
+    print $"  - Branch: ($branch_name)"
+    print ""
+    
+    let confirm = (input "Are you sure you want to proceed? (yes/no): ")
+    
+    if ($confirm | str downcase) != "yes" {
+        print "Deletion cancelled."
+        return
+    }
+
+    let parent = (_get_parent_project)
+    
+    cd $"../($parent)"
+
+    let remove_result = (git worktree remove $current_dir | complete)
+
+    if $remove_result.exit_code != 0 {
+        if ($remove_result.stderr | str contains "Permission denied") {
+            print "Permission denied. Requesting elevated privileges..."
+
+            let sudo_result = (sudo rm -rf $current_dir | complete)
+
+            if $sudo_result.exit_code != 0 {
+                print $"Error removing worktree with sudo: ($sudo_result.stderr)"
+                return
+            }
+
+            git worktree remove $current_dir
+        } else {
+            print $"Error removing worktree: ($remove_result.stderr)"
+            return
+        }
+    }
+
+    git branch -D $branch_name
+
+    print $"Deleted worktree at ($current_dir) and branch ($branch_name)"
+}
+
+#######################################################################
+# Elixir
+#######################################################################
 
 def tt [] {
     let test_files = (glob **/*_test.exs)
@@ -132,36 +260,70 @@ def tc [] {
   }
 }
 
-def yank [file: path] {
-  if ($file | path exists) {
-    open $file | pbcopy
-    print $"Yanked contents of '($file)' to clipboard."
-  } else {
-    print $"Error: '($file)' is not a valid file."
-  }
-}
+#######################################################################
+# Notes
+#######################################################################
 
-def open_daily_note [day_offset: int = 0] {
+def _open_daily_note [day_offset: int = 0] {
     let target_date = (date now) + ($day_offset * 1day) | format date "%Y-%m-%d"
     let obsidian_uri = "obsidian://advanced-uri?vault=Elliot&daily=true&mode=new"
-    
+
     open $obsidian_uri
     sleep 200ms
-    
+
     let vault_path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Elliot"
     let daily_notes_folder = "00 Daily"
     let daily_note_path = $"($vault_path)/($daily_notes_folder)/($target_date).md"
-    
+
     hx $daily_note_path
 }
 
 def od [] {
-    open_daily_note 0
+    _open_daily_note 0
 }
 
 def ot [] {
-    open_daily_note 1
+    _open_daily_note 1
 }
+
+#######################################################################
+# Tmux
+#######################################################################
+
+def tsa [session_name?: string] {
+    let sessions_result = (tmux ls | complete)
+    
+    if $sessions_result.exit_code != 0 {
+        print "No tmux sessions found"
+        return
+    }
+    
+    let sessions = ($sessions_result.stdout | lines | split column ': ' | get column1)
+    
+    if ($sessions | is-empty) {
+        print "No tmux sessions found"
+        return
+    }
+    
+    if ($session_name | is-not-empty) {
+        if ($session_name in $sessions) {
+            tmux attach -t $session_name
+        } else {
+            print $"Session '($session_name)' not found"
+        }
+        return
+    }
+    
+    let selected = ($sessions | str join "\n" | fzf --prompt "Select tmux session: " --height 40%)
+    
+    if ($selected | is-not-empty) {
+        tmux attach -t $selected
+    }
+}
+
+#######################################################################
+# Pre-flight
+#######################################################################
 
 source ~/.config/nushell_local/config.nu
 
