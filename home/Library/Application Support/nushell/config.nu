@@ -126,7 +126,9 @@ def _get_parent_project [] {
 def --env _setup_worktree [worktree_path: string, parent: string] {
   cd $worktree_path
 
-  mix deps.get
+  if ("mix.exs" | path exists) {
+    mix deps.get
+  }
 
   let env_file = ($"../($parent)/.env" | path expand)
   if ($env_file | path exists) {
