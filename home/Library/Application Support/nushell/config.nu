@@ -30,6 +30,8 @@ $env.SSH_AUTH_SOCK = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agen
 
 alias c = claude --dangerously-skip-permissions --model opusplan
 alias g = gitu
+alias gap = git add -p
+alias gs = git stack --no-revise-sign --branch-prefix="elliot/" --draft
 alias j = just
 alias lg = lazygit
 alias phx = iex -S mix phx.server
