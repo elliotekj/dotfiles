@@ -133,6 +133,16 @@ def --env _setup_worktree [worktree_path: string, parent: string] {
     mix deps.get
   }
 
+  if ("assets/package-lock.json" | path exists) {
+    npm i --prefix assets
+  }
+
+  if ("assets/yarn.lock" | path exists) {
+    cd assets
+    yarn install
+    cd ..
+  }
+
   let env_file = ($"../($parent)/.env" | path expand)
   if ($env_file | path exists) {
     cp $env_file .
