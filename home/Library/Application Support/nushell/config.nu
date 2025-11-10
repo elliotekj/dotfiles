@@ -301,6 +301,19 @@ def ot [] {
     _open_daily_note 1
 }
 
+def wtn [] {
+    let parent = (_get_parent_project)
+    
+    let branch_name = (git branch --show-current)
+    let dir_name = ($branch_name | str replace --all '/' '-')
+    let note_name = $"worktree-($parent)-($dir_name)"
+    
+    let vault_path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Elliot"
+    let note_path = ($"($vault_path)/($note_name).md" | path expand)
+    
+    hx $note_path
+}
+
 #######################################################################
 # Tmux
 #######################################################################
