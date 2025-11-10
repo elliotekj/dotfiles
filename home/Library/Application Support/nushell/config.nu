@@ -330,5 +330,5 @@ def tsa [session_name?: string] {
 #######################################################################
 
 source ~/.config/nushell_local/config.nu
-
+source $"($nu.cache-dir)/carapace.nu"
 source ~/.zoxide.nu
