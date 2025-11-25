@@ -28,7 +28,7 @@ $env.VISUAL = "hx"
 $env.ERL_AFLAGS = "-kernel shell_history enabled"
 $env.SSH_AUTH_SOCK = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
-alias c = claude --dangerously-skip-permissions --model opusplan
+alias c = claude --dangerously-skip-permissions
 alias g = gitu
 alias gap = git add -p
 alias gcp = git cherry-pick
@@ -210,20 +210,15 @@ def --env rmwt [] {
     let remove_result = (git worktree remove $current_dir | complete)
 
     if $remove_result.exit_code != 0 {
-        if ($remove_result.stderr | str contains "Permission denied") {
-            print "Permission denied. Requesting elevated privileges..."
+        print $"Initial removal failed: ($remove_result.stderr)"
+        print "Attempting force removal..."
 
-            let sudo_result = (sudo rm -rf $current_dir | complete)
+        let force_result = (git worktree remove --force $current_dir | complete)
 
-            if $sudo_result.exit_code != 0 {
-                print $"Error removing worktree with sudo: ($sudo_result.stderr)"
-                return
-            }
-
-            git worktree remove $current_dir
-        } else {
-            print $"Error removing worktree: ($remove_result.stderr)"
-            return
+        if $force_result.exit_code != 0 {
+            print "Force removal failed. Cleaning up manually..."
+            rm -rf $current_dir
+            git worktree prune
         }
     }
 
