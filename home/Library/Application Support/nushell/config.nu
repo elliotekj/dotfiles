@@ -130,7 +130,17 @@ def --env _setup_worktree [worktree_path: string, parent: string] {
   cd $worktree_path
 
   if ("mix.exs" | path exists) {
-    mix deps.get
+    let parent_path = ($"../($parent)" | path expand)
+
+    let deps_path = ($parent_path | path join "deps")
+    if ($deps_path | path exists) {
+      cp -r $deps_path .
+    }
+
+    let build_path = ($parent_path | path join "_build")
+    if ($build_path | path exists) {
+      cp -r $build_path .
+    }
   }
 
   if ("assets/package-lock.json" | path exists) {
