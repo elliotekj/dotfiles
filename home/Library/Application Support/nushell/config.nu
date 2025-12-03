@@ -345,6 +345,45 @@ def tsa [session_name?: string] {
 }
 
 #######################################################################
+# Try (experiment directories)
+#######################################################################
+
+# at this point may as well not use `try.rb` file and rewrite it
+def --env t [...args: string] {
+  let script_path = ($env.HOME | path join ".local/bin/try.rb")
+  let try_path = ($env.HOME | path join "dev/tries")
+
+  # Run try.rb - interactive UI uses stderr (goes to terminal), commands come on stdout
+  let output = if ($args | length) > 0 and ($args | first) in ["clone", "worktree", "init"] {
+    ^ruby $script_path --path $try_path ...$args
+  } else {
+    ^ruby $script_path cd --path $try_path ...$args
+  }
+
+  let output = ($output | str trim)
+  if ($output | is-empty) {
+    return
+  }
+
+  # Parse the bash command output and execute natively
+  # Extracts paths from: mkdir -p '/path' && touch '/path' && cd '/path'
+  # Or simple: cd '/path'
+  let cd_match = ($output | parse --regex "cd '([^']+)'")
+  if ($cd_match | is-not-empty) {
+    let target = ($cd_match | first | get capture0)
+
+    # If mkdir is in the output, create the directory first
+    if ($output | str contains "mkdir") {
+      mkdir $target
+    }
+
+    cd $target
+  } else {
+    print $output
+  }
+}
+
+#######################################################################
 # Pre-flight
 #######################################################################
 
