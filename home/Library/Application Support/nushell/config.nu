@@ -159,6 +159,31 @@ def --env _setup_worktree [worktree_path: string, parent: string] {
   }
 }
 
+def _setup_mcp_servers [worktree_path: string] {
+  let mcp_options = [
+    "RepoPrompt"
+    "chrome-devtools"
+  ]
+
+  let selected = ($mcp_options | str join "\n" | fzf --multi --prompt "Select MCP servers (TAB to multi-select, ENTER to confirm): " --height 40%)
+
+  if ($selected | is-empty) {
+    return
+  }
+
+  let selections = ($selected | lines)
+
+  if "RepoPrompt" in $selections {
+    claude mcp add RepoPrompt /Users/elliotekj/RepoPrompt/repoprompt_cli
+  }
+
+  if "chrome-devtools" in $selections {
+    claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
+  }
+
+  print $"MCP servers configured: ($selections | str join ', ')"
+}
+
 def --env mkwt [name: string] {
   let parent = (_get_parent_project)
 
@@ -167,6 +192,7 @@ def --env mkwt [name: string] {
 
   git worktree add -b $name $worktree_path
   _setup_worktree $worktree_path $parent
+  _setup_mcp_servers $worktree_path
 
   print $"Worktree created at ($worktree_path) with branch ($name)"
 }
