@@ -4,8 +4,8 @@ local colors = require('colors.monokai-pro')
 
 config.colors = colors
 config.font = wezterm.font 'MonoLisa'
- config.harfbuzz_features = { "liga=1", "ss02=1" }
-config.font_size = 14.0
+config.harfbuzz_features = { "liga=1", "ss02=1" }
+config.font_size = 11.0
 config.line_height = 1.2
 
 config.use_fancy_tab_bar = false
