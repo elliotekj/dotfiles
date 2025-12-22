@@ -24,6 +24,12 @@ $env.Path = ($env.Path | prepend ($env.HOME | path join '.local/share/mise/shims
 $env.Path = ($env.Path | prepend ($env.HOME | path join '.cargo/bin'))
 $env.Path = ($env.Path | prepend ($env.HOME | path join 'bin'))
 
+if ("/Volumes/External" | path exists) {
+    $env.ANDROID_HOME = "/Volumes/External/Library/Android/sdk"
+    $env.Path = ($env.Path | prepend ($env.ANDROID_HOME | path join 'emulator'))
+    $env.Path = ($env.Path | prepend ($env.ANDROID_HOME | path join 'platform-tools'))
+}
+
 /opt/homebrew/bin/zoxide init nushell | save -f ~/.zoxide.nu
 
 let mise_path = $nu.default-config-dir | path join mise.nu
