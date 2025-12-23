@@ -13,6 +13,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = 'RESIZE'
 
 config.scrollback_lines = 5000
+config.default_prog = { '/opt/homebrew/bin/tmux', 'new-session' }
 
 config.keys = {
   -- Fix shift+enter for claude code
