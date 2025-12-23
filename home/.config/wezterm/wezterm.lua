@@ -157,7 +157,7 @@ config.keys = {
     end),
   },
 
-  -- Rename current tab
+  -- Rename current tab and tmux session
   {
     key = ',',
     mods = 'CMD',
@@ -165,7 +165,17 @@ config.keys = {
       description = 'Enter new name for tab',
       action = wezterm.action_callback(function(window, pane, line)
         if line then
+          local success, stdout = wezterm.run_child_process({ '/opt/homebrew/bin/tmux', 'list-sessions', '-F', '#{session_name}' })
+          if success then
+            for existing_name in stdout:gmatch('[^\n]+') do
+              if existing_name == line then
+                window:toast_notification('WezTerm', 'Session name "' .. line .. '" already exists', nil, 3000)
+                return
+              end
+            end
+          end
           window:active_tab():set_title(line)
+          wezterm.run_child_process({ '/opt/homebrew/bin/tmux', 'rename-session', line })
         end
       end),
     },
