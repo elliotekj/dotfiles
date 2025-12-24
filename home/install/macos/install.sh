@@ -63,8 +63,6 @@ export PATH="$brew":$PATH
 curl https://mise.run | sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
-
 # -----------------------------------------------------------------------------
 # Apps
 # -----------------------------------------------------------------------------
