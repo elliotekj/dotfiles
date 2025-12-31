@@ -163,6 +163,7 @@ def _setup_mcp_servers [worktree_path: string] {
   let mcp_options = [
     "RepoPrompt"
     "chrome-devtools"
+    "linear-server"
   ]
 
   let selected = ($mcp_options | str join "\n" | fzf --multi --prompt "Select MCP servers (TAB to multi-select, ENTER to confirm): " --height 40%)
@@ -179,6 +180,10 @@ def _setup_mcp_servers [worktree_path: string] {
 
   if "chrome-devtools" in $selections {
     claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
+  }
+
+  if "linear-server" in $selections {
+    claude mcp add --transport http linear-server https://mcp.linear.app/mcp
   }
 
   print $"MCP servers configured: ($selections | str join ', ')"
@@ -205,7 +210,11 @@ def --env cowt [branch_name: string] {
 
   git worktree add $worktree_path $branch_name
 
+  cd $worktree_path
+  git pull
+
   _setup_worktree $worktree_path $parent
+  _setup_mcp_servers $worktree_path
 
   print $"Worktree created at ($worktree_path) checking out branch ($branch_name)"
 }
