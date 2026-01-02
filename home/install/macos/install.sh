@@ -129,5 +129,10 @@ cd "$HOME/.homesick/repos/dotfiles/" && git remote set-url origin git@github.com
 killall Finder
 killall Dock
 
+if [ "$SHELL" != "/bin/zsh" ]; then
+    echo "Setting zsh as default shell..."
+    chsh -s /bin/zsh
+fi
+
 printf "\e[1;32m==> Done! You should now reboot.\n\e[0m"
 
