@@ -12,3 +12,7 @@ alias phx="iex -S mix phx.server"
 alias tsn="tmux new -s"
 alias v="nvim"
 alias y="yazi"
+
+if command -v eza &> /dev/null; then
+  alias ls="eza -l --git --time-style=relative"
+fi
