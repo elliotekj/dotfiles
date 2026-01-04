@@ -1,0 +1,86 @@
+# Identity
+set realname = "Elliot Jackson"
+set from = "elliotekj@gmail.com"
+set use_from = yes
+
+# Maildir
+set mbox_type = Maildir
+set folder = ~/Mail/gmail
+set spoolfile = +inbox
+set record = +sent
+set postponed = +drafts
+set trash = +trash
+
+# Sending
+set sendmail = "/opt/homebrew/bin/msmtp -a gmail"
+set sendmail_wait = 0
+
+# Cache
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+set certificate_file = ~/.mutt/certificates
+
+# Sync
+set mail_check = 60
+set timeout = 10
+
+# Compose
+set editor = "nvim"
+set edit_headers = yes
+set charset = "utf-8"
+set send_charset = "utf-8"
+
+# Display
+set sort = threads
+set sort_aux = reverse-last-date-received
+set date_format = "%Y-%m-%d %H:%M"
+set index_format = "%4C %Z %d %-20.20L %s"
+set pager_index_lines = 10
+set pager_context = 3
+set pager_stop = yes
+set markers = no
+set tilde = yes
+
+# Gmail-style keybindings
+bind index,pager g noop
+macro index gi "<change-folder>=inbox<enter>" "Go to inbox"
+macro index gs "<change-folder>=sent<enter>" "Go to sent"
+macro index gd "<change-folder>=drafts<enter>" "Go to drafts"
+macro index ga "<change-folder>=archive<enter>" "Go to archive"
+
+# Archive with 'e'
+macro index,pager e "<save-message>=archive<enter><enter>" "Archive message"
+
+# Sync with 'S'
+macro index S "!offlineimap -q<enter>" "Sync mail"
+
+# Reply/forward
+bind index,pager r reply
+bind index,pager R group-reply
+bind index,pager f forward-message
+
+# Navigation
+bind index j next-entry
+bind index k previous-entry
+bind pager j next-line
+bind pager k previous-line
+bind index G last-entry
+bind index gg first-entry
+
+# Sidebar
+set sidebar_visible = yes
+set sidebar_width = 20
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+bind index,pager \Cp sidebar-prev
+bind index,pager \Cn sidebar-next
+bind index,pager \Co sidebar-open
+
+# Colors
+color normal     default default
+color indicator  black   cyan
+color status     black   white
+color tree       cyan    default
+color index      cyan    default ~N
+color index      red     default ~D
+color body       yellow  default "(https?|ftp)://[^ ]+"
+color body       green   default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"

@@ -1,0 +1,23 @@
+[general]
+accounts = Gmail
+maxsyncaccounts = 1
+pythonfile = ~/.mutt/offlineimap-helpers.py
+
+[Account Gmail]
+localrepository = Gmail-Local
+remoterepository = Gmail-Remote
+synclabels = yes
+
+[Repository Gmail-Local]
+type = GmailMaildir
+localfolders = ~/Mail/gmail
+nametrans = nametrans_local
+
+[Repository Gmail-Remote]
+type = Gmail
+remoteuser = elliotekj@gmail.com
+remotepasseval = get_pass()
+ssl = yes
+sslcacertfile = /etc/ssl/cert.pem
+folderfilter = folderfilter
+nametrans = nametrans_remote
