@@ -1,0 +1,152 @@
+# Vesper theme for Yazi
+# Based on https://github.com/raunofreiberg/vesper
+
+[manager]
+cwd = { fg = "#99ffe4" }
+
+hovered = { reversed = true }
+preview_hovered = { underline = true }
+
+find_keyword = { fg = "#101010", bg = "#ffc799", bold = true }
+find_position = { fg = "#ffcfa8", bg = "reset", italic = true }
+
+marker_copied = { fg = "#99ffe4", bg = "#99ffe4" }
+marker_cut = { fg = "#ff8080", bg = "#ff8080" }
+marker_marked = { fg = "#99ffe4", bg = "#99ffe4" }
+marker_selected = { fg = "#ffc799", bg = "#ffc799" }
+
+count_copied = { fg = "#101010", bg = "#99ffe4" }
+count_cut = { fg = "#101010", bg = "#ff8080" }
+count_selected = { fg = "#101010", bg = "#ffc799" }
+
+border_symbol = "│"
+border_style = { fg = "#343434" }
+
+[status]
+overall = { fg = "#ffffff", bg = "#101010" }
+
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+progress_label = { fg = "#ffffff", bold = true }
+progress_normal = { fg = "#99ffe4", bg = "#101010" }
+progress_error = { fg = "#ff8080", bg = "#101010" }
+
+perm_type = { fg = "#99ffe4" }
+perm_read = { fg = "#ffc799" }
+perm_write = { fg = "#ff8080" }
+perm_exec = { fg = "#99ffe4" }
+perm_sep = { fg = "#343434" }
+
+[mode]
+normal_main = { fg = "#101010", bg = "#99ffe4", bold = true }
+normal_alt = { fg = "#99ffe4", bg = "#232323" }
+
+select_main = { fg = "#101010", bg = "#ffc799", bold = true }
+select_alt = { fg = "#ffc799", bg = "#232323" }
+
+unset_main = { fg = "#101010", bg = "#ffcfa8", bold = true }
+unset_alt = { fg = "#ffcfa8", bg = "#232323" }
+
+[tabs]
+active = { fg = "#101010", bg = "#99ffe4" }
+inactive = { fg = "#343434", bg = "#101010" }
+
+[indicator]
+parent = {}
+current = {}
+preview = {}
+
+[pick]
+border = { fg = "#99ffe4" }
+active = { fg = "#ffcfa8", bold = true }
+inactive = { fg = "#ffffff" }
+
+[input]
+border = { fg = "#99ffe4" }
+title = { fg = "#99ffe4" }
+value = { fg = "#ffffff" }
+selected = { reversed = true }
+
+[cmp]
+border = { fg = "#99ffe4" }
+active = { fg = "#ffcfa8", bold = true }
+inactive = { fg = "#ffffff" }
+
+icon_file = ""
+icon_folder = ""
+icon_command = ""
+
+[tasks]
+border = { fg = "#99ffe4" }
+title = { fg = "#99ffe4" }
+hovered = { fg = "#ffcfa8", underline = true }
+
+[which]
+cols = 3
+mask = { bg = "#101010" }
+cand = { fg = "#99ffe4" }
+rest = { fg = "#343434" }
+desc = { fg = "#ffcfa8" }
+separator = "  "
+separator_style = { fg = "#343434" }
+
+[help]
+on = { fg = "#99ffe4" }
+run = { fg = "#ffcfa8" }
+desc = { fg = "#ffffff" }
+hovered = { reversed = true, bold = true }
+footer = { fg = "#343434", bg = "#101010" }
+
+[confirm]
+border = { fg = "#99ffe4" }
+title = { fg = "#99ffe4" }
+body = { fg = "#ffffff" }
+list = {}
+
+btn_yes = { fg = "#101010", bg = "#99ffe4", bold = true }
+btn_no = { fg = "#101010", bg = "#ff8080", bold = true }
+btn_labels = [" [Y]es ", " [N]o "]
+
+[spot]
+border = { fg = "#99ffe4" }
+title = { fg = "#99ffe4" }
+tbl_col = { fg = "#ffcfa8" }
+tbl_cell = { fg = "#ffffff" }
+
+[notify]
+title_info = { fg = "#99ffe4" }
+title_warn = { fg = "#ffc799" }
+title_error = { fg = "#ff8080" }
+
+[filetype]
+rules = [
+  # Images
+  { mime = "image/*", fg = "#ffc799" },
+
+  # Media
+  { mime = "{audio,video}/*", fg = "#99ffe4" },
+
+  # Archives
+  { mime = "application/{,g}zip", fg = "#ff8080" },
+  { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#ff8080" },
+
+  # Documents
+  { mime = "application/{pdf,doc,rtf}", fg = "#ffcfa8" },
+  { mime = "application/vnd.*", fg = "#ffcfa8" },
+
+  # Fallback
+  { name = "*", fg = "#ffffff" },
+
+  # Directories
+  { name = "*/", fg = "#99ffe4" },
+
+  # Symlinks
+  { is = "link", fg = "#ffc799" },
+
+  # Orphan symlinks
+  { is = "orphan", fg = "#ff8080" },
+
+  # Executables
+  { is = "exec", fg = "#99ffe4" },
+]

@@ -1,6 +1,6 @@
 return {
   'mhinz/vim-startify',
-  'loctvl842/monokai-pro.nvim',
+  'datsfilipe/vesper.nvim',
   {
     'sainnhe/everforest',
     lazy = false,
@@ -24,7 +24,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'monokai-pro'
+          theme = 'vesper'
         },
         sections = {
           lualine_a = { 'mode' },

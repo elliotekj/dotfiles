@@ -75,12 +75,14 @@ bind index,pager \Cp sidebar-prev
 bind index,pager \Cn sidebar-next
 bind index,pager \Co sidebar-open
 
-# Colors
+# Vesper theme colors
 color normal     default default
-color indicator  black   cyan
-color status     black   white
-color tree       cyan    default
-color index      cyan    default ~N
-color index      red     default ~D
-color body       yellow  default "(https?|ftp)://[^ ]+"
-color body       green   default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
+color indicator  color232 color123
+color status     color248 color235
+color tree       color123 default
+color index      color222 default ~N
+color index      color210 default ~D
+color body       color222 default "(https?|ftp)://[^ ]+"
+color body       color123 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
+color sidebar_highlight color232 color123
+color sidebar_new color222 default
