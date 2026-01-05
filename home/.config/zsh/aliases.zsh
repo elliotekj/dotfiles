@@ -9,11 +9,18 @@ alias gs='git stack --no-revise-sign --branch-prefix="elliot/" --draft'
 alias j="just"
 alias lg="lazygit"
 alias phx="iex -S mix phx.server"
-alias tsn="tmux new -s"
 alias wtc="wt switch --create"
 alias wts="wt select"
 alias v="nvim"
 alias y="yazi"
+
+tsn() {
+  if [[ -n "$TMUX" ]]; then
+    tmux new -s "$1" -d && tmux switch-client -t "$1"
+  else
+    tmux new -s "$1"
+  fi
+}
 
 if command -v eza &> /dev/null; then
   alias ls="eza -l --git --time-style=relative"
