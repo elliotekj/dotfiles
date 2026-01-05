@@ -10,6 +10,8 @@ alias j="just"
 alias lg="lazygit"
 alias phx="iex -S mix phx.server"
 alias tsn="tmux new -s"
+alias wtc="wt switch --create"
+alias wts="wt select"
 alias v="nvim"
 alias y="yazi"
 
