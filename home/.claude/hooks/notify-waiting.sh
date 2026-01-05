@@ -16,3 +16,5 @@ fi
 
 tmux set-option -w -t "$TMUX_PANE" @claude_waiting 1
 [[ -n "$slug" ]] && tmux set-option -w -t "$TMUX_PANE" @claude_session_name "$slug"
+
+echo '{"decision": "approve"}'
