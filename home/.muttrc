@@ -25,7 +25,7 @@ set mail_check = 60
 set timeout = 10
 
 # Compose
-set editor = "nvim"
+set editor = "hx"
 set edit_headers = yes
 set charset = "utf-8"
 set send_charset = "utf-8"
