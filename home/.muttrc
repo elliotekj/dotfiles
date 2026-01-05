@@ -67,6 +67,40 @@ bind pager k previous-line
 bind index G last-entry
 bind index gg first-entry
 
+# Thread navigation
+bind index,pager ]t next-thread
+bind index,pager [t previous-thread
+bind index,pager ]r read-thread
+bind index,pager ]d delete-thread
+bind index zc collapse-thread
+bind index zM collapse-all
+macro index,pager ]a "<tag-thread><tag-prefix><save-message>=archive<enter><enter>" "Archive thread"
+
+# Search
+bind index / search
+bind index n search-next
+bind index N search-opposite
+
+# Delete/undelete
+bind index d delete-message
+bind index u undelete-message
+
+# Tagging (visual selection equivalent)
+bind index v tag-entry
+bind index V tag-thread
+
+# Open message / attachments
+bind index o display-message
+bind attach o view-attach
+bind attach <return> view-mailcap
+
+# Help
+bind index,pager ? help
+
+# Settings
+set quit = ask-yes
+set delete = yes
+
 # Sidebar
 set sidebar_visible = yes
 set sidebar_width = 20
