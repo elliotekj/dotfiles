@@ -17,6 +17,7 @@
 [push]
 	autoSetupRemote = true
 [diff]
+	external = difft
 	tool = difftastic
 	algorithm = patience
 	compactionHeuristic = true
