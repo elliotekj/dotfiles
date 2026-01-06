@@ -2,7 +2,7 @@ import subprocess
 
 def get_pass():
     return subprocess.check_output(
-        ["op", "read", "op://42uuu6jy35zg6fldljj4xco6xm/s3mtpagvsspfqyac3cqmr3y6ey/password"],
+        ["/opt/homebrew/bin/op", "read", "op://42uuu6jy35zg6fldljj4xco6xm/s3mtpagvsspfqyac3cqmr3y6ey/password"],
         text=True
     ).strip()
 
