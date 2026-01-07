@@ -23,6 +23,7 @@ set certificate_file = ~/.mutt/certificates
 # Sync
 set mail_check = 60
 set timeout = 10
+set wait_key = no
 
 # Compose
 set editor = "hx"
@@ -98,7 +99,7 @@ bind attach <return> view-mailcap
 bind index,pager ? help
 
 # Settings
-set quit = ask-yes
+set quit = yes
 set delete = yes
 
 # Sidebar
