@@ -1,0 +1,21 @@
+# [language-server.expert]
+# command = "/Users/elliotekj/.local/bin/expert"
+
+# [[language]]
+# name = "elixir"
+# language-servers = ["expert"]
+
+# [[language]]
+# name = "heex"
+# language-servers = ["expert"]
+
+[language-server.lexical]
+command = "/Volumes/External/dev/lexical/_build/dev/package/lexical/bin/start_lexical.sh"
+
+[[language]]
+name = "elixir"
+language-servers = ["lexical"]
+
+[[language]]
+name = "heex"
+language-servers = ["lexical"]

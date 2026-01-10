@@ -1,0 +1,13 @@
+# Homie repo configuration
+target = "~"
+
+[defaults]
+strategy = "file"
+
+# Override strategy per path
+# [strategies]
+# ".config/nvim" = "directory"
+
+# Additional paths to ignore
+# [ignore]
+# paths = ["*.swp"]

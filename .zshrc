@@ -19,3 +19,7 @@ ulimit -n 512
 [ -s ~/.zshrc.local ] && source ~/.zshrc.local
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# bun completions
+[ -s "/Users/elliot/.bun/_bun" ] && source "/Users/elliot/.bun/_bun"
+export PATH=$PATH:$HOME/.maestro/bin
