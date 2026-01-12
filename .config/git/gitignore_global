@@ -1,2 +1,6 @@
 .DS_Store
 .vim-bookmarks
+
+SPEC.md
+TODO.md
+.claude/ralph-claude-loop.local.md
