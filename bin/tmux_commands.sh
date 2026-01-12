@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="New session\nRename session\nArchive session\nRestore session"
+commands="New session\nRename session\nKill session\nArchive session\nRestore session"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -28,6 +28,19 @@ case "$selected" in
       --no-info | head -1)
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
+    ;;
+  "Kill session")
+    current=$(tmux display-message -p '#S')
+    next=$(tmux list-sessions -F '#S' | while read -r s; do
+      [[ "$s" == "$current" ]] && continue
+      [[ $(tmux show-option -t "$s" -qv @archived) != "1" ]] && echo "$s" && break
+    done)
+    if [[ -z "$next" ]]; then
+      tmux display-message "Cannot kill: no other sessions available"
+      exit 0
+    fi
+    tmux switch-client -t "$next"
+    tmux kill-session -t "$current"
     ;;
   "Archive session")
     current=$(tmux display-message -p '#S')
