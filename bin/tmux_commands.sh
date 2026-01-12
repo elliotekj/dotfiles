@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="New session\nRename session"
+commands="New session\nRename session\nArchive session\nRestore session"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -28,5 +28,35 @@ case "$selected" in
       --no-info | head -1)
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
+    ;;
+  "Archive session")
+    current=$(tmux display-message -p '#S')
+    # Find next non-archived session to switch to
+    next=$(tmux list-sessions -F '#S' | while read -r s; do
+      [[ "$s" == "$current" ]] && continue
+      [[ $(tmux show-option -t "$s" -qv @archived) != "1" ]] && echo "$s" && break
+    done)
+    if [[ -z "$next" ]]; then
+      tmux display-message "Cannot archive: no other sessions available"
+      exit 0
+    fi
+    tmux set-option -t "$current" @archived 1
+    tmux switch-client -t "$next"
+    ;;
+  "Restore session")
+    archived=$(tmux list-sessions -F '#S' | while read -r s; do
+      [[ $(tmux show-option -t "$s" -qv @archived) == "1" ]] && echo "$s"
+    done)
+    if [[ -z "$archived" ]]; then
+      tmux display-message "No archived sessions"
+      exit 0
+    fi
+    selected=$(echo "$archived" | fzf-tmux -p -w 40% -h 30% \
+      --header="Restore session:" \
+      --no-multi \
+      --reverse)
+    [[ -z "$selected" ]] && exit 0
+    tmux set-option -t "$selected" @archived 0
+    tmux switch-client -t "$selected"
     ;;
 esac

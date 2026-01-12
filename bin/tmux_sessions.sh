@@ -13,6 +13,10 @@ session_has_waiting() {
 
 output=""
 for session in $sessions; do
+    # Skip archived sessions
+    archived=$(tmux show-option -t "$session" -qv @archived)
+    [[ "$archived" == "1" ]] && continue
+
     has_waiting=$(session_has_waiting "$session" && echo 1 || echo 0)
     should_flash=$([[ "$has_waiting" == "1" && "$flash_phase" == "1" ]] && echo 1 || echo 0)
 
