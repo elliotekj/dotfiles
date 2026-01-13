@@ -23,7 +23,6 @@ return {
         { "<leader>b", group = "buffer" },
         { "<leader>f", group = "file" },
         { "<leader>g", group = "git" },
-        { "<leader>h", group = "harpoon" },
         { "<leader>t", group = "test" },
         { "<leader>w", group = "window" },
         { "<leader>x", group = "elixir" },
@@ -168,19 +167,6 @@ return {
       { "<leader>bk", "<cmd>Bdelete<cr>",  desc = "Delete buffer" },
       { "<leader>bK", "<cmd>Bdelete!<cr>", desc = "Force delete buffer" },
     }
-  },
-  {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    keys = {
-      { "<leader>hh", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Harpoon menu" },
-      { "<leader>ha", function() require("harpoon"):list():add() end, desc = "Harpoon add" },
-      { "<leader>hd", function() require("harpoon"):list():remove() end, desc = "Harpoon remove" },
-    },
-    config = function()
-      require("harpoon"):setup()
-    end
   },
   {
     "hedyhli/outline.nvim",

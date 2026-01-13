@@ -28,16 +28,17 @@ vim.keymap.set('n', '<C-l>', ':nohl<CR><C-l>')
 vim.keymap.set('n', 'Y', 'y$')
 
 -- windows
-vim.keymap.set('n', '<leader>ws', ':split<cr>')
-vim.keymap.set('n', '<leader>wv', ':vsplit<cr>')
-vim.keymap.set('n', '<leader>wl', '<C-w>l')
-vim.keymap.set('n', '<leader>wj', '<C-w>j')
-vim.keymap.set('n', '<leader>wk', '<C-w>k')
-vim.keymap.set('n', '<leader>wh', '<C-w>h')
+vim.keymap.set('n', '<leader>ws', ':split<cr>', { desc = 'Split horizontal' })
+vim.keymap.set('n', '<leader>wv', ':vsplit<cr>', { desc = 'Split vertical' })
+vim.keymap.set('n', '<leader>wl', '<C-w>l', { desc = 'Go right' })
+vim.keymap.set('n', '<leader>wj', '<C-w>j', { desc = 'Go down' })
+vim.keymap.set('n', '<leader>wk', '<C-w>k', { desc = 'Go up' })
+vim.keymap.set('n', '<leader>wh', '<C-w>h', { desc = 'Go left' })
+vim.keymap.set('n', '<leader>wx', '<C-w>c', { desc = 'Close' })
 
 -- buffers
-vim.keymap.set('n', '<leader>bn', ':bnext<cr>')
-vim.keymap.set('n', '<leader>bp', ':bprevious<cr>')
+vim.keymap.set('n', '<leader>bn', ':bnext<cr>', { desc = 'Next' })
+vim.keymap.set('n', '<leader>bp', ':bprevious<cr>', { desc = 'Previous' })
 
 -- files
 vim.keymap.set('n', '<leader>fs', ':w<cr>')
