@@ -13,6 +13,7 @@ alias wtc="wt switch --create"
 alias wts="wt select"
 alias v="nvim"
 alias y="yazi"
+alias spec='$EDITOR SPEC.md'
 
 tsn() {
   if [[ -n "$TMUX" ]]; then
