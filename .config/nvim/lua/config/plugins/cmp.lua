@@ -10,19 +10,14 @@ return {
 
       cmp.setup({
         sources = {
-          -- { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'nvim_lua' },
           { name = 'vsnip' },
           { name = 'path' },
-          { name = 'buffer',               keyword_length = 2 },
+          { name = 'buffer', keyword_length = 2 },
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-e>'] = cmp.mapping.abort(),
-          -- ['<C-y>'] = cmp.mapping.confirm({
-          --   behavior = cmp.ConfirmBehavior.Insert,
-          --   select = true,
-          -- }),
           ['<Tab>'] = function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
@@ -33,6 +28,8 @@ return {
           ['<S-Tab>'] = function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
+            else
+              fallback()
             end
           end,
           ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -42,7 +39,6 @@ return {
         formatting = {
           format = function(entry, vim_item)
             local menu = {
-              -- copilot = '[Copilot]',
               nvim_lsp = '[LSP]',
               nvim_lua = '[API]',
               vsnip = '[Snip]',

@@ -1,17 +1,14 @@
+local function buffer_offset()
+  local offset = vim.fn.line2byte(vim.fn.line('.')) + vim.fn.col('.') - 1
+  return math.max(offset, 0)
+end
+
 return {
   'datsfilipe/vesper.nvim',
   {
     'nvim-lualine/lualine.nvim',
     config = function()
       vim.opt.showmode = false
-
-      local function buffer_offset()
-        local byte_offset = vim.fn.line2byte(vim.fn.line('.')) + vim.fn.col('.') - 1
-        if byte_offset < 0 then
-          byte_offset = 0
-        end
-        return byte_offset
-      end
 
       require('lualine').setup({
         options = {
@@ -41,43 +38,41 @@ return {
     end,
   },
   {
-    "arnamak/stay-centered.nvim",
+    'arnamak/stay-centered.nvim',
     config = function()
-      require("stay-centered").setup()
+      local stay_centered = require('stay-centered')
+      stay_centered.setup()
 
-      -- Disable in Diffview panels
       local disable_ft = {
         DiffviewFiles = true,
         DiffviewFilePanel = true,
         DiffviewFileHistoryPanel = true,
       }
 
-      vim.api.nvim_create_autocmd("FileType", {
+      vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
-          local ft = vim.bo[args.buf].filetype
-          if disable_ft[ft] then
-            require("stay-centered").disable()
+          if disable_ft[vim.bo[args.buf].filetype] then
+            stay_centered.disable()
           end
         end,
       })
 
-      vim.api.nvim_create_autocmd("BufWinLeave", {
+      vim.api.nvim_create_autocmd('BufWinLeave', {
         callback = function(args)
-          local ft = vim.bo[args.buf].filetype
-          if disable_ft[ft] then
-            require("stay-centered").enable()
+          if disable_ft[vim.bo[args.buf].filetype] then
+            stay_centered.enable()
           end
         end,
       })
     end,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    event = "BufReadPost",
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    event = 'BufReadPost',
     opts = {},
     keys = {
-      { "<localleader>ti", "<cmd>IBLToggle<cr>", desc = "Toggle indent lines" },
+      { '<localleader>ti', '<cmd>IBLToggle<cr>', desc = 'Toggle indent lines' },
     },
   },
 }

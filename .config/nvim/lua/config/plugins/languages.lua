@@ -33,23 +33,18 @@ return {
   },
   { 'hashivim/vim-terraform', ft = 'terraform' },
   {
-    "elixir-tools/elixir-tools.nvim",
-    version = "*",
-    event = { "BufReadPre", "BufNewFile" },
+    'elixir-tools/elixir-tools.nvim',
+    version = '*',
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      local elixir = require("elixir")
-      local elixirls = require("elixir.elixirls")
-
-      elixir.setup {
+      require('elixir').setup({
         nextls = { enable = false },
         elixirls = { enable = false },
-        projectionist = {
-          enable = true
-        }
-      }
+        projectionist = { enable = true },
+      })
     end,
     dependencies = {
-      "nvim-lua/plenary.nvim",
+      'nvim-lua/plenary.nvim',
     },
-  }
+  },
 }

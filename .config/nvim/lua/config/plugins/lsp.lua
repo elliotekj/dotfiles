@@ -6,13 +6,6 @@ local servers = {
     end,
   },
 
-  -- clangd = {
-  --   -- Specifically omitting proto here
-  --   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
-  --   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
-  --   capabilities = { offsetEncoding = { 'utf-16' } },
-  -- },
-
   gopls = {
     settings = {
       gopls = {
@@ -58,14 +51,7 @@ local servers = {
             reportUnnecessaryTypeIgnoreComment = 'warning',
           },
         },
-        venvPath = (function()
-          local pyenv_root = os.getenv('PYENV_ROOT')
-          if pyenv_root ~= nil then
-            return pyenv_root .. '/versions'
-          else
-            return nil
-          end
-        end)(),
+        venvPath = os.getenv('PYENV_ROOT') and os.getenv('PYENV_ROOT') .. '/versions' or nil,
       },
     },
   },
@@ -104,20 +90,9 @@ local servers = {
       },
     },
   },
-
-  -- sourcekit = {
-  --   -- We use clangd for C/CPP/Objc
-  --   filetypes = { 'swift' },
-  -- },
-
-  -- terraformls = {},
-
 }
 
--- This is a list of servers that are already installed on the machine and are not managed by Mason
-local pre_installed_servers = {
-  -- sourcekit = true,
-}
+local pre_installed_servers = {}
 
 return {
   {

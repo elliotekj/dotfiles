@@ -1,13 +1,8 @@
-function get_visual_selection()
-  -- Yank the visual selection into register 'v'
+local function get_visual_selection()
   vim.cmd('noau normal! "vy"')
-  -- Get the contents of register 'v'
   local text = vim.fn.getreg('v')
-  -- Reset the register
   vim.fn.setreg('v', {})
-  -- Remove any newlines and return the text
-  text = string.gsub(text, "\n", "")
-  return text
+  return string.gsub(text, '\n', '')
 end
 
 return {

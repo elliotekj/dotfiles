@@ -93,25 +93,14 @@ return {
         end
 
         define_colors()
-        vim.keymap.set("n", "<F6>", function()
-            dap.step_over()
-        end)
-        vim.keymap.set("n", "<F7>", function()
-            dap.step_into()
-        end)
-        vim.keymap.set("n", "<F8>", function()
-            dap.step_out()
-        end)
-        vim.keymap.set("n", "<leader>b", function()
-            dap.toggle_breakpoint()
-        end)
-        vim.keymap.set("n", "<F10>", function()
-            dap.terminate()
-        end)
-
-        vim.keymap.set("n", "<F5>", function()
+        vim.keymap.set('n', '<F5>', function()
             setup_default_configurations()
-            require("dap").continue()
+            dap.continue()
         end)
+        vim.keymap.set('n', '<F6>', dap.step_over)
+        vim.keymap.set('n', '<F7>', dap.step_into)
+        vim.keymap.set('n', '<F8>', dap.step_out)
+        vim.keymap.set('n', '<F10>', dap.terminate)
+        vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
     end,
 }

@@ -1,7 +1,5 @@
--- dark background is better
 vim.opt.background = 'dark'
 vim.cmd.colorscheme('vesper')
--- vim.cmd.colorscheme("gruber-darker")
 
 -- make background transparent
 vim.cmd [[
@@ -72,9 +70,6 @@ vim.opt.signcolumn = 'number'
 -- hide concealed text
 vim.opt.conceallevel = 2
 
--- display a column at 120 char
--- vim.opt.colorcolumn = '120'
-
 -- highlight the current line
 vim.opt.cursorline = true
 
@@ -103,10 +98,10 @@ vim.opt.splitright = true
 vim.g.nojoinspaces = true
 
 -- netrw
-vim.gnetrw_localrmdir = 'rm -r'
-vim.gnetrw_liststyle = 4
-vim.gnetrw_winsize = 85
-vim.gnetrw_browse_split = 0
+vim.g.netrw_localrmdir = 'rm -r'
+vim.g.netrw_liststyle = 4
+vim.g.netrw_winsize = 85
+vim.g.netrw_browse_split = 0
 
 -- don't give |ins-completion-menu| messages.
 vim.opt.shortmess:append({ c = true })
@@ -164,27 +159,22 @@ vim.diagnostic.config({
 })
 
 -- elixir: copy test cmd to clipboard
+vim.keymap.set('n', '<leader>tc', function()
+  local file = vim.fn.expand('%')
+  local line = vim.fn.line('.')
+  local cmd = string.format('mix test %s:%d', file, line)
+  vim.fn.system('pbcopy', cmd)
+  print('Copied to clipboard: ' .. cmd)
+end, { desc = 'Copy mix test command' })
 
-function CopyMixTestCommand()
-  local file = vim.fn.expand("%")
-  local line = vim.fn.line(".")
-  local cmd = string.format("mix test %s:%d", file, line)
-  vim.fn.system("pbcopy", cmd)
-  print("Copied to clipboard: " .. cmd)
-end
-
-vim.api.nvim_set_keymap("n", "<leader>tc", ":lua CopyMixTestCommand()<CR>", { noremap = true, silent = true })
-
--- Copy relative path to clipboard
 vim.keymap.set('n', '<leader>fc', function()
   local path = vim.fn.expand('%')
-  vim.fn.system("pbcopy", path)
+  vim.fn.system('pbcopy', path)
   print('Copied relative path: ' .. path)
-end, { desc = 'Copy relative file path to clipboard' })
+end, { desc = 'Copy relative file path' })
 
--- Copy absolute path to clipboard
 vim.keymap.set('n', '<leader>fC', function()
   local path = vim.fn.expand('%:p')
-  vim.fn.system("pbcopy", path)
+  vim.fn.system('pbcopy', path)
   print('Copied absolute path: ' .. path)
-end, { desc = 'Copy absolute file path to clipboard' })
+end, { desc = 'Copy absolute file path' })
