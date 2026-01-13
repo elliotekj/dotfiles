@@ -1,11 +1,5 @@
 return {
-  'mhinz/vim-startify',
   'datsfilipe/vesper.nvim',
-  {
-    'sainnhe/everforest',
-    lazy = false,
-    priority = 1000
-  },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -22,8 +16,8 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = false,
-          component_separators = { left = '', right = '' },
-          section_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
           theme = 'vesper'
         },
         sections = {
@@ -80,23 +74,10 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    opts = function(_, opts)
-      return require("indent-rainbowline").make_opts(opts)
-    end,
-    dependencies = {
-      "TheGLander/indent-rainbowline.nvim",
-    },
+    event = "BufReadPost",
+    opts = {},
     keys = {
       { "<localleader>ti", "<cmd>IBLToggle<cr>", desc = "Toggle indent lines" },
     },
   },
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    }
-  }
 }

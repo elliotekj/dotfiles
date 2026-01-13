@@ -46,34 +46,12 @@ vim.keymap.set('n', '<leader>wh', '<C-w>h')
 -- buffers
 vim.keymap.set('n', '<leader>bn', ':bnext<cr>')
 vim.keymap.set('n', '<leader>bp', ':bprevious<cr>')
-vim.keymap.set('n', 'gs/', ':HopPattern<cr>')
 
 -- files
 vim.keymap.set('n', '<leader>fs', ':w<cr>')
 
 -- git
 vim.keymap.set('n', '<leader>gg', ':Neogit<cr>')
-
--- terminal
-vim.keymap.set('n', '<d-j>', function()
-  local terms = require('toggleterm.terminal').get_all()
-  if #terms > 0 then
-    if vim.bo.buftype == 'terminal' then
-      terms[#terms]:close()
-    else
-      terms[#terms]:toggle()
-    end
-  else
-    require('toggleterm.terminal').Terminal:new():open(vim.o.lines / 2, "horizontal")
-  end
-end)
-
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
-vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
-vim.keymap.set('t', '<C-h>', [[<C-\><C-n><C-w>h]])
-vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-w>j]])
-vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-w>k]])
-vim.keymap.set('t', '<C-l>', [[<C-\><C-n><C-w>l]])
 
 -- lsp
 vim.api.nvim_create_autocmd('LspAttach', {

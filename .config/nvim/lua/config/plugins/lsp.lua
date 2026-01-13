@@ -1,6 +1,14 @@
 local servers = {
   bashls = {},
 
+  lexical = {
+    cmd = { '/Volumes/External/dev/lexical/_build/dev/package/lexical/bin/start_lexical.sh' },
+    filetypes = { 'elixir', 'eelixir', 'heex' },
+    root_dir = function(fname)
+      return require('lspconfig.util').root_pattern('mix.exs', '.git')(fname)
+    end,
+  },
+
   -- clangd = {
   --   -- Specifically omitting proto here
   --   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
