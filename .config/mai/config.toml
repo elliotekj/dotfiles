@@ -1,0 +1,8 @@
+[general]
+archive_folder = "archive"
+trash_folder = "trash"
+
+[[accounts]]
+name = "gmail"
+maildir = "~/Mail/gmail"
+msmtp_account = "gmail"
