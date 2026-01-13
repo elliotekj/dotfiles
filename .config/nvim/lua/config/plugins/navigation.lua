@@ -131,7 +131,7 @@ return {
   },
   {
     'stevearc/oil.nvim',
-    cmd = "Oil",
+    lazy = false,
     keys = {
       { "<leader>fe", "<cmd>Oil<CR>", desc = "Open file explorer" },
     },
