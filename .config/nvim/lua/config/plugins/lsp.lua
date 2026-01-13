@@ -1,8 +1,5 @@
 local servers = {
-  bashls = {},
-
   lexical = {
-    cmd = { '/Volumes/External/dev/lexical/_build/dev/package/lexical/bin/start_lexical.sh' },
     filetypes = { 'elixir', 'eelixir', 'heex' },
     root_dir = function(fname)
       return require('lspconfig.util').root_pattern('mix.exs', '.git')(fname)
@@ -27,27 +24,7 @@ local servers = {
     },
   },
 
-  lua_ls = {
-    settings = {
-      Lua = {
-        runtime = {
-          version = 'LuaJIT',
-          path = vim.list_extend(vim.split(package.path, ';'), { 'lua/?.lua', 'lua/?/init.lua' }),
-        },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { 'vim' },
-        },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file('', true),
-        },
-        telemetry = {
-          enable = false,
-        },
-      },
-    },
-  },
+  ts_ls = {},
 
   pyright = {
     settings = {
@@ -135,13 +112,6 @@ local servers = {
 
   -- terraformls = {},
 
-  yamlls = {
-    settings = {
-      yaml = {
-        keyOrdering = false,
-      },
-    },
-  },
 }
 
 -- This is a list of servers that are already installed on the machine and are not managed by Mason
@@ -171,17 +141,17 @@ return {
         -- It is important for mason and mason-lspconfig's setup to have run before lspconfig's
         priority = 1000,
         config = function()
+          local skip_auto_install = { pyright = true }
           local server_names = {}
           for name, _ in pairs(servers) do
-            if pre_installed_servers[name] == nil then
+            if pre_installed_servers[name] == nil and not skip_auto_install[name] then
               server_names[#server_names + 1] = name
             end
           end
-          -- TODO: Re-enable once pyright stop getting stuck installing...
-          -- require('mason-lspconfig').setup({
-          --   ensure_installed = server_names,
-          --   automatic_installation = true,
-          -- })
+          require('mason-lspconfig').setup({
+            ensure_installed = server_names,
+            automatic_installation = true,
+          })
         end,
       },
     },
