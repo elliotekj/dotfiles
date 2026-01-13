@@ -1,5 +1,5 @@
-export EDITOR="hx"
-export VISUAL="hx"
+export EDITOR="nvim"
+export VISUAL="nvim"
 export DFT_DISPLAY="side-by-side-show-both"
 export ERL_AFLAGS="-kernel shell_history enabled"
 export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
