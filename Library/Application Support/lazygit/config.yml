@@ -1,10 +1,4 @@
 gui:
   showFileTree: false
 
-os:
-  edit: 'hx {{filename}}'
-  editAtLine: 'hx {{filename}}:{{line}}'
-  editAtLineAndWait: 'hx {{filename}}:{{line}}'
-  editInTerminal: true
-
 promptToReturnFromSubprocess: false

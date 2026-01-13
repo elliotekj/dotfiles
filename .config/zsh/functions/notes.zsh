@@ -12,7 +12,7 @@ _open_daily_note() {
     local daily_notes_folder="00 Daily"
     local daily_note_path="$vault_path/$daily_notes_folder/$target_date.md"
 
-    hx "$daily_note_path"
+    $EDITOR "$daily_note_path"
 }
 
 od() {
@@ -35,5 +35,5 @@ wtn() {
     local vault_path="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Elliot"
     local note_path="$vault_path/$note_name.md"
 
-    hx "$note_path"
+    $EDITOR "$note_path"
 }

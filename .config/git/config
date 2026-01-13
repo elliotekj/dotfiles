@@ -1,5 +1,4 @@
 [core]
-	editor = hx
 	excludesfile = ~/.config/git/gitignore_global
 [init]
 	defaultBranch = master
