@@ -1,5 +1,6 @@
 local servers = {
   lexical = {
+    cmd = { vim.fn.stdpath('data') .. '/mason/bin/lexical' },
     filetypes = { 'elixir', 'eelixir', 'heex' },
     root_dir = function(fname)
       return require('lspconfig.util').root_pattern('mix.exs', '.git')(fname)
