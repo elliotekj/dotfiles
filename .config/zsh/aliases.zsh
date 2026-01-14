@@ -2,6 +2,7 @@ alias c='mise x node@$(mise current -C ~ node) -- claude --dangerously-skip-perm
 alias codex='mise x node@$(mise current -C ~ node) -- codex'
 alias amp='mise x node@$(mise current -C ~ node) -- amp'
 alias droid='mise x node@$(mise current -C ~ node) -- droid'
+alias far="serpl"
 alias g="gitu"
 alias gap="git add -p"
 alias gcp="git cherry-pick"
