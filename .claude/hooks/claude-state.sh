@@ -1,0 +1,1 @@
+/Users/elliotekj/.homie/repos/claude/.homie/repos/dotfiles/.claude/hooks/claude-state.sh
