@@ -1,4 +1,12 @@
-alias c='mise x node@$(mise current -C ~ node) -- claude --dangerously-skip-permissions'
+c() {
+  mise x node@$(mise current -C ~ node) -- claude --dangerously-skip-permissions "$@"
+  local exit_code=$?
+  if [[ -n "$TMUX" ]]; then
+    tmux set-option -w @claude_state ""
+    tmux set-option -w @claude_viewed ""
+  fi
+  return $exit_code
+}
 alias codex='mise x node@$(mise current -C ~ node) -- codex'
 alias amp='mise x node@$(mise current -C ~ node) -- amp'
 alias droid='mise x node@$(mise current -C ~ node) -- droid'

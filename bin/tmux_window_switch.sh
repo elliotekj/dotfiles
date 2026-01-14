@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Window switcher excluding archived sessions
-# Shows Claude state icons: ⚒️ (running), 🔔 (waiting), ❓ (asking)
+# Shows Claude state icons: 👾 (running), 🛑 (waiting), ❓ (asking)
 
 windows=""
 while IFS= read -r session; do
@@ -12,7 +12,7 @@ while IFS= read -r session; do
 
     case "$state" in
       running)
-        windows+="\033[38;5;216m⚒️ ${line}\033[0m"$'\n'
+        windows+="\033[38;5;216m👾 ${line}\033[0m"$'\n'
         ;;
       waiting)
         windows+="\033[38;5;216m🛑 ${line}\033[0m"$'\n'
@@ -33,5 +33,5 @@ selected=$(echo -en "$windows" | fzf-tmux -p -w 60% -h 50% --reverse --ansi)
 [[ -z "$selected" ]] && exit 0
 
 # Strip icon prefix when extracting target
-target=$(echo "$selected" | sed 's/^[⚒️🛑❓ ]*//' | cut -d: -f1-2)
+target=$(echo "$selected" | sed 's/^[👾🛑❓ ]*//' | cut -d: -f1-2)
 tmux switch-client -t "$target"
