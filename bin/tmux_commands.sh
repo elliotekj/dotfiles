@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="New session\nRename session\nKill session\nArchive session\nRestore session"
+commands="New session\nRename session\nKill session\nArchive session\nRestore session\nHtop"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -71,5 +71,8 @@ case "$selected" in
     [[ -z "$selected" ]] && exit 0
     tmux set-option -t "$selected" @archived 0
     tmux switch-client -t "$selected"
+    ;;
+  "Htop")
+    tmux display-popup -w 80% -h 80% -E htop
     ;;
 esac
