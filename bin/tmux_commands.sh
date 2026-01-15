@@ -68,7 +68,7 @@ case "$selected" in
   "Quick Claude")
     dir=$(tmux display-message -p '#{pane_current_path}')
     node_version=$(mise current -C ~ node)
-    tmux display-popup -w 80% -h 80% -d "$dir" -E "mise x node@$node_version -- claude --dangerously-skip-permissions"
+    tmux display-popup -w 80% -h 80% -d "$dir" -E "mise x node@$node_version -- claude --dangerously-skip-permissions --model haiku"
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
