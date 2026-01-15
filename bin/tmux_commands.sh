@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="New session\nRename session\nKill session\nArchive session\nRestore session\nHtop\nGitHub\nMail"
+commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nMail\nNew session\nRename session\nRestore session"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -11,6 +11,51 @@ selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
 [[ -z "$selected" ]] && exit 0
 
 case "$selected" in
+  "Archive session")
+    current=$(tmux display-message -p '#S')
+    # Find next non-archived session to switch to
+    next=$(tmux list-sessions -F '#S' | while read -r s; do
+      [[ "$s" == "$current" ]] && continue
+      [[ $(tmux show-option -t "$s" -qv @archived) != "1" ]] && echo "$s" && break
+    done)
+    if [[ -z "$next" ]]; then
+      tmux display-message "Cannot archive: no other sessions available"
+      exit 0
+    fi
+    tmux set-option -t "$current" @archived 1
+    tmux switch-client -t "$next"
+    ;;
+  "Files")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    tmux display-popup -w 80% -h 80% -d "$dir" -E yazi
+    ;;
+  "Git")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    tmux display-popup -w 80% -h 80% -d "$dir" -E gitu
+    ;;
+  "GitHub")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    tmux display-popup -w 80% -h 80% -d "$dir" -E gh dash
+    ;;
+  "Htop")
+    tmux display-popup -w 80% -h 80% -E htop
+    ;;
+  "Kill session")
+    current=$(tmux display-message -p '#S')
+    next=$(tmux list-sessions -F '#S' | while read -r s; do
+      [[ "$s" == "$current" ]] && continue
+      [[ $(tmux show-option -t "$s" -qv @archived) != "1" ]] && echo "$s" && break
+    done)
+    if [[ -z "$next" ]]; then
+      tmux display-message "Cannot kill: no other sessions available"
+      exit 0
+    fi
+    tmux switch-client -t "$next"
+    tmux kill-session -t "$current"
+    ;;
+  "Mail")
+    tmux display-popup -w 80% -h 80% -E mai
+    ;;
   "New session")
     name=$(echo "" | fzf-tmux -p -w 40% -h 20% \
       --header="Session name:" \
@@ -29,33 +74,6 @@ case "$selected" in
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
     ;;
-  "Kill session")
-    current=$(tmux display-message -p '#S')
-    next=$(tmux list-sessions -F '#S' | while read -r s; do
-      [[ "$s" == "$current" ]] && continue
-      [[ $(tmux show-option -t "$s" -qv @archived) != "1" ]] && echo "$s" && break
-    done)
-    if [[ -z "$next" ]]; then
-      tmux display-message "Cannot kill: no other sessions available"
-      exit 0
-    fi
-    tmux switch-client -t "$next"
-    tmux kill-session -t "$current"
-    ;;
-  "Archive session")
-    current=$(tmux display-message -p '#S')
-    # Find next non-archived session to switch to
-    next=$(tmux list-sessions -F '#S' | while read -r s; do
-      [[ "$s" == "$current" ]] && continue
-      [[ $(tmux show-option -t "$s" -qv @archived) != "1" ]] && echo "$s" && break
-    done)
-    if [[ -z "$next" ]]; then
-      tmux display-message "Cannot archive: no other sessions available"
-      exit 0
-    fi
-    tmux set-option -t "$current" @archived 1
-    tmux switch-client -t "$next"
-    ;;
   "Restore session")
     archived=$(tmux list-sessions -F '#S' | while read -r s; do
       [[ $(tmux show-option -t "$s" -qv @archived) == "1" ]] && echo "$s"
@@ -71,15 +89,5 @@ case "$selected" in
     [[ -z "$selected" ]] && exit 0
     tmux set-option -t "$selected" @archived 0
     tmux switch-client -t "$selected"
-    ;;
-  "Htop")
-    tmux display-popup -w 80% -h 80% -E htop
-    ;;
-  "GitHub")
-    dir=$(tmux display-message -p '#{pane_current_path}')
-    tmux display-popup -w 80% -h 80% -d "$dir" -E gh dash
-    ;;
-  "Mail")
-    tmux display-popup -w 80% -h 80% -E mai
     ;;
 esac
