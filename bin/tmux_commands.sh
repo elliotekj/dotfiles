@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nMail\nNew session\nRename session\nRestore session"
+commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nMail\nNew session\nQuick Claude\nRename session\nRestore session"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -64,6 +64,11 @@ case "$selected" in
     [[ -z "$name" ]] && exit 0
     tmux new-session -d -s "$name"
     tmux switch-client -t "$name"
+    ;;
+  "Quick Claude")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    node_version=$(mise current -C ~ node)
+    tmux display-popup -w 80% -h 80% -d "$dir" -E "mise x node@$node_version -- claude --dangerously-skip-permissions"
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
