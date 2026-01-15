@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="New session\nRename session\nKill session\nArchive session\nRestore session\nHtop\nGitHub"
+commands="New session\nRename session\nKill session\nArchive session\nRestore session\nHtop\nGitHub\nMail"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -76,6 +76,10 @@ case "$selected" in
     tmux display-popup -w 80% -h 80% -E htop
     ;;
   "GitHub")
-    tmux display-popup -w 80% -h 80% -E gh dash
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    tmux display-popup -w 80% -h 80% -d "$dir" -E gh dash
+    ;;
+  "Mail")
+    tmux display-popup -w 80% -h 80% -E mai
     ;;
 esac
