@@ -15,6 +15,7 @@ alias g="gitu"
 alias gap="git add -p"
 alias gcp="git cherry-pick"
 alias gs='git stack --no-revise-sign --branch-prefix="elliot/" --draft'
+alias i="infinite"
 alias j="just"
 alias lg="lazygit"
 alias phx="iex -S mix phx.server"
