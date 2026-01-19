@@ -106,28 +106,9 @@ review() {
     local stats
     stats=$(git diff --shortstat "$merge_base"...HEAD | sed 's/^ *//')
 
-    local file_list
-    file_list=$(git diff --numstat "$merge_base"...HEAD | while read -r added deleted file; do
-        [ "$added" = "-" ] && added="bin"
-        [ "$deleted" = "-" ] && deleted="bin"
-        printf "+%-4s -%-4s %s\n" "$added" "$deleted" "$file"
-    done)
+    echo "$file_count files | $stats"
+    echo "$current_branch -> $base_branch"
+    echo
 
-    export _REVIEW_MERGE_BASE="$merge_base"
-
-    echo "$file_list" | fzf \
-        --ansi \
-        --header "$file_count files | $stats
-$current_branch -> $base_branch
-Enter: diff | Ctrl-O: editor | Ctrl-A: all diffs" \
-        --preview "GIT_EXTERNAL_DIFF='difft --color always --display inline' git diff --ext-diff $_REVIEW_MERGE_BASE...HEAD -- {3}" \
-        --preview-window "up:90%:wrap" \
-        --bind "enter:execute(GIT_EXTERNAL_DIFF='difft --color always' git diff --ext-diff $_REVIEW_MERGE_BASE...HEAD -- {3} | less -R)" \
-        --bind "ctrl-o:execute(${EDITOR:-hx} {3})" \
-        --bind "ctrl-a:execute(GIT_EXTERNAL_DIFF='difft --color always' git diff --ext-diff $_REVIEW_MERGE_BASE...HEAD | less -R)" \
-        --height "100%" \
-        --border \
-        --prompt "review> "
-
-    unset _REVIEW_MERGE_BASE
+    GIT_EXTERNAL_DIFF='difft --color always --display side-by-side' git diff --ext-diff "$merge_base"...HEAD
 }
