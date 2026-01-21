@@ -70,7 +70,9 @@ return {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
     event = 'BufReadPost',
-    opts = {},
+    opts = {
+      enabled = false,
+    },
     keys = {
       { '<localleader>ti', '<cmd>IBLToggle<cr>', desc = 'Toggle indent lines' },
     },

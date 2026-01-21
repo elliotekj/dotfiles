@@ -23,16 +23,6 @@ return {
     }
   },
   {
-    "elliotekj/claude-commit.nvim",
-    ft = "gitcommit",
-    config = function()
-      require("claude-commit").setup({
-        auto_suggest = true, -- default
-        timeout = 10000,     -- default
-      })
-    end,
-  },
-  {
     'sindrets/diffview.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
