@@ -1,4 +1,5 @@
 source ~/.config/zsh/env.zsh
+[ -s ~/.env.local ] && source ~/.env.local
 source ~/.config/zsh/aliases.zsh
 source ~/.config/zsh/prompt.zsh
 
