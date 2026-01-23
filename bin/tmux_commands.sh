@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nMail\nNew session\nQuick Claude\nRename session\nRestore session"
+commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -53,6 +53,12 @@ case "$selected" in
     tmux switch-client -t "$next"
     tmux kill-session -t "$current"
     ;;
+  "Layout: horizontal")
+    tmux select-layout even-horizontal
+    ;;
+  "Layout: vertical")
+    tmux select-layout even-vertical
+    ;;
   "Mail")
     tmux display-popup -w 80% -h 80% -E mai
     ;;
@@ -64,6 +70,13 @@ case "$selected" in
     [[ -z "$name" ]] && exit 0
     tmux new-session -d -s "$name"
     tmux switch-client -t "$name"
+    ;;
+  "Pane: main left")
+    tmux select-layout main-vertical
+    ;;
+  "Pane: main right")
+    tmux select-layout main-vertical
+    tmux rotate-window
     ;;
   "Quick Claude")
     dir=$(tmux display-message -p '#{pane_current_path}')
@@ -94,5 +107,29 @@ case "$selected" in
     [[ -z "$selected" ]] && exit 0
     tmux set-option -t "$selected" @archived 0
     tmux switch-client -t "$selected"
+    ;;
+  "Send keybinding to all panes")
+    selection=$(printf "Ctrl+c\nEnter\nEscape" | fzf-tmux -p -w 40% -h 20% \
+      --header="Keybinding to send:" \
+      --no-multi \
+      --reverse)
+    [[ -z "$selection" ]] && exit 0
+    case "$selection" in
+      "Ctrl+c") key="C-c" ;;
+      *) key="$selection" ;;
+    esac
+    tmux list-panes -F '#{pane_id}' | while read -r pane; do
+      tmux send-keys -t "$pane" "$key"
+    done
+    ;;
+  "Send to all panes")
+    text=$(echo "" | fzf-tmux -p -w 60% -h 20% \
+      --header="Text to send to all panes:" \
+      --print-query \
+      --no-info | head -1)
+    [[ -z "$text" ]] && exit 0
+    tmux list-panes -F '#{pane_id}' | while read -r pane; do
+      tmux send-keys -t "$pane" "$text"
+    done
     ;;
 esac
