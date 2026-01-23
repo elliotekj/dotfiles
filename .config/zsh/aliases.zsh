@@ -1,5 +1,5 @@
 c() {
-  mise x node@$(mise current -C ~ node) -- claude --dangerously-skip-permissions "$@"
+  claude --dangerously-skip-permissions "$@"
   local exit_code=$?
   if [[ -n "$TMUX" ]]; then
     tmux set-option -w @claude_state ""
