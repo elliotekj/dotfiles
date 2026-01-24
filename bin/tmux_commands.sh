@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
+# Base commands
 commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+
+# Add option to kick SSH clients when local and other clients are attached
+if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
+  commands="$commands\nKick SSH clients"
+fi
 
 selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
   --header="Commands" \
@@ -131,5 +137,9 @@ case "$selected" in
     tmux list-panes -F '#{pane_id}' | while read -r pane; do
       tmux send-keys -t "$pane" "$text"
     done
+    ;;
+  "Kick SSH clients")
+    tmux detach-client -a
+    tmux display-message "Detached all other clients"
     ;;
 esac
