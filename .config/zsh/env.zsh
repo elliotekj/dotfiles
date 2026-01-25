@@ -1,5 +1,14 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
+
+# fzf Rose Pine theme
+export FZF_DEFAULT_OPTS="
+  --color=fg:#908caa,bg:#191724,hl:#ebbcba
+  --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+  --color=info:#9ccfd8,prompt:#c4a7e7,pointer:#c4a7e7
+  --color=marker:#a3be8c,spinner:#f6c177,header:#31748f
+  --color=border:#6e6a86
+"
 export DFT_DISPLAY="side-by-side-show-both"
 export ERL_AFLAGS="-kernel shell_history enabled"
 export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"

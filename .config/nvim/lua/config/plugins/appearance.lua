@@ -4,7 +4,7 @@ local function buffer_offset()
 end
 
 return {
-  'datsfilipe/vesper.nvim',
+  { 'rose-pine/neovim', name = 'rose-pine' },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -15,7 +15,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'vesper'
+          theme = 'rose-pine'
         },
         sections = {
           lualine_a = { 'mode' },

@@ -22,15 +22,15 @@ for session in $sessions; do
 
     if [[ "$session" == "$current_session" ]]; then
         if [[ "$should_flash" == "1" ]]; then
-            output+="#[bg=#ffc799,fg=#101010,bold] $session #[bg=#101010,fg=#ffffff,nobold]"
+            output+="#[bg=#f6c177,fg=#191724,bold] $session #[bg=#191724,fg=#e0def4,nobold]"
         else
-            output+="#[bg=#99ffe4,fg=#101010,bold] $session #[bg=#101010,fg=#ffffff,nobold]"
+            output+="#[bg=#ebbcba,fg=#191724,bold] $session #[bg=#191724,fg=#e0def4,nobold]"
         fi
     else
         if [[ "$should_flash" == "1" ]]; then
-            output+="#[bg=#ffc799,fg=#101010] $session #[bg=#101010,fg=#ffffff]"
+            output+="#[bg=#f6c177,fg=#191724] $session #[bg=#191724,fg=#e0def4]"
         else
-            output+="#[bg=#343434,fg=#ffffff] $session #[bg=#101010]"
+            output+="#[bg=#191724,fg=#908caa] $session #[bg=#191724]"
         fi
     fi
 done

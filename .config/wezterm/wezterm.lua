@@ -1,6 +1,6 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
-local colors = require('colors.vesper')
+local colors = require('colors.rose_pine')
 
 config.colors = colors
 config.font = wezterm.font 'MonoLisa'
