@@ -34,6 +34,8 @@ branch() {
     fi
 }
 
+alias r=tuicr
+
 fix() {
     if [ -z "$1" ]; then
         echo "Usage: fix <branch-name>"
