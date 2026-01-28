@@ -2,7 +2,7 @@
 # Commands palette for tmux session management
 
 # Base commands
-commands="Archive session\nCheckout Worktree\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -107,6 +107,23 @@ case "$selected" in
     dir=$(tmux display-message -p '#{pane_current_path}')
     node_version=$(mise current -C ~ node)
     tmux display-popup -w 80% -h 80% -d "$dir" -E "mise x node@$node_version -- claude --dangerously-skip-permissions --model haiku"
+    ;;
+  "Remove Worktree")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    worktrees=$(git -C "$dir" worktree list --porcelain 2>/dev/null | \
+      grep "^branch refs/heads/" | sed 's|^branch refs/heads/||')
+    if [[ -z "$worktrees" ]]; then
+      tmux display-message "No worktrees found"
+      exit 0
+    fi
+    selected=$(echo "$worktrees" | fzf-tmux -p -w 40% -h 30% \
+      --header="Select worktrees to remove:" \
+      --multi \
+      --reverse)
+    [[ -z "$selected" ]] && exit 0
+    # Join selected branches with spaces
+    branches=$(echo "$selected" | tr '\n' ' ' | sed 's/ $//')
+    tmux send-keys "wt remove $branches" Enter
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
