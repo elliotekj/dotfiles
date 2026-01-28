@@ -27,6 +27,12 @@ vim.keymap.set('n', '<C-l>', ':nohl<CR><C-l>')
 -- make Y behave like D and C
 vim.keymap.set('n', 'Y', 'y$')
 
+-- clipboard
+vim.keymap.set({'n', 'v'}, '<leader>y', '"+y', { desc = 'Yank to clipboard' })
+vim.keymap.set('n', '<leader>p', '"+p', { desc = 'Paste from clipboard' })
+vim.keymap.set('n', '<leader>P', '"+P', { desc = 'Paste from clipboard before cursor' })
+vim.keymap.set('v', '<leader>R', '"+p', { desc = 'Replace with clipboard' })
+
 -- windows
 vim.keymap.set('n', '<leader>ws', ':split<cr>', { desc = 'Split horizontal' })
 vim.keymap.set('n', '<leader>wv', ':vsplit<cr>', { desc = 'Split vertical' })
