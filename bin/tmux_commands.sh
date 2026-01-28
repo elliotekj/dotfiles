@@ -2,7 +2,7 @@
 # Commands palette for tmux session management
 
 # Base commands
-commands="Archive session\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -30,6 +30,24 @@ case "$selected" in
     fi
     tmux set-option -t "$current" @archived 1
     tmux switch-client -t "$next"
+    ;;
+  "Checkout Worktree")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+    result=$(git -C "$dir" branch --format='%(refname:short)' 2>/dev/null | \
+      fzf-tmux -p -w 40% -h 30% \
+        --header="Select branch or type new name:" \
+        --print-query \
+        --no-info \
+        --reverse)
+    query=$(echo "$result" | sed -n '1p')
+    selection=$(echo "$result" | sed -n '2p')
+    name="${selection:-$query}"
+    [[ -z "$name" ]] && exit 0
+    if git -C "$dir" worktree list --porcelain | grep -q "^branch refs/heads/$name$"; then
+      tmux send-keys "wt switch '$name'" Enter
+    else
+      tmux send-keys "wt switch --create '$name'" Enter
+    fi
     ;;
   "Files")
     dir=$(tmux display-message -p '#{pane_current_path}')
@@ -72,7 +90,8 @@ case "$selected" in
     name=$(echo "" | fzf-tmux -p -w 40% -h 20% \
       --header="Session name:" \
       --print-query \
-      --no-info | head -1)
+      --no-info \
+      --reverse | head -1)
     [[ -z "$name" ]] && exit 0
     tmux new-session -d -s "$name"
     tmux switch-client -t "$name"
@@ -94,7 +113,8 @@ case "$selected" in
     name=$(echo "" | fzf-tmux -p -w 40% -h 20% \
       --header="Rename '$current' to:" \
       --print-query \
-      --no-info | head -1)
+      --no-info \
+      --reverse | head -1)
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
     ;;
@@ -132,7 +152,8 @@ case "$selected" in
     text=$(echo "" | fzf-tmux -p -w 60% -h 20% \
       --header="Text to send to all panes:" \
       --print-query \
-      --no-info | head -1)
+      --no-info \
+      --reverse | head -1)
     [[ -z "$text" ]] && exit 0
     tmux list-panes -F '#{pane_id}' | while read -r pane; do
       tmux send-keys -t "$pane" "$text"
