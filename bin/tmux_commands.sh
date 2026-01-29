@@ -116,10 +116,16 @@ case "$selected" in
       tmux display-message "No worktrees found"
       exit 0
     fi
+    current_branch=$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null)
+    fzf_query=""
+    if [[ -n "$current_branch" && "$current_branch" != "master" && "$current_branch" != "main" && "$current_branch" != "develop" ]]; then
+      fzf_query="--query=$current_branch"
+    fi
     selected=$(echo "$worktrees" | fzf-tmux -p -w 40% -h 30% \
       --header="Select worktrees to remove:" \
       --multi \
-      --reverse)
+      --reverse \
+      $fzf_query)
     [[ -z "$selected" ]] && exit 0
     # Join selected branches with spaces
     branches=$(echo "$selected" | tr '\n' ' ' | sed 's/ $//')
