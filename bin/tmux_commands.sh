@@ -139,17 +139,12 @@ case "$selected" in
       tmux display-message "No worktrees found"
       exit 0
     fi
-    current_branch=$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null)
-    fzf_query=""
-    if [[ -n "$current_branch" && "$current_branch" != "master" && "$current_branch" != "main" && "$current_branch" != "develop" ]]; then
-      fzf_query="--query=$current_branch"
-    fi
     selected=$(echo "$worktrees" | fzf-tmux -p -w 40% -h 30% \
       --header="Select worktree to merge:" \
       --reverse \
-      $fzf_query)
+      --query=master)
     [[ -z "$selected" ]] && exit 0
-    tmux send-keys "wt merge $selected" Enter
+    tmux send-keys "wt merge --no-squash $selected" Enter
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
