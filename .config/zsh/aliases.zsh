@@ -1,5 +1,5 @@
 c() {
-  claude --dangerously-skip-permissions "$@"
+  ~/.local/bin/claude --dangerously-skip-permissions "$@"
   local exit_code=$?
   if [[ -n "$TMUX" ]]; then
     tmux set-option -w @claude_state ""
