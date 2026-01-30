@@ -43,12 +43,31 @@ case "$selected" in
     selection=$(echo "$result" | sed -n '2p')
     name="${selection:-$query}"
     [[ -z "$name" ]] && exit 0
-    tmux rename-window "$name"
+
+    # Create new window with branch name, starting in same directory
+    tmux new-window -n "$name" -c "$dir"
+
+    # Switch/create worktree in this pane (will become top-left)
     if git -C "$dir" worktree list --porcelain | grep -q "^branch refs/heads/$name$"; then
       tmux send-keys "wt switch '$name'" Enter
     else
       tmux send-keys "wt switch --create '$name'" Enter
     fi
+
+    # Split vertically (creates right pane)
+    tmux split-window -h -c "$dir"
+
+    # Go back to left pane and split horizontally (creates bottom-left pane)
+    tmux select-pane -L
+    tmux split-window -v -c "$dir"
+
+    # Run `g` in top-left pane
+    tmux select-pane -U
+    tmux send-keys "g" Enter
+
+    # Run `c` in right pane and leave cursor there
+    tmux select-pane -R
+    tmux send-keys "c" Enter
     ;;
   "Extract")
     tmux run-shell "~/.config/tmux/plugins/extrakto/scripts/open.sh '#{pane_id}'"
