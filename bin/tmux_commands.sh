@@ -171,7 +171,7 @@ case "$selected" in
       --reverse \
       --query=master)
     [[ -z "$selected" ]] && exit 0
-    tmux send-keys "wt merge --no-squash $selected" Enter
+    tmux send-keys "wt merge $selected" Enter
     tmux rename-window "$selected"
     ;;
   "Rename session")
