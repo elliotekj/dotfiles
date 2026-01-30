@@ -43,6 +43,7 @@ case "$selected" in
     selection=$(echo "$result" | sed -n '2p')
     name="${selection:-$query}"
     [[ -z "$name" ]] && exit 0
+    tmux rename-window "$name"
     if git -C "$dir" worktree list --porcelain | grep -q "^branch refs/heads/$name$"; then
       tmux send-keys "wt switch '$name'" Enter
     else
