@@ -44,8 +44,12 @@ case "$selected" in
     name="${selection:-$query}"
     [[ -z "$name" ]] && exit 0
 
+    # Window name: strip --base flag and trim
+    window_name="${name%% --base*}"
+    window_name="${window_name%% }"
+
     # Create new window with branch name, starting in same directory
-    tmux new-window -n "$name" -c "$dir"
+    tmux new-window -n "$window_name" -c "$dir"
 
     # Switch/create worktree in this pane (will become top-left)
     if git -C "$dir" worktree list --porcelain | grep -q "^branch refs/heads/$name$"; then
