@@ -2,7 +2,7 @@
 # Commands palette for tmux session management
 
 # Base commands
-commands="Archive session\nCheckout Worktree\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nExtract\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -49,6 +49,9 @@ case "$selected" in
     else
       tmux send-keys "wt switch --create '$name'" Enter
     fi
+    ;;
+  "Extract")
+    tmux run-shell "~/.config/tmux/plugins/extrakto/scripts/open.sh '#{pane_id}'"
     ;;
   "Files")
     dir=$(tmux display-message -p '#{pane_current_path}')
