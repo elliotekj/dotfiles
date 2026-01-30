@@ -146,6 +146,7 @@ case "$selected" in
       --query=master)
     [[ -z "$selected" ]] && exit 0
     tmux send-keys "wt merge --no-squash $selected" Enter
+    tmux rename-window "$selected"
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
