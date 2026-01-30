@@ -4,7 +4,18 @@ local function buffer_offset()
 end
 
 return {
-  { 'rose-pine/neovim', name = 'rose-pine' },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    opts = {
+      styles = {
+        italic = false,
+      },
+      highlight_groups = {
+        Comment = { fg = 'muted', italic = true },
+      },
+    },
+  },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
