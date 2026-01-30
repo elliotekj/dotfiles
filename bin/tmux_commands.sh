@@ -48,6 +48,11 @@ case "$selected" in
     window_name="${name%% --base*}"
     window_name="${window_name%% }"
 
+    # Compute worktree directory path
+    repo_name=$(basename "$dir")
+    sanitized=$(echo "$name" | tr '/' '-')
+    wt_dir="$(cd "$dir/.." && pwd)/${repo_name}.worktrees/${sanitized}"
+
     # Create new window with branch name, starting in same directory
     tmux new-window -n "$window_name" -c "$dir"
 
@@ -59,11 +64,11 @@ case "$selected" in
     fi
 
     # Split vertically (creates right pane)
-    tmux split-window -h -c "$dir"
+    tmux split-window -h -c "$wt_dir"
 
     # Go back to left pane and split horizontally (creates bottom-left pane)
     tmux select-pane -L
-    tmux split-window -v -c "$dir"
+    tmux split-window -v -c "$wt_dir"
 
     # Run `g` in top-left pane
     tmux select-pane -U
