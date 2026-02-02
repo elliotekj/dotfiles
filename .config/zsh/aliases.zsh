@@ -11,6 +11,7 @@ alias gcp="git cherry-pick"
 alias gs='git stack --no-revise-sign --branch-prefix="elliot/" --draft'
 alias i="infinite"
 alias j="just"
+alias m="master"
 alias lg="lazygit"
 alias phx="iex -S mix phx.server"
 alias wtc="wt switch --create"
