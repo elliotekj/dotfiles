@@ -2,7 +2,7 @@
 # Commands palette for tmux session management
 
 # Base commands
-commands="Archive session\nCheckout Worktree\nExtract\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nCopy PID\nExtract\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -72,6 +72,13 @@ case "$selected" in
     # Run `c` in right pane and leave cursor there
     tmux select-pane -R
     tmux send-keys "c" Enter
+    ;;
+  "Copy PID")
+    pane_pid=$(tmux display-message -p '#{pane_pid}')
+    child_pid=$(pgrep -P "$pane_pid" 2>/dev/null | head -1)
+    pid=${child_pid:-$pane_pid}
+    echo -n "$pid" | pbcopy
+    tmux display-message "Copied PID: $pid"
     ;;
   "Extract")
     tmux run-shell "~/.config/tmux/plugins/extrakto/scripts/open.sh '#{pane_id}'"
