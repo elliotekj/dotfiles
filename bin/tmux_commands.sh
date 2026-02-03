@@ -60,7 +60,7 @@ case "$selected" in
     if git -C "$dir" worktree list --porcelain | grep -q "^branch refs/heads/$name$"; then
       tmux send-keys "wt switch '$name'" Enter
     else
-      tmux send-keys "wt switch --create '$name'" Enter
+      tmux send-keys "wt switch --yes --create '$name'" Enter
     fi
 
     # Split vertically (creates right pane)
