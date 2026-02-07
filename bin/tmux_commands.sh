@@ -2,7 +2,7 @@
 # Commands palette for tmux session management
 
 # Base commands
-commands="Archive session\nCheckout Worktree\nCopy PID\nExtract\nFiles\nGit\nGitHub\nHtop\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nCopy PID\nDebug & Fix\nExtract\nFiles\nGit\nGitHub\nHtop\nImplement Feature\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -85,6 +85,26 @@ case "$selected" in
     echo -n "$pid" | pbcopy
     tmux display-message "Copied PID: $pid"
     ;;
+  "Debug & Fix")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+
+    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
+    tmux display-popup -w 60% -h 10% -E "gum input --placeholder 'Describe the issue...' > '$tmpfile'"
+    prompt=$(cat "$tmpfile" 2>/dev/null)
+    rm -f "$tmpfile"
+    [[ -z "$prompt" ]] && exit 0
+
+    title=$(env MAX_THINKING_TOKENS=0 claude -p \
+      --model=haiku --tools='' --disable-slash-commands \
+      --setting-sources='' --system-prompt='' \
+      "create a short title for this prompt. the output should be plaintext and maximum 4 words: $prompt" 2>/dev/null)
+    title=$(echo "$title" | tr -d '\n' | head -c 30)
+    [[ -z "$title" ]] && title="Debug & Fix"
+
+    safe_prompt="${prompt//\'/\'\\\'\'}"
+    tmux new-window -n "$title" -c "$dir"
+    tmux send-keys "c '/debug-and-fix-team $safe_prompt'" Enter
+    ;;
   "Extract")
     tmux run-shell "~/.config/tmux/plugins/extrakto/scripts/open.sh '#{pane_id}'"
     ;;
@@ -102,6 +122,26 @@ case "$selected" in
     ;;
   "Htop")
     tmux display-popup -w 80% -h 80% -E htop
+    ;;
+  "Implement Feature")
+    dir=$(tmux display-message -p '#{pane_current_path}')
+
+    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
+    tmux display-popup -w 60% -h 10% -E "gum input --placeholder 'Describe the feature...' > '$tmpfile'"
+    prompt=$(cat "$tmpfile" 2>/dev/null)
+    rm -f "$tmpfile"
+    [[ -z "$prompt" ]] && exit 0
+
+    title=$(env MAX_THINKING_TOKENS=0 claude -p \
+      --model=haiku --tools='' --disable-slash-commands \
+      --setting-sources='' --system-prompt='' \
+      "create a short title for this prompt. the output should be plaintext and maximum 4 words: $prompt" 2>/dev/null)
+    title=$(echo "$title" | tr -d '\n' | head -c 30)
+    [[ -z "$title" ]] && title="Feature"
+
+    safe_prompt="${prompt//\'/\'\\\'\'}"
+    tmux new-window -n "$title" -c "$dir"
+    tmux send-keys "c '/feature-impl-team $safe_prompt'" Enter
     ;;
   "Kill session")
     current=$(tmux display-message -p '#S')
