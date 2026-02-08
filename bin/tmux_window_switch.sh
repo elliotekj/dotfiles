@@ -29,7 +29,7 @@ done < <(tmux list-sessions -F '#S')
 
 [[ -z "$windows" ]] && exit 0
 
-selected=$(echo -en "$windows" | fzf-tmux -p -w 60% -h 50% --reverse --ansi)
+selected=$(echo -en "$windows" | fzf-tmux -p -w 40% -h 50% --reverse --ansi)
 [[ -z "$selected" ]] && exit 0
 
 # Strip icon prefix when extracting target
