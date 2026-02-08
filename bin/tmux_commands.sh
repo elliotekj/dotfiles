@@ -89,7 +89,7 @@ case "$selected" in
     dir=$(tmux display-message -p '#{pane_current_path}')
 
     tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 60% -h 10% -E "gum input --placeholder 'Describe the issue...' > '$tmpfile'"
+    tmux display-popup -w 60% -h 10% -E "gum input --char-limit 0 --placeholder 'Describe the issue...' > '$tmpfile'"
     prompt=$(cat "$tmpfile" 2>/dev/null)
     rm -f "$tmpfile"
     [[ -z "$prompt" ]] && exit 0
@@ -127,7 +127,7 @@ case "$selected" in
     dir=$(tmux display-message -p '#{pane_current_path}')
 
     tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 60% -h 10% -E "gum input --placeholder 'Describe the feature...' > '$tmpfile'"
+    tmux display-popup -w 60% -h 10% -E "gum input --char-limit 0 --placeholder 'Describe the feature...' > '$tmpfile'"
     prompt=$(cat "$tmpfile" 2>/dev/null)
     rm -f "$tmpfile"
     [[ -z "$prompt" ]] && exit 0
