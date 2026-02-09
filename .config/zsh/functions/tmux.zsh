@@ -19,7 +19,7 @@ tsa() {
     fi
 
     local selected
-    selected=$(echo "$sessions" | fzf --prompt "Select tmux session: " --height 40%)
+    selected=$(echo "$sessions" | gum filter --no-show-help --placeholder 'Select tmux session...' --height 15 --strict)
 
     if [ -n "$selected" ]; then
         tmux attach -t "$selected"

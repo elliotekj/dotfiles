@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
+# Run a gum command in a tmux popup (no stdin piping).
+# Usage: popup_gum <width> <height> <command>
+# Result in $REPLY, empty on cancel.
+popup_gum() {
+  local tmpfile
+  tmpfile=$(mktemp /tmp/tmux-popup-XXXXXX)
+  tmux display-popup -w "$1" -h "$2" -E "$3 > '$tmpfile'"
+  REPLY=$(cat "$tmpfile" 2>/dev/null)
+  rm -f "$tmpfile"
+}
+
+# Run a gum command in a tmux popup, piping data from stdin.
+# Usage: echo "$items" | popup_gum_pipe <width> <height> <command>
+# Result in $REPLY, empty on cancel.
+popup_gum_pipe() {
+  local infile outfile
+  infile=$(mktemp /tmp/tmux-in-XXXXXX)
+  outfile=$(mktemp /tmp/tmux-out-XXXXXX)
+  cat > "$infile"
+  tmux display-popup -w "$1" -h "$2" -E "cat '$infile' | $3 > '$outfile'"
+  REPLY=$(cat "$outfile" 2>/dev/null)
+  rm -f "$infile" "$outfile"
+}
+
 # Base commands
 commands="Archive session\nCheckout Worktree\nCopy PID\nDebug & Fix\nExtract\nFiles\nGit\nGitHub\nHtop\nImplement Feature\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
 
@@ -9,10 +33,8 @@ if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -g
   commands="$commands\nKick SSH clients"
 fi
 
-selected=$(echo -e "$commands" | fzf-tmux -p -w 40% -h 30% \
-  --header="Commands" \
-  --no-multi \
-  --reverse)
+echo -e "$commands" | popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --placeholder 'Commands...' --height 20"
+selected="$REPLY"
 
 [[ -z "$selected" ]] && exit 0
 
@@ -33,15 +55,9 @@ case "$selected" in
     ;;
   "Checkout Worktree")
     dir=$(tmux display-message -p '#{pane_current_path}')
-    result=$(git -C "$dir" branch --format='%(refname:short)' 2>/dev/null | \
-      fzf-tmux -p -w 40% -h 30% \
-        --header="Select branch or type new name:" \
-        --print-query \
-        --no-info \
-        --reverse)
-    query=$(echo "$result" | sed -n '1p')
-    selection=$(echo "$result" | sed -n '2p')
-    name="${selection:-$query}"
+    git -C "$dir" branch --format='%(refname:short)' 2>/dev/null | \
+      popup_gum_pipe '40%' '30%' "gum filter --no-show-help --placeholder 'Branch name or new...' --height 20"
+    name="$REPLY"
     [[ -z "$name" ]] && exit 0
 
     # Window name: strip --base flag and trim
@@ -88,10 +104,8 @@ case "$selected" in
   "Debug & Fix")
     dir=$(tmux display-message -p '#{pane_current_path}')
 
-    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Describe the issue...' > '$tmpfile'"
-    prompt=$(cat "$tmpfile" 2>/dev/null)
-    rm -f "$tmpfile"
+    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Describe the issue...'"
+    prompt="$REPLY"
     [[ -z "$prompt" ]] && exit 0
 
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
@@ -126,10 +140,8 @@ case "$selected" in
   "Implement Feature")
     dir=$(tmux display-message -p '#{pane_current_path}')
 
-    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Describe the feature...' > '$tmpfile'"
-    prompt=$(cat "$tmpfile" 2>/dev/null)
-    rm -f "$tmpfile"
+    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Describe the feature...'"
+    prompt="$REPLY"
     [[ -z "$prompt" ]] && exit 0
 
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
@@ -166,10 +178,8 @@ case "$selected" in
     tmux display-popup -w 80% -h 80% -E mai
     ;;
   "New session")
-    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Session name...' > '$tmpfile'"
-    name=$(cat "$tmpfile" 2>/dev/null)
-    rm -f "$tmpfile"
+    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Session name...'"
+    name="$REPLY"
     [[ -z "$name" ]] && exit 0
     tmux new-session -d -s "$name"
     tmux switch-client -t "$name"
@@ -195,15 +205,12 @@ case "$selected" in
       exit 0
     fi
     current_branch=$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null)
-    fzf_query=""
+    gum_value=""
     if [[ -n "$current_branch" && "$current_branch" != "master" && "$current_branch" != "main" && "$current_branch" != "develop" ]]; then
-      fzf_query="--query=$current_branch"
+      gum_value="--value '$current_branch'"
     fi
-    selected=$(echo "$worktrees" | fzf-tmux -p -w 40% -h 30% \
-      --header="Select worktrees to remove:" \
-      --multi \
-      --reverse \
-      $fzf_query)
+    echo "$worktrees" | popup_gum_pipe '40%' '30%' "gum filter --no-limit --no-show-help --placeholder 'Select worktrees to remove...' --height 20 $gum_value"
+    selected="$REPLY"
     [[ -z "$selected" ]] && exit 0
     # Join selected branches with spaces
     branches=$(echo "$selected" | tr '\n' ' ' | sed 's/ $//')
@@ -217,20 +224,16 @@ case "$selected" in
       tmux display-message "No worktrees found"
       exit 0
     fi
-    selected=$(echo "$worktrees" | fzf-tmux -p -w 40% -h 30% \
-      --header="Select worktree to merge:" \
-      --reverse \
-      --query=master)
+    echo "$worktrees" | popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --value 'master' --placeholder 'Select worktree to merge...' --height 20"
+    selected="$REPLY"
     [[ -z "$selected" ]] && exit 0
     tmux send-keys "wt merge $selected" Enter
     tmux rename-window "$selected"
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
-    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Rename $current to...' > '$tmpfile'"
-    name=$(cat "$tmpfile" 2>/dev/null)
-    rm -f "$tmpfile"
+    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Rename $current to...'"
+    name="$REPLY"
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
     ;;
@@ -242,19 +245,15 @@ case "$selected" in
       tmux display-message "No archived sessions"
       exit 0
     fi
-    selected=$(echo "$archived" | fzf-tmux -p -w 40% -h 30% \
-      --header="Restore session:" \
-      --no-multi \
-      --reverse)
+    echo "$archived" | popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --placeholder 'Restore session...' --height 20"
+    selected="$REPLY"
     [[ -z "$selected" ]] && exit 0
     tmux set-option -t "$selected" @archived 0
     tmux switch-client -t "$selected"
     ;;
   "Send keybinding to all panes")
-    selection=$(printf "Ctrl+c\nEnter\nEscape" | fzf-tmux -p -w 40% -h 20% \
-      --header="Keybinding to send:" \
-      --no-multi \
-      --reverse)
+    popup_gum '40%' '20%' "gum choose 'Ctrl+c' 'Enter' 'Escape' --header 'Keybinding to send:'"
+    selection="$REPLY"
     [[ -z "$selection" ]] && exit 0
     case "$selection" in
       "Ctrl+c") key="C-c" ;;
@@ -265,10 +264,8 @@ case "$selected" in
     done
     ;;
   "Send to all panes")
-    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Text to send to all panes...' > '$tmpfile'"
-    text=$(cat "$tmpfile" 2>/dev/null)
-    rm -f "$tmpfile"
+    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Text to send to all panes...'"
+    text="$REPLY"
     [[ -z "$text" ]] && exit 0
     tmux list-panes -F '#{pane_id}' | while read -r pane; do
       tmux send-keys -t "$pane" "$text"
