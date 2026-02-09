@@ -57,7 +57,8 @@ state_icon() {
 
 # Collect window data per session
 declare -A active_windows
-declare -A session_windows  # session -> newline-separated "sort_key\tindex\twname\tstate\tbranch\ttime_str"
+declare -A session_windows
+max_session=0
 max_wname=0
 max_branch=0
 
@@ -95,6 +96,7 @@ for s in "${active_sessions[@]}"; do
       session_windows[$s]="$entry"
     fi
 
+    (( ${#s} > max_session )) && max_session=${#s}
     (( ${#wname} > max_wname )) && max_wname=${#wname}
     (( ${#branch} > max_branch )) && max_branch=${#branch}
   done < <(tmux list-windows -t "$s" -F '#{window_index}'$'\t''#W' 2>/dev/null)
@@ -122,7 +124,7 @@ declare -a display_lines targets
 for s in "${active_sessions[@]}"; do
   [[ -z "${session_windows[$s]}" ]] && continue
 
-  # Session header (not selectable — no target)
+  # Session header
   display_lines+=("${MUTED}${s}${RESET}")
   targets+=("")
 
@@ -150,7 +152,7 @@ done
 
 [[ ${#display_lines[@]} -eq 0 ]] && exit 0
 
-selected=$(printf '%b\n' "${display_lines[@]}" | gum filter --no-strip-ansi --placeholder 'Switch window...' --height 40 --no-strict)
+selected=$(printf '%b\n' "${display_lines[@]}" | gum filter --no-strip-ansi --placeholder 'Switch window...' --height 40 --strict)
 [[ -z "$selected" ]] && exit 0
 
 # Strip ANSI codes and match to target
