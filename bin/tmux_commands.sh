@@ -26,7 +26,7 @@ popup_gum_pipe() {
 }
 
 # Base commands
-commands="Archive session\nCheckout Worktree\nCopy PID\nDebug & Fix\nExtract\nFiles\nGit\nGitHub\nHtop\nImplement Feature\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nCopy PID\nDebug & Fix\nExtract\nFiles\nGit\nGitHub\nHtop\nImplement Feature\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nReview PR\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -236,6 +236,27 @@ case "$selected" in
     name="$REPLY"
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
+    ;;
+  "Review PR")
+    url=$(echo "" | fzf-tmux -p -w 60% -h 20% \
+      --header="PR URL:" \
+      --print-query \
+      --no-info \
+      --reverse | head -1)
+    [[ -z "$url" ]] && exit 0
+    title=$(gh pr view "$url" --json title -q .title 2>/dev/null)
+    if [[ -z "$title" ]]; then
+      tmux display-message "Failed to fetch PR title"
+      exit 0
+    fi
+    # Create code_review session if it doesn't exist
+    if ! tmux has-session -t "code_review" 2>/dev/null; then
+      tmux new-session -d -s "code_review" -n "$title"
+    else
+      tmux new-window -t "code_review" -n "$title"
+    fi
+    tmux send-keys -t "code_review" "c \"/review-teller-pr $url\"" Enter
+    tmux switch-client -t "code_review"
     ;;
   "Restore session")
     archived=$(tmux list-sessions -F '#S' | while read -r s; do
