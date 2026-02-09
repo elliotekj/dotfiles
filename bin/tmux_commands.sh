@@ -13,7 +13,7 @@ popup_gum() {
 }
 
 # Run a gum command in a tmux popup, piping data from stdin.
-# Usage: echo "$items" | popup_gum_pipe <width> <height> <command>
+# Usage: popup_gum_pipe <width> <height> <command> < <(echo "$items")
 # Result in $REPLY, empty on cancel.
 popup_gum_pipe() {
   local infile outfile
@@ -33,7 +33,7 @@ if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -g
   commands="$commands\nKick SSH clients"
 fi
 
-echo -e "$commands" | popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --placeholder 'Commands...' --height 20"
+popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --placeholder 'Commands...' --height 20" < <(echo -e "$commands")
 selected="$REPLY"
 
 [[ -z "$selected" ]] && exit 0
@@ -55,8 +55,8 @@ case "$selected" in
     ;;
   "Checkout Worktree")
     dir=$(tmux display-message -p '#{pane_current_path}')
-    git -C "$dir" branch --format='%(refname:short)' 2>/dev/null | \
-      popup_gum_pipe '40%' '30%' "gum filter --no-show-help --placeholder 'Branch name or new...' --height 20"
+    popup_gum_pipe '40%' '30%' "gum filter --no-show-help --placeholder 'Branch name or new...' --height 20" \
+      < <(git -C "$dir" branch --format='%(refname:short)' 2>/dev/null)
     name="$REPLY"
     [[ -z "$name" ]] && exit 0
 
@@ -209,7 +209,7 @@ case "$selected" in
     if [[ -n "$current_branch" && "$current_branch" != "master" && "$current_branch" != "main" && "$current_branch" != "develop" ]]; then
       gum_value="--value '$current_branch'"
     fi
-    echo "$worktrees" | popup_gum_pipe '40%' '30%' "gum filter --no-limit --no-show-help --placeholder 'Select worktrees to remove...' --height 20 $gum_value"
+    popup_gum_pipe '40%' '30%' "gum filter --no-limit --no-show-help --placeholder 'Select worktrees to remove...' --height 20 $gum_value" < <(echo "$worktrees")
     selected="$REPLY"
     [[ -z "$selected" ]] && exit 0
     # Join selected branches with spaces
@@ -224,7 +224,7 @@ case "$selected" in
       tmux display-message "No worktrees found"
       exit 0
     fi
-    echo "$worktrees" | popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --value 'master' --placeholder 'Select worktree to merge...' --height 20"
+    popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --value 'master' --placeholder 'Select worktree to merge...' --height 20" < <(echo "$worktrees")
     selected="$REPLY"
     [[ -z "$selected" ]] && exit 0
     tmux send-keys "wt merge $selected" Enter
@@ -238,11 +238,8 @@ case "$selected" in
     tmux rename-session "$name"
     ;;
   "Review PR")
-    url=$(echo "" | fzf-tmux -p -w 60% -h 20% \
-      --header="PR URL:" \
-      --print-query \
-      --no-info \
-      --reverse | head -1)
+    popup_gum '60%' '20%' "gum input --char-limit 0 --placeholder 'PR URL...'"
+    url="$REPLY"
     [[ -z "$url" ]] && exit 0
     title=$(gh pr view "$url" --json title -q .title 2>/dev/null)
     if [[ -z "$title" ]]; then
@@ -266,7 +263,7 @@ case "$selected" in
       tmux display-message "No archived sessions"
       exit 0
     fi
-    echo "$archived" | popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --placeholder 'Restore session...' --height 20"
+    popup_gum_pipe '40%' '30%' "gum filter --strict --no-show-help --placeholder 'Restore session...' --height 20" < <(echo "$archived")
     selected="$REPLY"
     [[ -z "$selected" ]] && exit 0
     tmux set-option -t "$selected" @archived 0
