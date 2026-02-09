@@ -89,7 +89,7 @@ case "$selected" in
     dir=$(tmux display-message -p '#{pane_current_path}')
 
     tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 10% -E "gum input --char-limit 0 --placeholder 'Describe the issue...' > '$tmpfile'"
+    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Describe the issue...' > '$tmpfile'"
     prompt=$(cat "$tmpfile" 2>/dev/null)
     rm -f "$tmpfile"
     [[ -z "$prompt" ]] && exit 0
@@ -127,7 +127,7 @@ case "$selected" in
     dir=$(tmux display-message -p '#{pane_current_path}')
 
     tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
-    tmux display-popup -w 40% -h 10% -E "gum input --char-limit 0 --placeholder 'Describe the feature...' > '$tmpfile'"
+    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Describe the feature...' > '$tmpfile'"
     prompt=$(cat "$tmpfile" 2>/dev/null)
     rm -f "$tmpfile"
     [[ -z "$prompt" ]] && exit 0
@@ -166,11 +166,10 @@ case "$selected" in
     tmux display-popup -w 80% -h 80% -E mai
     ;;
   "New session")
-    name=$(echo "" | fzf-tmux -p -w 40% -h 20% \
-      --header="Session name:" \
-      --print-query \
-      --no-info \
-      --reverse | head -1)
+    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
+    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Session name...' > '$tmpfile'"
+    name=$(cat "$tmpfile" 2>/dev/null)
+    rm -f "$tmpfile"
     [[ -z "$name" ]] && exit 0
     tmux new-session -d -s "$name"
     tmux switch-client -t "$name"
@@ -228,11 +227,10 @@ case "$selected" in
     ;;
   "Rename session")
     current=$(tmux display-message -p '#S')
-    name=$(echo "" | fzf-tmux -p -w 40% -h 20% \
-      --header="Rename '$current' to:" \
-      --print-query \
-      --no-info \
-      --reverse | head -1)
+    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
+    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Rename $current to...' > '$tmpfile'"
+    name=$(cat "$tmpfile" 2>/dev/null)
+    rm -f "$tmpfile"
     [[ -z "$name" ]] && exit 0
     tmux rename-session "$name"
     ;;
@@ -267,11 +265,10 @@ case "$selected" in
     done
     ;;
   "Send to all panes")
-    text=$(echo "" | fzf-tmux -p -w 60% -h 20% \
-      --header="Text to send to all panes:" \
-      --print-query \
-      --no-info \
-      --reverse | head -1)
+    tmpfile=$(mktemp /tmp/tmux-prompt-XXXXXX)
+    tmux display-popup -w 40% -h 20% -E "gum input --char-limit 0 --placeholder 'Text to send to all panes...' > '$tmpfile'"
+    text=$(cat "$tmpfile" 2>/dev/null)
+    rm -f "$tmpfile"
     [[ -z "$text" ]] && exit 0
     tmux list-panes -F '#{pane_id}' | while read -r pane; do
       tmux send-keys -t "$pane" "$text"

@@ -1,38 +1,53 @@
-#!/bin/bash
-# List all tmux sessions with active session highlighted
-# Sessions with AI-waiting windows flash orange
+#!/usr/bin/env bash
 
+CACHE_DIR="$HOME/.cache/tmux-claude-status"
 current_session=$(tmux display-message -p '#S')
-sessions=$(tmux list-sessions -F '#S' 2>/dev/null)
-flash_phase=$(tmux show-option -gqv @flash_phase)
 
-session_has_waiting() {
-    local session="$1"
-    tmux list-windows -t "$session" -F '#{@claude_waiting}' 2>/dev/null | grep -q '^1$'
+session_worst_state() {
+  local session="$1"
+  local dir="$CACHE_DIR/$session"
+  [[ -d "$dir" ]] || return
+
+  local worst=""
+  for f in "$dir"/*; do
+    [[ -f "$f" ]] || continue
+    local state=""
+    while IFS='=' read -r key val; do
+      [[ "$key" == "state" ]] && state="$val"
+    done < "$f"
+
+    case "$state" in
+      waiting) echo "waiting"; return ;;
+      working) worst="working" ;;
+      done)    [[ -z "$worst" ]] && worst="done" ;;
+    esac
+  done
+
+  [[ -n "$worst" ]] && echo "$worst"
+}
+
+state_icon_tmux() {
+  case "$1" in
+    working) echo "#[fg=#f6c177]◑#[fg=default]" ;;
+    waiting) echo "#[fg=#ebbcba]○#[fg=default]" ;;
+    done)    echo "#[fg=#9ccfd8]●#[fg=default]" ;;
+  esac
 }
 
 output=""
-for session in $sessions; do
-    # Skip archived sessions
-    archived=$(tmux show-option -t "$session" -qv @archived)
-    [[ "$archived" == "1" ]] && continue
+while IFS= read -r session; do
+  archived=$(tmux show-option -t "$session" -qv @archived)
+  [[ "$archived" == "1" ]] && continue
 
-    has_waiting=$(session_has_waiting "$session" && echo 1 || echo 0)
-    should_flash=$([[ "$has_waiting" == "1" && "$flash_phase" == "1" ]] && echo 1 || echo 0)
+  worst=$(session_worst_state "$session")
+  icon=""
+  [[ -n "$worst" ]] && icon="$(state_icon_tmux "$worst") "
 
-    if [[ "$session" == "$current_session" ]]; then
-        if [[ "$should_flash" == "1" ]]; then
-            output+="#[bg=#f6c177,fg=#191724,bold] $session #[bg=#191724,fg=#e0def4,nobold]"
-        else
-            output+="#[bg=#ebbcba,fg=#191724,bold] $session #[bg=#191724,fg=#e0def4,nobold]"
-        fi
-    else
-        if [[ "$should_flash" == "1" ]]; then
-            output+="#[bg=#f6c177,fg=#191724] $session #[bg=#191724,fg=#e0def4]"
-        else
-            output+="#[bg=#191724,fg=#908caa] $session #[bg=#191724]"
-        fi
-    fi
-done
+  if [[ "$session" == "$current_session" ]]; then
+    output+="#[bg=#ebbcba,fg=#191724,bold] ${icon}${session} #[bg=#191724,fg=#e0def4,nobold]"
+  else
+    output+="#[bg=#191724,fg=#908caa] ${icon}${session} #[bg=#191724]"
+  fi
+done < <(tmux list-sessions -F '#S' 2>/dev/null)
 
 echo "$output"
