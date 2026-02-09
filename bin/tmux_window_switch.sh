@@ -152,7 +152,7 @@ done
 
 [[ ${#display_lines[@]} -eq 0 ]] && exit 0
 
-selected=$(printf '%b\n' "${display_lines[@]}" | gum filter --no-strip-ansi --placeholder 'Switch window...' --height 40 --strict)
+selected=$(printf '%b\n' "${display_lines[@]}" | gum filter --no-strip-ansi --no-show-help --placeholder 'Switch window...' --height 40 --strict)
 [[ -z "$selected" ]] && exit 0
 
 # Strip ANSI codes and match to target
