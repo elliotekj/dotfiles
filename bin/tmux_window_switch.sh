@@ -57,6 +57,7 @@ state_icon() {
 
 # Collect window data per session
 declare -A active_windows
+declare -A active_panes
 declare -A session_windows
 max_session=0
 max_wname=0
@@ -69,23 +70,42 @@ while IFS= read -r s; do
   active_sessions+=("$s")
 done < <(tmux list-sessions -F '#S' 2>/dev/null)
 
+# Build set of active panes for cache pruning
+while IFS=$'\t' read -r ps pw pp; do
+  pp="${pp#%}"
+  active_panes["$ps/$pw/$pp"]=1
+done < <(tmux list-panes -a -F '#{session_name}'$'\t''#{window_index}'$'\t''#{pane_id}' 2>/dev/null)
+
 for s in "${active_sessions[@]}"; do
   while IFS=$'\t' read -r idx wname; do
     active_windows["$s/$idx"]=1
-    cache_file="$CACHE_DIR/$s/$idx"
+    cache_dir="$CACHE_DIR/$s/$idx"
 
+    # Aggregate state across all panes in this window
     state="" branch="" timestamp="" time_str=""
-    if [[ -f "$cache_file" ]]; then
-      while IFS='=' read -r key val; do
-        case "$key" in
-          state) state="$val" ;;
-          branch) branch="$val" ;;
-          timestamp) timestamp="$val" ;;
-        esac
-      done < "$cache_file"
-      [[ -n "$branch" ]] && branch=$(truncate_branch "$branch")
-      [[ -n "$timestamp" ]] && time_str=$(relative_time "$timestamp")
+    if [[ -d "$cache_dir" ]]; then
+      best_sk=3
+      for pane_file in "$cache_dir"/*; do
+        [[ -f "$pane_file" ]] || continue
+        p_state="" p_branch="" p_timestamp=""
+        while IFS='=' read -r key val; do
+          case "$key" in
+            state) p_state="$val" ;;
+            branch) p_branch="$val" ;;
+            timestamp) p_timestamp="$val" ;;
+          esac
+        done < "$pane_file"
+        p_sk=$(state_sort_key "$p_state")
+        if (( p_sk < best_sk )); then
+          best_sk=$p_sk
+          state="$p_state"
+          branch="$p_branch"
+          timestamp="$p_timestamp"
+        fi
+      done
     fi
+    [[ -n "$branch" ]] && branch=$(truncate_branch "$branch")
+    [[ -n "$timestamp" ]] && time_str=$(relative_time "$timestamp")
 
     sk=$(state_sort_key "$state")
     entry="${sk}\t${idx}\t${wname}\t${state}\t${branch}\t${time_str}"
@@ -102,15 +122,24 @@ for s in "${active_sessions[@]}"; do
   done < <(tmux list-windows -t "$s" -F '#{window_index}'$'\t''#W' 2>/dev/null)
 done
 
-# Prune stale cache files
+# Prune stale cache entries
 if [[ -d "$CACHE_DIR" ]]; then
   for session_dir in "$CACHE_DIR"/*/; do
     [[ -d "$session_dir" ]] || continue
     sname=$(basename "$session_dir")
-    for cf in "$session_dir"*; do
-      [[ -f "$cf" ]] || continue
-      widx=$(basename "$cf")
-      [[ -z "${active_windows["$sname/$widx"]}" ]] && rm -f "$cf"
+    for window_dir in "$session_dir"*/; do
+      [[ -d "$window_dir" ]] || continue
+      widx=$(basename "$window_dir")
+      if [[ -z "${active_windows["$sname/$widx"]}" ]]; then
+        rm -rf "$window_dir"
+      else
+        for pf in "$window_dir"*; do
+          [[ -f "$pf" ]] || continue
+          pid=$(basename "$pf")
+          [[ -z "${active_panes["$sname/$widx/$pid"]}" ]] && rm -f "$pf"
+        done
+        rmdir "$window_dir" 2>/dev/null || true
+      fi
     done
     rmdir "$session_dir" 2>/dev/null || true
   done
@@ -126,7 +155,7 @@ for s in "${active_sessions[@]}"; do
 
   # Session header
   display_lines+=("${MUTED}${s}${RESET}")
-  targets+=("")
+  targets+=("$s")
 
   # Sort windows within session
   sorted_entries=$(echo -e "${session_windows[$s]}" | sort -t$'\t' -k1,1)
@@ -170,7 +199,4 @@ done
 
 [[ -z "$target" ]] && exit 0
 
-session=$(echo "$target" | cut -d: -f1)
-index=$(echo "$target" | cut -d: -f2)
-
-tmux switch-client -t "$session:$index"
+tmux switch-client -t "$target"
