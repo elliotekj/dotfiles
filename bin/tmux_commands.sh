@@ -126,12 +126,11 @@ case "$selected" in
     [[ -z "$title" ]] && title="Debug & Fix"
 
     # Worktree option
-    popup_gum '40%' '15%' "gum choose 'No' 'Yes' --header 'Create worktree?'"
-    use_worktree="$REPLY"
+    popup_gum '40%' '15%' "gum confirm 'Create worktree?' --no-show-help --default=false && echo yes || echo no"
 
     safe_prompt="${prompt//\'/\'\\\'\'}"
     tmux new-window -n "$title" -c "$dir"
-    if [[ "$use_worktree" == "Yes" ]]; then
+    if [[ "$REPLY" == "yes" ]]; then
       popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Branch name...'"
       branch="$REPLY"
       [[ -z "$branch" ]] && exit 0
@@ -179,12 +178,11 @@ case "$selected" in
     [[ -z "$title" ]] && title="Feature"
 
     # Worktree option
-    popup_gum '40%' '15%' "gum choose 'No' 'Yes' --header 'Create worktree?'"
-    use_worktree="$REPLY"
+    popup_gum '40%' '15%' "gum confirm 'Create worktree?' --no-show-help --default=false && echo yes || echo no"
 
     safe_prompt="${prompt//\'/\'\\\'\'}"
     tmux new-window -n "$title" -c "$dir"
-    if [[ "$use_worktree" == "Yes" ]]; then
+    if [[ "$REPLY" == "yes" ]]; then
       popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Branch name...'"
       branch="$REPLY"
       [[ -z "$branch" ]] && exit 0
