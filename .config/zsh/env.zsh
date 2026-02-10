@@ -20,6 +20,7 @@ export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 
 if [ -d "/Volumes/External" ]; then
+    export DEV_BASE="/Volumes/External/dev/"
     export ANDROID_HOME="/Volumes/External/Library/Android/sdk"
     export PATH="$ANDROID_HOME/emulator:$PATH"
     export PATH="$ANDROID_HOME/platform-tools:$PATH"

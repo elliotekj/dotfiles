@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
+# Import variables from tmux environment (run-shell doesn't inherit them)
+if [[ -z "$DEV_BASE" ]]; then
+  DEV_BASE=$(tmux show-environment -g DEV_BASE 2>/dev/null | cut -d= -f2-)
+fi
+
 # Run a gum command in a tmux popup (no stdin piping).
 # Usage: popup_gum <width> <height> <command>
 # Result in $REPLY, empty on cancel.
@@ -102,11 +107,16 @@ case "$selected" in
     tmux display-message "Copied PID: $pid"
     ;;
   "Debug & Fix")
-    dir=$(tmux display-message -p '#{pane_current_path}')
-
     popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Describe the issue...'"
     prompt="$REPLY"
     [[ -z "$prompt" ]] && exit 0
+
+    # Select project from DEV_BASE
+    projects=$(ls -1d "${DEV_BASE}"*/ 2>/dev/null | xargs -n1 basename)
+    popup_gum_pipe '40%' '40%' "gum filter --strict --no-show-help --placeholder 'Select project...' --height 20" <<< "$projects"
+    project="$REPLY"
+    [[ -z "$project" ]] && exit 0
+    dir="${DEV_BASE}${project}"
 
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
       --model=haiku --tools='' --disable-slash-commands \
@@ -138,11 +148,16 @@ case "$selected" in
     tmux display-popup -w 80% -h 80% -E htop
     ;;
   "Implement Feature")
-    dir=$(tmux display-message -p '#{pane_current_path}')
-
     popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Describe the feature...'"
     prompt="$REPLY"
     [[ -z "$prompt" ]] && exit 0
+
+    # Select project from DEV_BASE
+    projects=$(ls -1d "${DEV_BASE}"*/ 2>/dev/null | xargs -n1 basename)
+    popup_gum_pipe '40%' '40%' "gum filter --strict --no-show-help --placeholder 'Select project...' --height 20" <<< "$projects"
+    project="$REPLY"
+    [[ -z "$project" ]] && exit 0
+    dir="${DEV_BASE}${project}"
 
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
       --model=haiku --tools='' --disable-slash-commands \
