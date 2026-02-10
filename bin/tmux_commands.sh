@@ -130,6 +130,12 @@ case "$selected" in
     [[ -z "$title" ]] && title="Debug & Fix"
 
     safe_prompt="${prompt//\'/\'\\\'\'}"
+    if tmux has-session -t "=$project" 2>/dev/null; then
+      tmux switch-client -t "=$project"
+    else
+      tmux new-session -d -s "$project" -c "$dir"
+      tmux switch-client -t "=$project"
+    fi
     tmux new-window -n "$title" -c "$dir"
     if [[ "$use_worktree" == "yes" ]]; then
       branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
@@ -180,6 +186,12 @@ case "$selected" in
     [[ -z "$title" ]] && title="Feature"
 
     safe_prompt="${prompt//\'/\'\\\'\'}"
+    if tmux has-session -t "=$project" 2>/dev/null; then
+      tmux switch-client -t "=$project"
+    else
+      tmux new-session -d -s "$project" -c "$dir"
+      tmux switch-client -t "=$project"
+    fi
     tmux new-window -n "$title" -c "$dir"
     if [[ "$use_worktree" == "yes" ]]; then
       branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
