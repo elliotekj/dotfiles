@@ -118,6 +118,10 @@ case "$selected" in
     [[ -z "$project" ]] && exit 0
     dir="${DEV_BASE}${project}"
 
+    # Worktree option
+    popup_gum '40%' '15%' "if gum confirm 'Create worktree?' --no-show-help --default=false; then echo yes; else echo no; fi"
+    use_worktree="$REPLY"
+
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
       --model=haiku --tools='' --disable-slash-commands \
       --setting-sources='' --system-prompt='' \
@@ -125,17 +129,11 @@ case "$selected" in
     title=$(echo "$title" | tr -d '\n' | head -c 30)
     [[ -z "$title" ]] && title="Debug & Fix"
 
-    # Worktree option
-    popup_gum '40%' '15%' "gum confirm 'Create worktree?' --no-show-help --default=false && echo yes || echo no"
-
     safe_prompt="${prompt//\'/\'\\\'\'}"
     tmux new-window -n "$title" -c "$dir"
-    if [[ "$REPLY" == "yes" ]]; then
-      popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Branch name...'"
-      branch="$REPLY"
-      [[ -z "$branch" ]] && exit 0
-      safe_branch="${branch//\'/\'\\\'\'}"
-      tmux send-keys "wt switch --yes --create '$safe_branch' -x c -- '/debug-and-fix-team $safe_prompt'" Enter
+    if [[ "$use_worktree" == "yes" ]]; then
+      branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
+      tmux send-keys "wt switch --yes --create '$branch' -x c -- '/debug-and-fix-team $safe_prompt'" Enter
     else
       tmux send-keys "c '/debug-and-fix-team $safe_prompt'" Enter
     fi
@@ -170,6 +168,10 @@ case "$selected" in
     [[ -z "$project" ]] && exit 0
     dir="${DEV_BASE}${project}"
 
+    # Worktree option
+    popup_gum '40%' '15%' "if gum confirm 'Create worktree?' --no-show-help --default=false; then echo yes; else echo no; fi"
+    use_worktree="$REPLY"
+
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
       --model=haiku --tools='' --disable-slash-commands \
       --setting-sources='' --system-prompt='' \
@@ -177,17 +179,11 @@ case "$selected" in
     title=$(echo "$title" | tr -d '\n' | head -c 30)
     [[ -z "$title" ]] && title="Feature"
 
-    # Worktree option
-    popup_gum '40%' '15%' "gum confirm 'Create worktree?' --no-show-help --default=false && echo yes || echo no"
-
     safe_prompt="${prompt//\'/\'\\\'\'}"
     tmux new-window -n "$title" -c "$dir"
-    if [[ "$REPLY" == "yes" ]]; then
-      popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Branch name...'"
-      branch="$REPLY"
-      [[ -z "$branch" ]] && exit 0
-      safe_branch="${branch//\'/\'\\\'\'}"
-      tmux send-keys "wt switch --yes --create '$safe_branch' -x c -- '/feature-impl-team $safe_prompt'" Enter
+    if [[ "$use_worktree" == "yes" ]]; then
+      branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
+      tmux send-keys "wt switch --yes --create '$branch' -x c -- '/feature-impl-team $safe_prompt'" Enter
     else
       tmux send-keys "c '/feature-impl-team $safe_prompt'" Enter
     fi
