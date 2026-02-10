@@ -125,9 +125,21 @@ case "$selected" in
     title=$(echo "$title" | tr -d '\n' | head -c 30)
     [[ -z "$title" ]] && title="Debug & Fix"
 
+    # Worktree option
+    popup_gum '40%' '15%' "gum choose 'No' 'Yes' --header 'Create worktree?'"
+    use_worktree="$REPLY"
+
     safe_prompt="${prompt//\'/\'\\\'\'}"
     tmux new-window -n "$title" -c "$dir"
-    tmux send-keys "c '/debug-and-fix-team $safe_prompt'" Enter
+    if [[ "$use_worktree" == "Yes" ]]; then
+      popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Branch name...'"
+      branch="$REPLY"
+      [[ -z "$branch" ]] && exit 0
+      safe_branch="${branch//\'/\'\\\'\'}"
+      tmux send-keys "wt switch --yes --create '$safe_branch' -x c -- '/debug-and-fix-team $safe_prompt'" Enter
+    else
+      tmux send-keys "c '/debug-and-fix-team $safe_prompt'" Enter
+    fi
     ;;
   "Extract")
     tmux run-shell "~/.config/tmux/plugins/extrakto/scripts/open.sh '#{pane_id}'"
@@ -166,9 +178,21 @@ case "$selected" in
     title=$(echo "$title" | tr -d '\n' | head -c 30)
     [[ -z "$title" ]] && title="Feature"
 
+    # Worktree option
+    popup_gum '40%' '15%' "gum choose 'No' 'Yes' --header 'Create worktree?'"
+    use_worktree="$REPLY"
+
     safe_prompt="${prompt//\'/\'\\\'\'}"
     tmux new-window -n "$title" -c "$dir"
-    tmux send-keys "c '/feature-impl-team $safe_prompt'" Enter
+    if [[ "$use_worktree" == "Yes" ]]; then
+      popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Branch name...'"
+      branch="$REPLY"
+      [[ -z "$branch" ]] && exit 0
+      safe_branch="${branch//\'/\'\\\'\'}"
+      tmux send-keys "wt switch --yes --create '$safe_branch' -x c -- '/feature-impl-team $safe_prompt'" Enter
+    else
+      tmux send-keys "c '/feature-impl-team $safe_prompt'" Enter
+    fi
     ;;
   "Kill session")
     current=$(tmux display-message -p '#S')
