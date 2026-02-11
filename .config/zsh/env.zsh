@@ -24,6 +24,8 @@ if [ -d "/Volumes/External" ]; then
     export ANDROID_HOME="/Volumes/External/Library/Android/sdk"
     export PATH="$ANDROID_HOME/emulator:$PATH"
     export PATH="$ANDROID_HOME/platform-tools:$PATH"
+else
+    export DEV_BASE="$HOME/dev/"
 fi
 
 if [ "$(uname -m)" = "arm64" ]; then
