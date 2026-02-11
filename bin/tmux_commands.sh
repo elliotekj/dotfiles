@@ -3,6 +3,9 @@
 
 # Import variables from tmux environment (run-shell doesn't inherit them)
 if [[ -z "$DEV_BASE" ]]; then
+  DEV_BASE=$(tmux show-environment DEV_BASE 2>/dev/null | cut -d= -f2-)
+fi
+if [[ -z "$DEV_BASE" ]]; then
   DEV_BASE=$(tmux show-environment -g DEV_BASE 2>/dev/null | cut -d= -f2-)
 fi
 
