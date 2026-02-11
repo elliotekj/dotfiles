@@ -128,8 +128,8 @@ case "$selected" in
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
       --model=haiku --tools='' --disable-slash-commands \
       --setting-sources='' --system-prompt='' \
-      "create a short title for this prompt. the output should be plaintext and maximum 4 words: $prompt" 2>/dev/null)
-    title=$(echo "$title" | tr -d '\n' | head -c 30)
+      "Output ONLY a short plaintext title (max 4 words) for the following prompt. No markdown, no headings, no formatting, no quotes, just the raw words: $prompt" 2>/dev/null)
+    title=$(echo "$title" | sed 's/^[#*>`_ -]*//' | tr -d '\n' | head -c 30)
     [[ -z "$title" ]] && title="Debug & Fix"
 
     safe_prompt="${prompt//\'/\'\\\'\'}"
@@ -141,7 +141,7 @@ case "$selected" in
     fi
     tmux new-window -n "$title" -c "$dir"
     if [[ "$use_worktree" == "yes" ]]; then
-      branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
+      branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/^-*//;s/-*$//')
       tmux send-keys "wt switch --yes --create '$branch' -x c -- '/debug-and-fix-team $safe_prompt'" Enter
     else
       tmux send-keys "c '/debug-and-fix-team $safe_prompt'" Enter
@@ -184,8 +184,8 @@ case "$selected" in
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
       --model=haiku --tools='' --disable-slash-commands \
       --setting-sources='' --system-prompt='' \
-      "create a short title for this prompt. the output should be plaintext and maximum 4 words: $prompt" 2>/dev/null)
-    title=$(echo "$title" | tr -d '\n' | head -c 30)
+      "Output ONLY a short plaintext title (max 4 words) for the following prompt. No markdown, no headings, no formatting, no quotes, just the raw words: $prompt" 2>/dev/null)
+    title=$(echo "$title" | sed 's/^[#*>`_ -]*//' | tr -d '\n' | head -c 30)
     [[ -z "$title" ]] && title="Feature"
 
     safe_prompt="${prompt//\'/\'\\\'\'}"
@@ -197,7 +197,7 @@ case "$selected" in
     fi
     tmux new-window -n "$title" -c "$dir"
     if [[ "$use_worktree" == "yes" ]]; then
-      branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
+      branch=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/^-*//;s/-*$//')
       tmux send-keys "wt switch --yes --create '$branch' -x c -- '/feature-impl-team $safe_prompt'" Enter
     else
       tmux send-keys "c '/feature-impl-team $safe_prompt'" Enter
