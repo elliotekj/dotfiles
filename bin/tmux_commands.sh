@@ -119,7 +119,7 @@ case "$selected" in
     dir="${DEV_BASE}${project}"
 
     # Worktree option
-    popup_gum '40%' '15%' "if gum confirm 'Create worktree?' --no-show-help --default=false; then echo yes; else echo no; fi"
+    popup_gum '40%' '15%' "if gum confirm 'Create worktree?' --no-show-help --default=true; then echo yes; else echo no; fi"
     use_worktree="$REPLY"
 
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
@@ -175,7 +175,7 @@ case "$selected" in
     dir="${DEV_BASE}${project}"
 
     # Worktree option
-    popup_gum '40%' '15%' "if gum confirm 'Create worktree?' --no-show-help --default=false; then echo yes; else echo no; fi"
+    popup_gum '40%' '15%' "if gum confirm 'Create worktree?' --no-show-help --default=true; then echo yes; else echo no; fi"
     use_worktree="$REPLY"
 
     title=$(env MAX_THINKING_TOKENS=0 claude -p \
