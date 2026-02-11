@@ -107,7 +107,7 @@ case "$selected" in
     tmux display-message "Copied PID: $pid"
     ;;
   "Debug & Fix")
-    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Describe the issue...'"
+    popup_gum '50%' '40%' "gum write --char-limit 0 --placeholder 'Describe the issue...'"
     prompt="$REPLY"
     [[ -z "$prompt" ]] && exit 0
 
@@ -163,7 +163,7 @@ case "$selected" in
     tmux display-popup -w 80% -h 80% -E htop
     ;;
   "Implement Feature")
-    popup_gum '40%' '20%' "gum input --char-limit 0 --placeholder 'Describe the feature...'"
+    popup_gum '50%' '40%' "gum write --char-limit 0 --placeholder 'Describe the feature...'"
     prompt="$REPLY"
     [[ -z "$prompt" ]] && exit 0
 
