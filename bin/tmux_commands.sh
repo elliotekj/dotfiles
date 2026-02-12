@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 # Commands palette for tmux session management
 
-# Import variables from tmux environment (run-shell doesn't inherit them)
+# Import DEV_BASE from tmux environment (run-shell doesn't inherit shell env).
+# tmux show-environment outputs "VAR=value" when set, "-VAR" when removed.
+# The cut approach silently misparses the removed form, so match explicitly.
 if [[ -z "$DEV_BASE" ]]; then
-  DEV_BASE=$(tmux show-environment DEV_BASE 2>/dev/null | cut -d= -f2-)
+  _val=$(tmux show-environment DEV_BASE 2>/dev/null)
+  [[ "$_val" == DEV_BASE=* ]] && DEV_BASE="${_val#DEV_BASE=}"
 fi
 if [[ -z "$DEV_BASE" ]]; then
-  DEV_BASE=$(tmux show-environment -g DEV_BASE 2>/dev/null | cut -d= -f2-)
+  _val=$(tmux show-environment -g DEV_BASE 2>/dev/null)
+  [[ "$_val" == DEV_BASE=* ]] && DEV_BASE="${_val#DEV_BASE=}"
+fi
+# Fallback: mirror env.zsh logic when tmux env is missing or stale.
+if [[ -z "$DEV_BASE" || ! -d "$DEV_BASE" ]]; then
+  if [[ -d "/Volumes/External/dev" ]]; then
+    DEV_BASE="/Volumes/External/dev/"
+  else
+    DEV_BASE="$HOME/dev/"
+  fi
 fi
 
 # Run a gum command in a tmux popup (no stdin piping).
