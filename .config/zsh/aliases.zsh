@@ -30,9 +30,6 @@ if command -v eza &> /dev/null; then
   alias ls="eza -l --git --time-style=relative"
 fi
 
-if command -v bat &> /dev/null; then
-  alias cat="bat"
-fi
 
 d() {
   local dir
