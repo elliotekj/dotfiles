@@ -26,11 +26,6 @@ tsn() {
   fi
 }
 
-if command -v eza &> /dev/null; then
-  alias ls="eza -l --git --time-style=relative"
-fi
-
-
 d() {
   local dir
   dir=$(fd --type d --max-depth 1 . ~/dev | fzf --reverse) && cd "$dir"
