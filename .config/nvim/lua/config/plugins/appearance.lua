@@ -5,15 +5,10 @@ end
 
 return {
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'Mofiqul/dracula.nvim',
+    name = 'dracula',
     opts = {
-      styles = {
-        italic = false,
-      },
-      highlight_groups = {
-        Comment = { fg = 'muted', italic = true },
-      },
+      italic_comment = true,
     },
   },
   {
@@ -26,7 +21,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'rose-pine'
+          theme = 'dracula-nvim'
         },
         sections = {
           lualine_a = { 'mode' },

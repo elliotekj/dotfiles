@@ -8,9 +8,9 @@ while IFS= read -r session; do
   [[ "$archived" == "1" ]] && continue
 
   if [[ "$session" == "$current_session" ]]; then
-    output+="#[bg=#ebbcba,fg=#191724,bold] ${session} #[bg=#191724,fg=#e0def4,nobold]"
+    output+="#[bg=#bd93f9,fg=#282a36,bold] ${session} #[bg=#282a36,fg=#f8f8f2,nobold]"
   else
-    output+="#[bg=#191724,fg=#908caa] ${session} #[bg=#191724]"
+    output+="#[bg=#282a36,fg=#6272a4] ${session} #[bg=#282a36]"
   fi
 done < <(tmux list-sessions -F '#S' 2>/dev/null)
 

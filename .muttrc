@@ -110,14 +110,14 @@ bind index,pager \Cp sidebar-prev
 bind index,pager \Cn sidebar-next
 bind index,pager \Co sidebar-open
 
-# Vesper theme colors
+# Dracula theme colors
 color normal     default default
-color indicator  color232 color123
-color status     color248 color235
-color tree       color123 default
-color index      color222 default ~N
+color indicator  color232 color141
+color status     color253 color236
+color tree       color141 default
+color index      color117 default ~N
 color index      color210 default ~D
-color body       color222 default "(https?|ftp)://[^ ]+"
-color body       color123 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
-color sidebar_highlight color232 color123
-color sidebar_new color222 default
+color body       color212 default "(https?|ftp)://[^ ]+"
+color body       color117 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
+color sidebar_highlight color232 color141
+color sidebar_new color117 default
