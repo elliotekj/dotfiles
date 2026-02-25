@@ -18,6 +18,7 @@ export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 [ -d "$HOME/.local/share/mise/shims" ] && export PATH="$HOME/.local/share/mise/shims:$PATH"
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME/.fiberplane/bin" ] && export PATH="$HOME/.fiberplane/bin:$PATH"
 
 if [ -d "/Volumes/External" ]; then
     export DEV_BASE="/Volumes/External/dev/"
