@@ -1,13 +1,13 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# fzf Dracula theme
+# fzf Solarized Light theme
 export FZF_DEFAULT_OPTS="
-  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9
-  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9
-  --color=info:#8be9fd,prompt:#ff79c6,pointer:#ff79c6
-  --color=marker:#50fa7b,spinner:#ffb86c,header:#6272a4
-  --color=border:#6272a4
+  --color=fg:#657b83,bg:#fdf6e3,hl:#268bd2
+  --color=fg+:#586e75,bg+:#eee8d5,hl+:#268bd2
+  --color=info:#2aa198,prompt:#d33682,pointer:#d33682
+  --color=marker:#859900,spinner:#cb4b16,header:#93a1a1
+  --color=border:#93a1a1
 "
 export DFT_DISPLAY="side-by-side-show-both"
 export ERL_AFLAGS="-kernel shell_history enabled"

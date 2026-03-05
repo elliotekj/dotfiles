@@ -110,14 +110,14 @@ bind index,pager \Cp sidebar-prev
 bind index,pager \Cn sidebar-next
 bind index,pager \Co sidebar-open
 
-# Dracula theme colors
+# Solarized Light theme colors
 color normal     default default
-color indicator  color232 color141
-color status     color253 color236
-color tree       color141 default
-color index      color117 default ~N
-color index      color210 default ~D
-color body       color212 default "(https?|ftp)://[^ ]+"
-color body       color117 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
-color sidebar_highlight color232 color141
-color sidebar_new color117 default
+color indicator  color230 color33
+color status     color240 color254
+color tree       color33 default
+color index      color33 default ~N
+color index      color160 default ~D
+color body       color125 default "(https?|ftp)://[^ ]+"
+color body       color33 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
+color sidebar_highlight color230 color33
+color sidebar_new color33 default

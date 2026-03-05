@@ -5,10 +5,10 @@ end
 
 return {
   {
-    'Mofiqul/dracula.nvim',
-    name = 'dracula',
+    'maxmx03/solarized.nvim',
+    name = 'solarized',
     opts = {
-      italic_comment = true,
+      variant = 'spring',
     },
   },
   {
@@ -21,7 +21,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'dracula-nvim'
+          theme = 'solarized'
         },
         sections = {
           lualine_a = { 'mode' },

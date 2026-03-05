@@ -1,4 +1,4 @@
-theme = Dracula
+theme = Builtin Solarized Light
 font-family = TX-02
 font-size = 11
 adjust-cell-height = 20%
