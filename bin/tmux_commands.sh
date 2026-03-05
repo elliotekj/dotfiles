@@ -46,7 +46,7 @@ popup_gum_pipe() {
 }
 
 # Base commands
-commands="Archive session\nCheckout Worktree\nCopy PID\nDebug & Fix\nExtract\nFiles\nGit\nGitHub\nHtop\nImplement Feature\nKill session\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nReview PR\nSend keybinding to all panes\nSend to all panes"
+commands="Archive session\nCheckout Worktree\nCopy PID\nDebug & Fix\nExtract\nFiles\nGit\nGitHub\nHtop\nImplement Feature\nKill session\nKill window\nLayout: horizontal\nLayout: vertical\nMail\nMerge Worktree\nNew session\nPane: main left\nPane: main right\nQuick Claude\nRemove Worktree\nRename session\nRestore session\nReview PR\nSend keybinding to all panes\nSend to all panes"
 
 # Add option to kick SSH clients when local and other clients are attached
 if [[ -z "$SSH_CONNECTION" ]] && [ "$(tmux list-clients | wc -l | tr -d ' ')" -gt 1 ]; then
@@ -227,6 +227,9 @@ case "$selected" in
     fi
     tmux switch-client -t "$next"
     tmux kill-session -t "$current"
+    ;;
+  "Kill window")
+    tmux kill-window
     ;;
   "Layout: horizontal")
     tmux select-layout even-horizontal
