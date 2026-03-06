@@ -17,6 +17,7 @@ alias wts="wt select"
 alias v='$EDITOR'
 alias y="yazi"
 alias spec='$EDITOR SPEC.md'
+alias t="tuicr --theme light"
 
 tsn() {
   if [[ -n "$TMUX" ]]; then
