@@ -1,6 +1,10 @@
 c() {
   claude --dangerously-skip-permissions "$@"
 }
+
+o() {
+  opencode "$@"
+}
 alias codex='mise x node@$(mise current -C ~ node) -- codex'
 alias far="serpl"
 alias g="gitu"
