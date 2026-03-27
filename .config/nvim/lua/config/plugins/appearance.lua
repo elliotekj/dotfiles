@@ -15,6 +15,14 @@ return {
     end,
   },
   {
+    'vimpostor/vim-lumen',
+    lazy = false,
+    init = function()
+      vim.g.lumen_light_colorscheme = 'github_light_default'
+      vim.g.lumen_dark_colorscheme = 'github_dark_default'
+    end,
+  },
+  {
     'nvim-lualine/lualine.nvim',
     config = function()
       vim.opt.showmode = false
