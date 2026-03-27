@@ -1,4 +1,4 @@
-theme = "solarized_light"
+theme = "github_dark_default"
 
 [editor]
 bufferline = "never"

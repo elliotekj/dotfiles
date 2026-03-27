@@ -1,0 +1,138 @@
+# GitHub Dark Default theme for Yazi
+# Colors from https://github.com/projekt0n/github-nvim-theme
+
+[manager]
+cwd = { fg = "#58a6ff" }
+
+hovered = { reversed = true }
+preview_hovered = { underline = true }
+
+find_keyword = { fg = "#e3b341", bold = true, italic = true, underline = true }
+find_position = { fg = "#d2a8ff", bg = "reset", italic = true }
+
+marker_copied = { fg = "#56d364", bg = "#56d364" }
+marker_cut = { fg = "#f85149", bg = "#f85149" }
+marker_marked = { fg = "#7ee787", bg = "#7ee787" }
+marker_selected = { fg = "#58a6ff", bg = "#58a6ff" }
+
+tab_active = { reversed = true }
+tab_inactive = {}
+tab_width = 1
+
+count_copied = { fg = "#0d1117", bg = "#56d364" }
+count_cut = { fg = "#0d1117", bg = "#f85149" }
+count_selected = { fg = "#0d1117", bg = "#58a6ff" }
+
+border_symbol = "│"
+border_style = { fg = "#30363d" }
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#161b22", bg = "#161b22" }
+
+mode_normal = { fg = "#0d1117", bg = "#58a6ff", bold = true }
+mode_select = { fg = "#0d1117", bg = "#56d364", bold = true }
+mode_unset = { fg = "#0d1117", bg = "#d2a8ff", bold = true }
+
+progress_label = { bold = true }
+progress_normal = { fg = "#58a6ff", bg = "#161b22" }
+progress_error = { fg = "#f85149", bg = "#161b22" }
+
+perm_type = { fg = "#58a6ff" }
+perm_read = { fg = "#e3b341" }
+perm_write = { fg = "#f85149" }
+perm_exec = { fg = "#56d364" }
+perm_sep = { fg = "#30363d" }
+
+[input]
+border = { fg = "#58a6ff" }
+title = {}
+value = {}
+selected = { reversed = true }
+
+[pick]
+border = { fg = "#58a6ff" }
+active = { fg = "#d2a8ff", bold = true }
+inactive = {}
+
+[confirm]
+border = { fg = "#58a6ff" }
+title = { fg = "#58a6ff" }
+content = {}
+list = {}
+btn_yes = { reversed = true }
+btn_no = {}
+btn_labels = [ "  Yes  ", "  No  " ]
+
+[completion]
+border = { fg = "#58a6ff" }
+active = { reversed = true }
+inactive = {}
+
+icon_file = ""
+icon_folder = ""
+icon_command = ""
+
+[tasks]
+border = { fg = "#58a6ff" }
+title = {}
+hovered = { fg = "#d2a8ff" }
+
+[which]
+cols = 3
+mask = { bg = "#161b22" }
+cand = { fg = "#7ee787" }
+rest = { fg = "#484f58" }
+desc = { fg = "#e6edf3" }
+separator = "  "
+separator_style = { fg = "#30363d" }
+
+[help]
+on = { fg = "#7ee787" }
+run = { fg = "#d2a8ff" }
+hovered = { reversed = true }
+desc = { fg = "#484f58" }
+footer = { fg = "#e6edf3", bg = "#161b22" }
+
+[notify]
+title_info = { fg = "#58a6ff" }
+title_warn = { fg = "#e3b341" }
+title_error = { fg = "#f85149" }
+
+icon_info = ""
+icon_warn = ""
+icon_error = ""
+
+[filetype]
+rules = [
+  { name = "*/", fg = "#58a6ff", bold = true },
+
+  { mime = "image/*", fg = "#7ee787" },
+  { mime = "video/*", fg = "#e3b341" },
+  { mime = "audio/*", fg = "#e3b341" },
+  { mime = "application/zip", fg = "#d2a8ff" },
+  { mime = "application/gzip", fg = "#d2a8ff" },
+  { mime = "application/x-tar", fg = "#d2a8ff" },
+  { mime = "application/x-bzip2", fg = "#d2a8ff" },
+  { mime = "application/x-7z-compressed", fg = "#d2a8ff" },
+  { mime = "application/x-rar", fg = "#d2a8ff" },
+  { mime = "application/x-xz", fg = "#d2a8ff" },
+
+  { mime = "application/doc", fg = "#56d364" },
+  { mime = "application/pdf", fg = "#56d364" },
+  { mime = "application/rtf", fg = "#56d364" },
+  { mime = "application/vnd.*", fg = "#56d364" },
+
+  { name = "*.css", fg = "#7ee787" },
+  { name = "*.scss", fg = "#7ee787" },
+  { name = "*.htm", fg = "#ffa657" },
+  { name = "*.html", fg = "#ffa657" },
+
+  { name = ".git*", fg = "#484f58" },
+  { name = ".gitignore", fg = "#484f58" },
+  { name = "Makefile", fg = "#56d364" },
+  { name = "CONTRIBUTING.md", fg = "#e3b341" },
+  { name = "README.md", fg = "#e3b341" },
+  { name = "LICENSE*", fg = "#484f58" },
+]
