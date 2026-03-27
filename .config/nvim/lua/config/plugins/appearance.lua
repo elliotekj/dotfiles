@@ -5,8 +5,14 @@ end
 
 return {
   {
-    'noahfrederick/vim-noctu',
-    name = 'noctu',
+    'projekt0n/github-nvim-theme',
+    name = 'github-theme',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('github-theme').setup({})
+      vim.cmd.colorscheme('github_dark_default')
+    end,
   },
   {
     'nvim-lualine/lualine.nvim',
@@ -18,7 +24,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = '16color'
+          theme = 'auto'
         },
         sections = {
           lualine_a = { 'mode' },
