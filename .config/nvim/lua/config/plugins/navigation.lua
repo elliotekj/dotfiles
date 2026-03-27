@@ -40,6 +40,23 @@ return {
     opts = {},
   },
   {
+    'dmtrKovalenko/fff.nvim',
+    build = function()
+      require('fff.download').download_or_build_binary()
+    end,
+    lazy = false,
+    opts = {},
+    keys = {
+      { '<leader>ff', function() require('fff').find_files() end, desc = 'Find files' },
+      { '<leader>/', function() require('fff').live_grep() end, desc = 'Live grep' },
+      { '<leader>/', function()
+        local text = get_visual_selection()
+        require('fff').live_grep({ query = text })
+      end, mode = 'v', desc = 'Grep selection' },
+      { '<leader>*', function() require('fff').live_grep({ query = vim.fn.expand('<cword>') }) end, desc = 'Grep current word' },
+    },
+  },
+  {
     'nvim-telescope/telescope.nvim',
     version = '*',
     config = function()
@@ -47,22 +64,10 @@ return {
       local builtin = require('telescope.builtin')
       local actions = require('telescope.actions')
 
-      -- Project mappings
-      vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = "Find files" })
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
-      vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = "Live grep" })
-      vim.keymap.set('v', '<leader>/', function()
-        local selected_text = get_visual_selection()
-        builtin.live_grep({ default_text = selected_text })
-      end, { desc = "Grep selection" })
       vim.keymap.set('n', 'gps', builtin.lsp_workspace_symbols, { desc = "Workspace symbols" })
-
-      -- Buffer mappings
       vim.keymap.set('n', '//', builtin.current_buffer_fuzzy_find, { desc = "Buffer search" })
       vim.keymap.set('n', 'gbs', builtin.lsp_document_symbols, { desc = "Buffer symbols" })
       vim.keymap.set('n', 'gbt', builtin.treesitter, { desc = "Buffer treesitter" })
-
-      -- Other
       vim.keymap.set('n', '<leader>r', builtin.resume, { desc = "Resume picker" })
 
       telescope.setup({
@@ -75,16 +80,6 @@ return {
             n = {
               ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
             },
-          },
-        },
-        pickers = {
-          find_files = {
-            find_command = { "fd", "--type", "file", "--hidden", "--follow", "--strip-cwd-prefix", "--exclude", ".git" },
-          },
-          live_grep = {
-            additional_args = function()
-              return { "--hidden", "--glob", "!.git/*" }
-            end,
           },
         },
         extensions = {
