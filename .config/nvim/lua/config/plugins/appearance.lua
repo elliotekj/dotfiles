@@ -5,11 +5,8 @@ end
 
 return {
   {
-    'maxmx03/solarized.nvim',
-    name = 'solarized',
-    opts = {
-      variant = 'spring',
-    },
+    'noahfrederick/vim-noctu',
+    name = 'noctu',
   },
   {
     'nvim-lualine/lualine.nvim',
@@ -21,7 +18,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'solarized'
+          theme = '16color'
         },
         sections = {
           lualine_a = { 'mode' },

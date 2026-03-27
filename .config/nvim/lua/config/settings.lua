@@ -1,6 +1,100 @@
-vim.opt.termguicolors = true
-vim.opt.background = 'light'
-vim.cmd.colorscheme('solarized')
+vim.opt.termguicolors = false
+vim.opt.background = 'dark'
+vim.cmd.colorscheme('noctu')
+
+-- Treesitter highlight links (noctu predates treesitter)
+local ts_links = {
+  -- Identifiers
+  ['@variable'] = 'Identifier',
+  ['@variable.builtin'] = 'Special',
+  ['@variable.parameter'] = 'Identifier',
+  ['@variable.member'] = 'Identifier',
+  ['@constant'] = 'Constant',
+  ['@constant.builtin'] = 'Constant',
+  ['@constant.macro'] = 'Constant',
+  ['@module'] = 'Type',
+  ['@label'] = 'Special',
+
+  -- Literals
+  ['@string'] = 'String',
+  ['@string.escape'] = 'Special',
+  ['@string.special'] = 'Special',
+  ['@character'] = 'String',
+  ['@number'] = 'Number',
+  ['@boolean'] = 'Boolean',
+
+  -- Types
+  ['@type'] = 'Type',
+  ['@type.builtin'] = 'Type',
+  ['@type.definition'] = 'Type',
+  ['@attribute'] = 'PreProc',
+
+  -- Functions
+  ['@function'] = 'Function',
+  ['@function.builtin'] = 'Function',
+  ['@function.call'] = 'Function',
+  ['@function.macro'] = 'PreProc',
+  ['@function.method'] = 'Function',
+  ['@function.method.call'] = 'Function',
+  ['@constructor'] = 'Function',
+
+  -- Keywords
+  ['@keyword'] = 'Keyword',
+  ['@keyword.conditional'] = 'Keyword',
+  ['@keyword.repeat'] = 'Keyword',
+  ['@keyword.return'] = 'Keyword',
+  ['@keyword.exception'] = 'Keyword',
+  ['@keyword.import'] = 'PreProc',
+  ['@keyword.operator'] = 'Keyword',
+  ['@keyword.function'] = 'Keyword',
+  ['@keyword.type'] = 'Keyword',
+
+  -- Punctuation
+  ['@punctuation.delimiter'] = 'Delimiter',
+  ['@punctuation.bracket'] = 'Delimiter',
+  ['@punctuation.special'] = 'Special',
+
+  -- Comments
+  ['@comment'] = 'Comment',
+  ['@comment.todo'] = 'Todo',
+  ['@comment.note'] = 'Todo',
+  ['@comment.warning'] = 'Todo',
+
+  -- Markup
+  ['@markup.heading'] = 'Title',
+  ['@markup.link'] = 'Underlined',
+  ['@markup.strong'] = 'Bold',
+  ['@markup.italic'] = 'Italic',
+  ['@markup.raw'] = 'String',
+
+  -- Tags (JSX/HTML)
+  ['@tag'] = 'Keyword',
+  ['@tag.attribute'] = 'Type',
+  ['@tag.delimiter'] = 'Delimiter',
+
+  -- Operators
+  ['@operator'] = 'Delimiter',
+
+  -- Properties
+  ['@property'] = 'Identifier',
+}
+
+for group, link in pairs(ts_links) do
+  vim.api.nvim_set_hl(0, group, { link = link })
+end
+
+-- Diagnostic highlights
+vim.api.nvim_set_hl(0, 'DiagnosticError', { ctermfg = 1 })
+vim.api.nvim_set_hl(0, 'DiagnosticWarn', { ctermfg = 3 })
+vim.api.nvim_set_hl(0, 'DiagnosticInfo', { ctermfg = 4 })
+vim.api.nvim_set_hl(0, 'DiagnosticHint', { ctermfg = 6 })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { cterm = { underline = true }, ctermfg = 1 })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { cterm = { underline = true }, ctermfg = 3 })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { cterm = { underline = true }, ctermfg = 4 })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { cterm = { underline = true }, ctermfg = 6 })
+
+vim.api.nvim_set_hl(0, 'StatusLine', { ctermfg = 15, ctermbg = 8, cterm = { bold = true } })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { ctermfg = 7, ctermbg = 8 })
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
@@ -53,7 +147,7 @@ vim.opt.signcolumn = 'number'
 vim.opt.conceallevel = 2
 
 -- highlight the current line
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
