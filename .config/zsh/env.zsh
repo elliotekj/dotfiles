@@ -1,13 +1,13 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# fzf Solarized Light theme
+# fzf GitHub Dark theme
 export FZF_DEFAULT_OPTS="
-  --color=fg:#657b83,bg:#fdf6e3,hl:#268bd2
-  --color=fg+:#586e75,bg+:#eee8d5,hl+:#268bd2
-  --color=info:#2aa198,prompt:#d33682,pointer:#d33682
-  --color=marker:#859900,spinner:#cb4b16,header:#93a1a1
-  --color=border:#93a1a1
+  --color=fg:#c9d1d9,bg:#0d1117,hl:#58a6ff
+  --color=fg+:#e6edf3,bg+:#161b22,hl+:#58a6ff
+  --color=info:#7ee787,prompt:#d2a8ff,pointer:#d2a8ff
+  --color=marker:#56d364,spinner:#ffa657,header:#484f58
+  --color=border:#30363d
 "
 export DFT_DISPLAY="side-by-side-show-both"
 export ERL_AFLAGS="-kernel shell_history enabled"

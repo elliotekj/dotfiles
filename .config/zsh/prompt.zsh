@@ -12,5 +12,5 @@ _prompt_path() {
 
 setopt PROMPT_SUBST
 
-PROMPT='%F{#268bd2}$(_prompt_path)%f$(_git_branch) %F{#cb4b16}❯%f '
+PROMPT='%F{#d2a8ff}$(_prompt_path)%f$(_git_branch) %F{#d2a8ff}❯%f '
 RPROMPT=''
