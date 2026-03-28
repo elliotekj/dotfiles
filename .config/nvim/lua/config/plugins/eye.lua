@@ -11,6 +11,21 @@ return {
       vim.keymap.set('n', '<leader>rq', eye.stop, { desc = 'Stop review' })
       vim.keymap.set('v', '<leader>rc', eye.comment, { desc = 'Add review comment' })
       vim.keymap.set('n', '<leader>rc', eye.comment, { desc = 'Edit review comment' })
+
+      local function comment_or_start(mode)
+        return function()
+          if eye.is_active() then
+            eye.comment()
+          else
+            eye.start()
+            -- comment() will be callable once review is active;
+            -- start() is async (picker), so we can't chain here
+          end
+        end
+      end
+
+      vim.keymap.set('v', '<leader>rr', comment_or_start('v'), { desc = 'Review: add comment (starts review if needed)' })
+      vim.keymap.set('n', '<leader>rr', comment_or_start('n'), { desc = 'Review: edit comment (starts review if needed)' })
       vim.keymap.set('n', '<leader>ry', eye.export, { desc = 'Copy review to clipboard' })
       vim.keymap.set('n', ']r', eye.next_change, { desc = 'Next change' })
       vim.keymap.set('n', '[r', eye.prev_change, { desc = 'Previous change' })
