@@ -18,8 +18,6 @@ return {
             eye.comment()
           else
             eye.start()
-            -- comment() will be callable once review is active;
-            -- start() is async (picker), so we can't chain here
           end
         end
       end
