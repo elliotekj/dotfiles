@@ -28,6 +28,9 @@ return {
       vim.keymap.set('n', ']r', eye.next_change, { desc = 'Next change' })
       vim.keymap.set('n', '[r', eye.prev_change, { desc = 'Previous change' })
       vim.keymap.set('x', 'ir', eye.select_change, { desc = 'Inner review block' })
+      vim.keymap.set('n', '<leader>rv', eye.mark_reviewed, { desc = 'Mark change as reviewed' })
+      vim.keymap.set('n', '<leader>rf', eye.mark_file_reviewed, { desc = 'Mark file as reviewed' })
+      vim.keymap.set('n', '<leader>ru', eye.unreviewed_files, { desc = 'Show unreviewed files' })
     end,
   },
 }
