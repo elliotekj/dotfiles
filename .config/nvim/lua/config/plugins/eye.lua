@@ -31,6 +31,7 @@ return {
       vim.keymap.set('n', '<leader>rv', eye.mark_reviewed, { desc = 'Mark change as reviewed' })
       vim.keymap.set('n', '<leader>rf', eye.mark_file_reviewed, { desc = 'Mark file as reviewed' })
       vim.keymap.set('n', '<leader>ru', eye.unreviewed_files, { desc = 'Show unreviewed files' })
+      vim.keymap.set('n', '<leader>rd', eye.dashboard, { desc = 'Open review dashboard' })
     end,
   },
 }
