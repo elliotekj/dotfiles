@@ -52,15 +52,6 @@ vim.keymap.set('n', '<leader>fs', ':w<cr>')
 -- git
 vim.keymap.set('n', '<leader>gg', ':Neogit<cr>')
 
--- toggle light/dark mode
-vim.keymap.set('n', '<leader>td', function()
-  if vim.o.background == 'dark' then
-    vim.cmd.colorscheme('github_light_default')
-  else
-    vim.cmd.colorscheme('github_dark_default')
-  end
-end, { desc = 'Toggle light/dark mode' })
-
 -- lsp
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('LspKeymapConfig', {}),
