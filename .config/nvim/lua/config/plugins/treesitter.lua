@@ -2,7 +2,11 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     config = function()
+      local parser_install_dir = vim.fn.stdpath('data') .. '/treesitter-parsers'
+      vim.opt.runtimepath:append(parser_install_dir)
+
       require('nvim-treesitter.configs').setup({
+        parser_install_dir = parser_install_dir,
         ensure_installed = {
           'awk',
           'bash',

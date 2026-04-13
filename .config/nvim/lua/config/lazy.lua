@@ -23,11 +23,6 @@ local opts = {
   checker = {
     enabled = false,
   },
-  performance = {
-    rtp = {
-      paths = { vim.fn.stdpath('data') .. '/site' },
-    },
-  },
   ui = {
     size = { width = 0.8, height = 0.8 },
     border = 'solid',
