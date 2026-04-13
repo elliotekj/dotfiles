@@ -109,7 +109,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- disable lsp logs
-vim.lsp.set_log_level('off')
+vim.lsp.log.set_level(vim.log.levels.OFF)
 
 -- disable lsp semantic tokens since we use treesitter for syntax highlighting anyway...
 -- (see https://www.reddit.com/r/neovim/comments/109vgtl/how_to_disable_highlight_from_lsp)
@@ -121,21 +121,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- setup diagnostics
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  signs = true,
-  underline = true,
-  virtual_text = {
-    spacing = 4,
-    severity = { min = vim.diagnostic.severity.WARN }, -- Basically show all messages
-  },
-  update_in_insert = false,
-})
-
 vim.diagnostic.config({
   severity_sort = true,
   signs = true,
-  virtual_text = true,
+  underline = true,
+  update_in_insert = false,
+  virtual_text = {
+    spacing = 4,
+    severity = { min = vim.diagnostic.severity.WARN },
+  },
   float = { scope = 'line' },
 })
 
