@@ -3,6 +3,7 @@ return {
     'obsidian-nvim/obsidian.nvim',
     version = '*',
     lazy = false,
+    cond = vim.fn.executable('obsidian') == 1,
 
     keys = {
       { '<leader>fn', '<cmd>Obsidian search<cr>', desc = 'Search notes' },
