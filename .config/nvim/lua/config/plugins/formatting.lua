@@ -22,7 +22,7 @@ return {
   {
     "cappyzawa/trim.nvim",
     opts = {
-      trim_on_write = true
+      trim_on_write = false
     }
   }
 }
