@@ -1,6 +1,5 @@
 local servers = {
-  lexical = {
-    cmd = { vim.fn.stdpath('data') .. '/mason/bin/lexical' },
+  elixirls = {
     filetypes = { 'elixir', 'eelixir', 'heex' },
     root_markers = { 'mix.exs', '.git' },
   },
