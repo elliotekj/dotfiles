@@ -68,8 +68,6 @@ return {
       vim.keymap.set('n', '//', builtin.current_buffer_fuzzy_find, { desc = "Buffer search" })
       vim.keymap.set('n', 'gbs', builtin.lsp_document_symbols, { desc = "Buffer symbols" })
       vim.keymap.set('n', 'gbt', builtin.treesitter, { desc = "Buffer treesitter" })
-      vim.keymap.set('n', "<leader>'", builtin.resume, { desc = "Resume picker" })
-
       telescope.setup({
         defaults = {
           mappings = {

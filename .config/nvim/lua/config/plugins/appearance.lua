@@ -21,6 +21,11 @@ return {
             hl.ctermbg = nil
             vim.api.nvim_set_hl(0, group, hl)
           end
+
+          local C = require('github-theme.lib.color')
+          local s = require('github-theme.spec').load('github_dark_default')
+          local bg = C(s.bg1):blend(C(s.palette.blue.base), 0.2):to_css()
+          vim.api.nvim_set_hl(0, 'CursorLine', { bg = bg })
         end,
       })
 
