@@ -1,3 +1,13 @@
+if [ -x "$HOME/homebrew/bin/brew" ]; then
+    export HOMEBREW_PREFIX="$HOME/homebrew"
+elif [ -x "/opt/homebrew/bin/brew" ]; then
+    export HOMEBREW_PREFIX="/opt/homebrew"
+elif [ -x "/usr/local/bin/brew" ]; then
+    export HOMEBREW_PREFIX="/usr/local"
+elif command -v brew >/dev/null 2>&1; then
+    export HOMEBREW_PREFIX="${$(command -v brew):h:h}"
+fi
+
 export EDITOR="nvim"
 export VISUAL="nvim"
 
@@ -29,10 +39,8 @@ else
     export DEV_BASE="$HOME/dev/"
 fi
 
-if [ "$(uname -m)" = "arm64" ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-else
-    eval "$(/usr/local/bin/brew shellenv)"
+if [ -n "$HOMEBREW_PREFIX" ] && [ -x "$HOMEBREW_PREFIX/bin/brew" ]; then
+    eval "$("$HOMEBREW_PREFIX/bin/brew" shellenv)"
 fi
 
 export BUN_INSTALL="$HOME/.bun"
