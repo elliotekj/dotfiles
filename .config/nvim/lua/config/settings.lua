@@ -133,9 +133,13 @@ vim.diagnostic.config({
   float = { scope = 'line' },
 })
 
+local function current_relative_path()
+  return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':.')
+end
+
 -- elixir: copy test cmd to clipboard
 vim.keymap.set('n', '<leader>tc', function()
-  local file = vim.fn.expand('%')
+  local file = current_relative_path()
   local line = vim.fn.line('.')
   local cmd = string.format('mix test %s:%d', file, line)
   vim.fn.system('pbcopy', cmd)
@@ -143,10 +147,30 @@ vim.keymap.set('n', '<leader>tc', function()
 end, { desc = 'Copy mix test command' })
 
 vim.keymap.set('n', '<leader>fc', function()
-  local path = vim.fn.expand('%')
+  local path = current_relative_path()
   vim.fn.system('pbcopy', path)
   print('Copied relative path: ' .. path)
 end, { desc = 'Copy relative file path' })
+
+vim.keymap.set('x', '<leader>fc', function()
+  local path = current_relative_path()
+  local start_line = vim.fn.line("'<")
+  local end_line = vim.fn.line("'>")
+
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+
+  local location = path
+  if start_line == end_line then
+    location = string.format('%s:%d', path, start_line)
+  else
+    location = string.format('%s:%d-%d', path, start_line, end_line)
+  end
+
+  vim.fn.system('pbcopy', location)
+  print('Copied file range: ' .. location)
+end, { desc = 'Copy relative file path with range' })
 
 vim.keymap.set('n', '<leader>fC', function()
   local path = vim.fn.expand('%:p')
