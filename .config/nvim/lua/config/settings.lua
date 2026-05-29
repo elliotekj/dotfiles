@@ -154,8 +154,8 @@ end, { desc = 'Copy relative file path' })
 
 vim.keymap.set('x', '<leader>fc', function()
   local path = current_relative_path()
-  local start_line = vim.fn.line("'<")
-  local end_line = vim.fn.line("'>")
+  local start_line = vim.fn.line('v')
+  local end_line = vim.fn.line('.')
 
   if start_line > end_line then
     start_line, end_line = end_line, start_line
