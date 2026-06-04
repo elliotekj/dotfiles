@@ -1,4 +1,6 @@
 local servers = {
+  denols = {},
+
   elixirls = {
     filetypes = { 'elixir', 'eelixir', 'heex' },
     root_markers = { 'mix.exs', '.git' },
@@ -88,20 +90,18 @@ local servers = {
   },
 }
 
--- Set default capabilities for all servers (includes cmp support)
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-vim.lsp.config('*', { capabilities = capabilities })
+local function setup_servers()
+  -- Add cmp completion capabilities to every LSP server.
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+  vim.lsp.config('*', { capabilities = capabilities })
 
--- Configure each server
-local server_names = {}
-for name, config in pairs(servers) do
-  vim.lsp.config(name, config)
-  server_names[#server_names + 1] = name
+  for name, config in pairs(servers) do
+    local base = vim.deepcopy(vim.lsp.config[name] or {})
+    vim.lsp.config(name, vim.tbl_deep_extend('force', base, config))
+    vim.lsp.enable(name)
+  end
 end
-
--- Enable all servers
-vim.lsp.enable(server_names)
 
 return {
   {
@@ -122,10 +122,12 @@ return {
           require('mason-lspconfig').setup({
             ensure_installed = install_names,
             automatic_installation = true,
+            automatic_enable = false,
           })
         end,
       },
     },
+    config = setup_servers,
   },
   {
     'j-hui/fidget.nvim',
