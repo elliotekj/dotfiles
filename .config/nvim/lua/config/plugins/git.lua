@@ -10,9 +10,45 @@ return {
   },
   {
     'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    keys = {
+      {
+        '<leader>gs',
+        function()
+          require('gitsigns').stage_buffer()
+        end,
+        mode = 'n',
+        desc = 'Stage File',
+      },
+      {
+        '<leader>gs',
+        function()
+          local start_line = vim.fn.line('.')
+          local end_line = vim.fn.line('v')
+
+          if start_line > end_line then
+            start_line, end_line = end_line, start_line
+          end
+
+          require('gitsigns').stage_hunk({ start_line, end_line })
+        end,
+        mode = 'v',
+        desc = 'Stage Selection',
+      },
+      {
+        '<leader>gb',
+        function()
+          require('gitsigns').toggle_current_line_blame()
+        end,
+        mode = 'n',
+        desc = 'Toggle Inline Blame',
+      },
+    },
     opts = {
+      attach_to_untracked = true,
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
+
         local function map(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
         end
