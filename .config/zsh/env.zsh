@@ -24,8 +24,19 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 typeset -U path
+if [ -x "/Applications/Postgres.app/Contents/Versions/18/bin/psql" ]; then
+    path=(
+        /Applications/Postgres.app/Contents/Versions/18/bin
+        $path
+    )
+elif [ -x "/Applications/Postgres.app/Contents/Versions/17/bin/psql" ]; then
+    path=(
+        /Applications/Postgres.app/Contents/Versions/17/bin
+        $path
+    )
+fi
+
 path=(
-    /Applications/Postgres.app/Contents/Versions/17/bin
     $HOME/bin
     $HOME/.local/bin
     $HOME/.local/share/mise/shims
