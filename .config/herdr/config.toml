@@ -51,7 +51,7 @@
 
 # Prefix-mode actions
 # help = "prefix+?"
-# settings = "prefix+s"
+settings = ""
 detach = "prefix+d"
 # reload_config = "prefix+shift+r"
 # open_notification_target = "prefix+o"
@@ -85,7 +85,7 @@ rename_tab = "prefix+,"
 # cycle_pane_previous = "prefix+shift+tab"
 # last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
 # split_vertical = "prefix+v"
-# split_horizontal = "prefix+minus"
+split_horizontal = "prefix+s"
 # close_pane = "prefix+x"
 # zoom = "prefix+z"       # legacy alias: fullscreen
 # resize_mode = "prefix+r"
