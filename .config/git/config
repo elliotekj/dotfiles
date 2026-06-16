@@ -7,11 +7,6 @@
 	email = elliot@elliotekj.com
 [push]
 	autoSetupRemote = true
-[diff]
-	external = difft
-	tool = difftastic
-	algorithm = patience
-	compactionHeuristic = true
 [difftool]
 	prompt = false
 [difftool "difftastic"]
