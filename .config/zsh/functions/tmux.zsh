@@ -25,4 +25,3 @@ tsa() {
         tmux attach -t "$selected"
     fi
 }
-
