@@ -1,4 +1,4 @@
-theme = GitHub Dark
+theme = dark:Dracula,light:Rose Pine Dawn
 font-family = CommitMono
 font-size = 12
 adjust-cell-height = 30%
