@@ -18,6 +18,7 @@ alias phx="iex -S mix phx.server"
 alias wtc="wt switch --create"
 alias wts="wt select"
 alias v='$EDITOR'
+alias vim='$EDITOR'
 alias y="yazi"
 alias spec='$EDITOR SPEC.md'
 alias t="tuicr --theme light"

@@ -1,5 +1,4 @@
 vim.opt.termguicolors = true
-vim.opt.background = 'dark'
 
 -- allow switching between buffers without saving first
 vim.opt.hidden = true
