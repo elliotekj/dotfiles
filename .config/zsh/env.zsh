@@ -56,6 +56,14 @@ if [ -d "/Volumes/External" ]; then
     )
 else
     export DEV_BASE="$HOME/dev/"
+    if [ -d "$HOME/Library/Android/sdk" ]; then
+        export ANDROID_HOME="$HOME/Library/Android/sdk"
+        path=(
+            "$ANDROID_HOME/emulator"
+            "$ANDROID_HOME/platform-tools"
+            $path
+        )
+    fi
 fi
 
 if [ -n "$HOMEBREW_PREFIX" ] && [ -x "$HOMEBREW_PREFIX/bin/brew" ]; then
