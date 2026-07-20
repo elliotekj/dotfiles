@@ -1,1 +1,11 @@
 .homie/manifest.toml
+
+# Local/generated state
+.cache/
+.config/herdr/*.log
+.config/herdr/release-notes.json
+.config/herdr/session.json
+.local/state/
+.zcompdump
+Library/Caches/
+nvim.log

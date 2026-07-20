@@ -59,3 +59,6 @@ if command -v ng >/dev/null 2>&1; then
 
     [ -s "$ng_completion_cache" ] && source "$ng_completion_cache"
 fi
+
+# Pi
+export PATH="/Users/elliot.jackson/.local/share/mise/installs/node/25.9.0/bin:$PATH"
