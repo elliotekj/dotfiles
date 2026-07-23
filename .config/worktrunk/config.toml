@@ -1,4 +1,4 @@
-worktree-path = "../{{ repo }}.worktrees/{{ branch | sanitize }}"
+worktree-path = "../{{ repo }}-worktrees/{{ branch | sanitize }}"
 
 [commit.generation]
-command = "MAX_THINKING_TOKENS=0 claude -p --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
+command = "codex exec -m gpt-5.4-mini -c model_reasoning_effort='low' -c system_prompt='' --sandbox=read-only --json - | jq -sr '[.[] | select(.item.type? == \"agent_message\")] | last.item.text'"
