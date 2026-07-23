@@ -60,7 +60,7 @@ detach = "prefix+d"
 # reload_config = "prefix+shift+r"
 # open_notification_target = "prefix+o"
 # workspace_picker = "prefix+w"
-goto = "prefix+q"
+goto = "" # unset; prefix+q is used by EasyMotion below
 # new_workspace = "prefix+shift+n"
 new_worktree = "" # unset
 # open_worktree = ""    # optional, unset by default
@@ -116,6 +116,12 @@ split_horizontal = "prefix+s"
 key = "cmd+r"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
+
+[[keys.command]]
+key = "prefix+q"
+type = "plugin_action"
+command = "com.elliotekj.herdr-easymotion.pane"
+description = "select pane"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
