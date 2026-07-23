@@ -1,0 +1,2 @@
+# Open reviewr over the current view and return to the agent when toggled again.
+toggle_placement = "overlay"
