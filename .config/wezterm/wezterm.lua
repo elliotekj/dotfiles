@@ -27,7 +27,7 @@ config.color_schemes = {
 }
 config.color_scheme = 'Gruvbox Material Soft Dark'
 config.font = wezterm.font 'Iosevka Term'
-config.harfbuzz_features = { "liga=1", "ss02=1" }
+config.harfbuzz_features = { "liga=1", "calt=1", "ss02=1" }
 config.font_size = 11.0
 config.line_height = 1.2
 
