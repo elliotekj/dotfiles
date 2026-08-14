@@ -21,7 +21,7 @@ alias v='$EDITOR'
 alias vim='$EDITOR'
 alias y="yazi"
 alias spec='$EDITOR SPEC.md'
-alias t="tuicr --theme light"
+alias t="tuicr --appearance system"
 
 tsn() {
   if [[ -n "$TMUX" ]]; then

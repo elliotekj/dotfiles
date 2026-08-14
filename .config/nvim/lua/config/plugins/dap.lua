@@ -1,7 +1,7 @@
 local function define_colors()
-    vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#b91c1c" })
-    vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef" })
-    vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bold = true })
+    vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#ea6962" })
+    vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#7daea3" })
+    vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#a9b665", bold = true })
 
     vim.fn.sign_define("DapBreakpoint", {
         text = "🔴",

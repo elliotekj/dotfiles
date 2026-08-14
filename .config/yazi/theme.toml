@@ -1,2 +1,3 @@
 [flavor]
-use = "github-dark"
+dark = "gruvbox-material-soft-dark"
+light = "gruvbox-material-soft-light"

@@ -80,8 +80,6 @@ mas install 1450874784
 # Config
 # -----------------------------------------------------------------------------
 
-cp ~/Library/Mobile\ Documents/com~apple~CloudDocs/Fonts/TX-02-Variable.otf ~/Library/Fonts/
-
 chflags nohidden "$HOME/Library"
 if [[ -d "$HOME/Applications" ]]; then
   chflags hidden "$HOME/Applications"
@@ -135,4 +133,3 @@ if [ "$SHELL" != "/bin/zsh" ]; then
 fi
 
 printf "\e[1;32m==> Done! You should now reboot.\n\e[0m"
-

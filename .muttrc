@@ -110,14 +110,14 @@ bind index,pager \Cp sidebar-prev
 bind index,pager \Cn sidebar-next
 bind index,pager \Co sidebar-open
 
-# Solarized Light theme colors
+# Gruvbox Material Soft colors from the terminal palette
 color normal     default default
-color indicator  color230 color33
-color status     color240 color254
-color tree       color33 default
-color index      color33 default ~N
-color index      color160 default ~D
-color body       color125 default "(https?|ftp)://[^ ]+"
-color body       color33 default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
-color sidebar_highlight color230 color33
-color sidebar_new color33 default
+color indicator  default blue
+color status     default default
+color tree       cyan default
+color index      blue default ~N
+color index      red default ~D
+color body       magenta default "(https?|ftp)://[^ ]+"
+color body       blue default "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
+color sidebar_highlight default blue
+color sidebar_new blue default

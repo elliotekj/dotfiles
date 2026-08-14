@@ -3,11 +3,12 @@
 # Designed to run INSIDE tmux display-popup -E
 
 CACHE_DIR="$HOME/.cache/tmux-claude-status"
-MUTED='\033[38;2;144;140;170m'
-GOLD='\033[38;2;246;193;119m'
-ROSE='\033[38;2;235;188;186m'
-FOAM='\033[38;2;156;207;216m'
-RESET='\033[0m'
+# Use terminal ANSI colors so the popup follows Gruvbox Material Soft light/dark mode.
+MUTED=$(tput setaf 8)
+GOLD=$(tput setaf 3)
+PURPLE=$(tput setaf 5)
+FOAM=$(tput setaf 6)
+RESET=$(tput sgr0)
 MAX_BRANCH=24
 
 relative_time() {
@@ -49,7 +50,7 @@ state_sort_key() {
 state_icon() {
   case "$1" in
     working) printf "${GOLD}◑${RESET}" ;;
-    waiting) printf "${ROSE}○${RESET}" ;;
+    waiting) printf "${PURPLE}○${RESET}" ;;
     done)    printf "${FOAM}●${RESET}" ;;
     *)       printf " " ;;
   esac

@@ -87,7 +87,7 @@ vim.g.netrw_browse_split = 0
 vim.opt.shortmess:append({ c = true })
 
 -- trailing whitespace is bad
-vim.api.nvim_set_hl(0, 'WhiteSpaceEOL', { bg = '#da3633' })
+vim.api.nvim_set_hl(0, 'WhiteSpaceEOL', { bg = '#ea6962' })
 local trailing_ag = vim.api.nvim_create_augroup('TrailingWhitespace', { clear = true })
 vim.api.nvim_create_autocmd('InsertEnter', {
   group = trailing_ag,

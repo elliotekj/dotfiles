@@ -10,10 +10,11 @@ onboarding = false
 # Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord,
 #                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
 #                  vesper
-name = "dracula"
+# Follow the outer terminal's Gruvbox Material Soft ANSI palette.
+name = "terminal"
 auto_switch = true
-dark_name = "dracula"
-light_name = "rose-pine-dawn"
+dark_name = "terminal"
+light_name = "terminal"
 
 # Override individual color tokens on top of the base theme.
 # Accepts: hex (#rrggbb), named colors, rgb(r,g,b), or panel_bg = "reset"
@@ -182,6 +183,7 @@ prompt_new_tab_name = false
 # accent = "cyan"
 
 # Background notification popup delivery
+agent_panel_sort = "priority"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show in-app toasts

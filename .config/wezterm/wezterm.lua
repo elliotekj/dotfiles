@@ -1,11 +1,13 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
+local gruvbox_material_soft_dark = dofile(wezterm.config_dir .. '/colors/gruvbox_material_soft_dark.lua')
+local gruvbox_material_soft_light = dofile(wezterm.config_dir .. '/colors/gruvbox_material_soft_light.lua')
 
 local function scheme_for_appearance(appearance)
   if appearance:find 'Dark' then
-    return 'GitHub Dark'
+    return 'Gruvbox Material Soft Dark'
   else
-    return 'GitHub Light'
+    return 'Gruvbox Material Soft Light'
   end
 end
 
@@ -19,8 +21,12 @@ wezterm.on('window-config-reloaded', function(window)
   end
 end)
 
-config.color_scheme = 'GitHub Dark'
-config.font = wezterm.font 'MonoLisa'
+config.color_schemes = {
+  ['Gruvbox Material Soft Dark'] = gruvbox_material_soft_dark,
+  ['Gruvbox Material Soft Light'] = gruvbox_material_soft_light,
+}
+config.color_scheme = 'Gruvbox Material Soft Dark'
+config.font = wezterm.font 'Iosevka Term'
 config.harfbuzz_features = { "liga=1", "ss02=1" }
 config.font_size = 11.0
 config.line_height = 1.2

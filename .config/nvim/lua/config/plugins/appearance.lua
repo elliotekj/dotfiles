@@ -5,19 +5,16 @@ end
 
 return {
   {
-    'Mofiqul/dracula.nvim',
+    'sainnhe/gruvbox-material',
     lazy = false,
     priority = 1000,
-    dependencies = {
-      { 'rose-pine/neovim', name = 'rose-pine' },
-    },
     config = function()
-      require('dracula').setup({})
-      require('rose-pine').setup({})
+      vim.g.gruvbox_material_background = 'soft'
+      vim.g.gruvbox_material_foreground = 'material'
 
       local theme_by_background = {
-        dark = 'dracula',
-        light = 'rose-pine-dawn',
+        dark = 'gruvbox-material',
+        light = 'gruvbox-material',
       }
 
       local current_background
@@ -136,7 +133,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'auto'
+          theme = 'gruvbox-material'
         },
         sections = {
           lualine_a = { 'mode' },
