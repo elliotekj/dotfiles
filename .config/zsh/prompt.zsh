@@ -1,16 +1,22 @@
 _prompt_context() {
-    local git_dir git_common_dir branch project icon
+    local git_dir git_common_dir branch project internal_path icon
 
     if git_common_dir=$(command git rev-parse --path-format=absolute --git-common-dir 2>/dev/null); then
         git_dir=$(command git rev-parse --path-format=absolute --git-dir 2>/dev/null)
         branch=$(command git rev-parse --abbrev-ref HEAD 2>/dev/null)
         project="${git_common_dir:h:t}"
+        internal_path=$(command git rev-parse --show-prefix 2>/dev/null)
+        internal_path="${internal_path%/}"
         if [[ "$git_dir" == "$git_common_dir" ]]; then
             icon="🏠"
         else
             icon="🌳"
         fi
-        print -r -- "${icon} %B%F{magenta}${project}%f%b %F{bright-black}${branch}%f"
+        if [[ -n "$internal_path" ]]; then
+            print -r -- "${icon} %B%F{magenta}${project}%f%b %F{magenta}${internal_path}%f %F{bright-black}${branch}%f"
+        else
+            print -r -- "${icon} %B%F{magenta}${project}%f%b %F{bright-black}${branch}%f"
+        fi
     else
         print -r -- "%B%F{magenta}${PWD/#$HOME/~}%f%b"
     fi
@@ -29,6 +35,7 @@ _codexbar_refresh_usage() {
             sub(/^Pace: /, "", pace)
             sub(/ \|.*/, "", pace)
             sub(/ in deficit$/, " deficit", pace)
+            sub(/ in reserve$/, " reserve", pace)
         }
         END {
             if (pace && gauge) print pace, gauge
@@ -66,6 +73,7 @@ _codexbar_prompt_usage() {
     [[ -r "$_CODEXBAR_PROMPT_CACHE" ]] || return
     IFS= read -r usage < "$_CODEXBAR_PROMPT_CACHE"
     usage="${usage//\% in deficit/% deficit}"
+    usage="${usage//\% in reserve/% reserve}"
     usage="${usage//\%/%%}"
     print -r -- "$usage"
 }
