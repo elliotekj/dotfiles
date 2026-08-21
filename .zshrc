@@ -40,6 +40,7 @@ source "${ZDOTDIR:-$HOME}/.config/zsh/completions.zsh"
 _source_generated_init zoxide-init.zsh zoxide init zsh
 _source_generated_init atuin-init.zsh atuin init zsh
 _source_generated_init direnv-init.zsh direnv hook zsh
+eval "$(mise activate zsh)"
 
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
