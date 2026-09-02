@@ -37,11 +37,3 @@ wtn() {
 
     $EDITOR "$note_path"
 }
-
-plan() {
-    if [[ "${HOST%%.*}" == "Elliots-MacBook-Pro" ]]; then
-        vim "$HOME/.plan"
-    else
-        ssh -t elliotekj@100.89.162.120 'vim ~/.plan'
-    fi
-}
