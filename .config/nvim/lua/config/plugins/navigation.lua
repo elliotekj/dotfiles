@@ -27,6 +27,8 @@ return {
         { "<leader>w", group = "window" },
         { "<leader>x", group = "elixir" },
         { "g", group = "goto" },
+        { "<localleader>w", group = "wiki" },
+        { "<localleader>r", group = "review" },
         { "<localleader>t", group = "toggle" },
       },
     },

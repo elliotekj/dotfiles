@@ -1,3 +1,19 @@
+local function find_local_base_branch()
+  for _, branch in ipairs({ 'main', 'master' }) do
+    local result = vim.system({
+      'git',
+      'show-ref',
+      '--verify',
+      '--quiet',
+      'refs/heads/' .. branch,
+    }, { text = true }):wait()
+
+    if result.code == 0 then
+      return branch
+    end
+  end
+end
+
 return {
   {
     'NeogitOrg/neogit',
@@ -43,6 +59,60 @@ return {
         mode = 'n',
         desc = 'Toggle Inline Blame',
       },
+      {
+        '<localleader>rb',
+        function()
+          local base_branch = find_local_base_branch()
+          if not base_branch then
+            vim.notify('No local main or master branch found', vim.log.levels.WARN)
+            return
+          end
+
+          local merge_base_result = vim.system({
+            'git',
+            'merge-base',
+            base_branch,
+            'HEAD',
+          }, { text = true }):wait()
+          if merge_base_result.code ~= 0 then
+            vim.notify('Could not determine the branch merge base', vim.log.levels.WARN)
+            return
+          end
+
+          local merge_base = vim.trim(merge_base_result.stdout or '')
+          local gitsigns = require('gitsigns')
+          gitsigns.change_base(merge_base, true, function(err)
+            vim.schedule(function()
+              if err then
+                vim.notify('Could not configure branch review: ' .. err, vim.log.levels.ERROR)
+                return
+              end
+
+              gitsigns.toggle_deleted(true)
+              gitsigns.setqflist('all', { open = true })
+              vim.notify('Reviewing branch changes against local ' .. base_branch, vim.log.levels.INFO)
+            end)
+          end)
+        end,
+        mode = 'n',
+        desc = 'Review branch hunks in local buffers',
+      },
+      {
+        '<leader>gp',
+        function()
+          require('gitsigns').preview_hunk_inline()
+        end,
+        mode = 'n',
+        desc = 'Preview current branch hunk inline',
+      },
+      {
+        '<localleader>td',
+        function()
+          require('gitsigns').toggle_deleted()
+        end,
+        mode = 'n',
+        desc = 'Toggle deleted lines inline',
+      },
     },
     opts = {
       attach_to_untracked = true,
@@ -65,35 +135,14 @@ return {
       require('diffview').setup()
 
       vim.keymap.set('n', '<leader>gd', function()
-        local function open_diff()
-          vim.cmd('DiffviewOpen origin/master')
+        local base_branch = find_local_base_branch()
+        if not base_branch then
+          vim.notify('No local main or master branch found', vim.log.levels.WARN)
+          return
         end
 
-        vim.system({ 'git', 'remote', 'show', 'origin' }, { text = true }, function(result)
-          local output = result.stdout or ''
-          local needs_fetch = output:match('local out of date')
-            or output:match('behind')
-            or output:match('diverged')
-
-          if needs_fetch then
-            vim.schedule(function()
-              vim.ui.select({ 'Yes', 'No' }, {
-                prompt = 'origin/master is outdated. Fetch before diff?',
-              }, function(choice)
-                if choice == 'Yes' then
-                  vim.system({ 'git', 'fetch', 'origin' }, {}, function()
-                    vim.schedule(open_diff)
-                  end)
-                else
-                  open_diff()
-                end
-              end)
-            end)
-          else
-            vim.schedule(open_diff)
-          end
-        end)
-      end, { desc = 'Diff HEAD vs origin/master (smart fetch)' })
+        vim.cmd('DiffviewOpen ' .. base_branch)
+      end, { desc = 'Diff worktree against local main/master' })
     end,
   },
 }

@@ -9,3 +9,20 @@ vim.api.nvim_create_autocmd('BufEnter', {
   pattern = 'toggleterm',
   command = 'startinsert',
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.colorcolumn = '79'
+    vim.cmd('Wrapwidth 79')
+    vim.keymap.set('n', '<localleader>tw', function()
+      if vim.b.wrapwidth then
+        vim.cmd('Wrapwidth 0')
+      else
+        vim.cmd('Wrapwidth 79')
+      end
+    end, { buffer = true, desc = 'Toggle markdown wrapping' })
+  end,
+})

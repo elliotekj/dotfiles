@@ -1,5 +1,9 @@
 return {
   {
+    'rickhowe/wrapwidth',
+    lazy = false,
+  },
+  {
     'stevearc/conform.nvim',
     config = function()
       require("conform").setup({
