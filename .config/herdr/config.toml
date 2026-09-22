@@ -184,6 +184,10 @@ prompt_new_tab_name = false
 
 # Background notification popup delivery
 agent_panel_sort = "priority"
+
+[ui.sidebar.agents]
+rows = [["state_icon", "workspace", "tab"]]
+
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show in-app toasts
