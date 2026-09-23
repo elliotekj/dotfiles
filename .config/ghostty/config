@@ -1,4 +1,5 @@
-theme = dark:gruvbox-material-soft-dark,light:gruvbox-material-soft-light
+theme = everforest-dark
+background = 232A2E
 font-family = Iosevka Term
 font-feature = liga,calt
 font-size = 14

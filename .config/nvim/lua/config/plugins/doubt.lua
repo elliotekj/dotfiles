@@ -147,7 +147,7 @@ return {
 
       apply_doubt_highlights()
       vim.api.nvim_create_autocmd('ColorScheme', {
-        group = vim.api.nvim_create_augroup('DoubtGruvboxTheme', { clear = true }),
+        group = vim.api.nvim_create_augroup('DoubtTheme', { clear = true }),
         callback = apply_doubt_highlights,
       })
     end,

@@ -1,0 +1,19 @@
+[theme]
+name = "everforest"
+
+[colors]
+AlertInfo = "#A7C080"
+AlertWarn = "#DBBC7F"
+AlertError = "#E67E80"
+Annotation = "#859289"
+Base = "#D3C6AA"
+Guidance = "#7FBBB3"
+Important = "#E69875"
+Title = "#E69875"
+Muted = "#7A8478"
+SyntaxCommand = "#A7C080"
+SyntaxFlag = "#7FBBB3"
+SyntaxString = "#83C092"
+SyntaxVariable = "#D699B6"
+SyntaxOperator = "#E69875"
+SyntaxComment = "#859289"

@@ -5,122 +5,15 @@ end
 
 return {
   {
-    'sainnhe/gruvbox-material',
+    'sainnhe/everforest',
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.gruvbox_material_background = 'soft'
-      vim.g.gruvbox_material_foreground = 'material'
-
-      local theme_by_background = {
-        dark = 'gruvbox-material',
-        light = 'gruvbox-material',
-      }
-
-      local current_background
-
-      local function macos_background()
-        if vim.uv.os_uname().sysname ~= 'Darwin' then
-          return nil
-        end
-
-        local result = vim.system({ 'defaults', 'read', '-g', 'AppleInterfaceStyle' }, { text = true }):wait()
-        if result.code == 0 and result.stdout:match('Dark') then
-          return 'dark'
-        end
-
-        return 'light'
-      end
-
-      local function detected_background()
-        if #vim.api.nvim_list_uis() > 0 then
-          return vim.o.background
-        end
-
-        return macos_background() or vim.o.background
-      end
-
-      local function background_from_terminal_response(sequence)
-        if not sequence then
-          return nil
-        end
-
-        local red, green, blue = sequence:match('\027%]11;rgb:(%x+)/(%x+)/(%x+)')
-        if not red then
-          return nil
-        end
-
-        local function channel(hex)
-          return tonumber(hex, 16) / (16 ^ #hex - 1)
-        end
-
-        local luminance = 0.2126 * channel(red) + 0.7152 * channel(green) + 0.0722 * channel(blue)
-        if luminance < 0.5 then
-          return 'dark'
-        end
-
-        return 'light'
-      end
-
-      local function apply_theme(background)
-        if background == current_background then
-          return
-        end
-
-        current_background = background
-        vim.o.background = background
-        vim.cmd.colorscheme(theme_by_background[background])
-      end
-
-      local function query_terminal_background()
-        if #vim.api.nvim_list_uis() == 0 then
-          return
-        end
-
-        io.stdout:write('\027]11;?\027\\')
-        io.stdout:flush()
-      end
-
-      apply_theme(detected_background())
-
-      vim.api.nvim_create_autocmd('UIEnter', {
-        callback = function()
-          vim.schedule(function()
-            apply_theme(vim.o.background)
-            query_terminal_background()
-          end)
-        end,
-      })
-
-      vim.api.nvim_create_autocmd('TermResponse', {
-        callback = function(args)
-          local sequence = args.data and args.data.sequence or vim.v.termresponse
-          local background = background_from_terminal_response(sequence)
-          if background then
-            apply_theme(background)
-          end
-        end,
-      })
-
-      vim.api.nvim_create_autocmd('OptionSet', {
-        pattern = 'background',
-        callback = function(args)
-          if args.match ~= 'background' then
-            return
-          end
-
-          vim.schedule(function()
-            apply_theme(vim.o.background)
-          end)
-        end,
-      })
-
-      vim.api.nvim_create_autocmd('FocusGained', {
-        callback = function()
-          apply_theme(detected_background())
-          query_terminal_background()
-        end,
-      })
+      vim.g.everforest_background = 'medium'
+      vim.g.everforest_colors_override = { bg0 = { '#232A2E', '233' } }
+      vim.g.everforest_better_performance = 1
+      vim.o.background = 'dark'
+      vim.cmd.colorscheme('everforest')
     end,
   },
   {
@@ -133,7 +26,7 @@ return {
           icons_enabled = false,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          theme = 'gruvbox-material'
+          theme = 'everforest'
         },
         sections = {
           lualine_a = { 'mode' },

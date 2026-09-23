@@ -10,19 +10,32 @@ onboarding = false
 # Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord,
 #                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
 #                  vesper
-# Follow the outer terminal's Gruvbox Material Soft ANSI palette.
+# Everforest dark, mapped onto Herdr's semantic UI colors.
 name = "terminal"
-auto_switch = true
+auto_switch = false
 dark_name = "terminal"
 light_name = "terminal"
 
-# Override individual color tokens on top of the base theme.
-# Accepts: hex (#rrggbb), named colors, rgb(r,g,b), or panel_bg = "reset"
-# [theme.custom]
-# panel_bg = "reset"
-# accent = "#f5c2e7"
-# red = "#ff6188"
-# green = "#a6e3a1"
+[theme.custom]
+panel_bg = "#232A2E"
+sidebar_bg = "#232A2E"
+active_row_bg = "#425047"
+selection_bg = "#543A48"
+surface0 = "#232A2E"
+surface1 = "#3D484D"
+surface_dim = "#232A2E"
+overlay0 = "#475258"
+overlay1 = "#4F585E"
+text = "#D3C6AA"
+subtext0 = "#859289"
+accent = "#A7C080"
+mauve = "#D699B6"
+green = "#A7C080"
+yellow = "#DBBC7F"
+red = "#E67E80"
+blue = "#7FBBB3"
+teal = "#83C092"
+peach = "#E69875"
 
 [terminal]
 # Executable used for new interactive panes.
