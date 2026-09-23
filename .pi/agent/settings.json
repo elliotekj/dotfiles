@@ -1,0 +1,10 @@
+{
+  "packages": [
+    "npm:pi-autoresearch"
+  ],
+  "lastChangelogVersion": "0.87.1",
+  "theme": "everforest",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6-luna",
+  "defaultThinkingLevel": "xhigh"
+}
