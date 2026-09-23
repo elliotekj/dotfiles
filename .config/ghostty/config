@@ -2,8 +2,8 @@ theme = everforest-dark
 background = 232A2E
 font-family = Iosevka Term
 font-feature = liga,calt
-font-size = 14
-adjust-cell-height = 30%
+font-size = 13
+adjust-cell-height = 10%
 macos-titlebar-style = tabs
 
 # Ghostty native pane management
