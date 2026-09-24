@@ -13,12 +13,12 @@ _prompt_context() {
             icon="🌳"
         fi
         if [[ -n "$internal_path" ]]; then
-            print -r -- "${icon} %B%F{magenta}${project}%f%b %F{magenta}${internal_path}%f %F{bright-black}${branch}%f"
+            print -r -- "${icon} %B%F{#A7C080}${project}%f%b %F{#7FBBB3}${internal_path}%f %F{#7A8478}${branch}%f"
         else
-            print -r -- "${icon} %B%F{magenta}${project}%f%b %F{bright-black}${branch}%f"
+            print -r -- "${icon} %B%F{#A7C080}${project}%f%b %F{#7A8478}${branch}%f"
         fi
     else
-        print -r -- "%B%F{magenta}${PWD/#$HOME/~}%f%b"
+        print -r -- "%B%F{#A7C080}${PWD/#$HOME/~}%f%b"
     fi
 }
 
@@ -98,5 +98,5 @@ fi
 
 setopt PROMPT_SUBST
 
-PROMPT='$(_prompt_context) %F{magenta}❯%f '
+PROMPT='$(_prompt_context) %F{#A7C080}❯%f '
 RPROMPT='$(_codexbar_prompt_usage)'
