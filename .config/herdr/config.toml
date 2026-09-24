@@ -212,6 +212,7 @@ rows = [["state_icon", "workspace"]]
 # delivery = "off"
 # delay_seconds = 1
 
+delivery = "herdr"
 [ui.toast.herdr]
 position = "top-right"
 
@@ -254,7 +255,7 @@ position = "top-right"
 # Requires a Kitty graphics-compatible outer terminal.
 kitty_graphics = true
 # Save recent pane screen history across full server restarts.
-pane_history = false
+pane_history = true
 # While prefix mode is active, temporarily switch the macOS host input
 # source to an ASCII-capable keyboard layout so prefix commands register
 # even when a CJK IME is active, then restore the previous input source
