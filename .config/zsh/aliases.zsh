@@ -5,6 +5,7 @@ c() {
 o() {
   opencode "$@"
 }
+alias e="exit"
 alias far="serpl"
 alias g="gitu"
 alias gap="git add -p"
