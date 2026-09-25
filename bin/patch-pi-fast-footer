@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+import os
+import stat
+import sys
+import tempfile
+from pathlib import Path
+
+INLINE_OLD = "let rightSide=rightSideWithoutProvider;this.footerData.getAvailableProviderCount()>1"
+INLINE_NEW = r'''/* ponytail: local Pi package patches disappear on update; upstream inline footer status placement for persistence. */const fastModeEnabled=this.footerData.getExtensionStatuses().get("pi-gpt-fast-mode")==="fast";if(fastModeEnabled)rightSideWithoutProvider+=" \u2022 fast";let rightSide=rightSideWithoutProvider;this.footerData.getAvailableProviderCount()>1'''
+STATUS_OLD = '''extensionStatuses=this.footerData.getExtensionStatuses();if(extensionStatuses.size>0){let statusLine=Array.from(extensionStatuses.entries()).sort(([a],[b2])=>a.localeCompare(b2)).map(([,text])=>sanitizeStatusText(text)).join(" ");lines.push(truncateToWidth(statusLine,width,theme.fg("dim","...")))}return lines'''
+STATUS_NEW = '''extensionStatuses=this.footerData.getExtensionStatuses();if(extensionStatuses.size>0){let sortedStatuses=Array.from(extensionStatuses.entries()).filter(([key])=>key!=="pi-gpt-fast-mode").sort(([a],[b2])=>a.localeCompare(b2)).map(([,text])=>sanitizeStatusText(text));if(sortedStatuses.length>0)lines.push(truncateToWidth(sortedStatuses.join(" "),width,theme.fg("dim","...")))}return lines'''
+
+if len(sys.argv) != 2:
+    raise SystemExit("usage: patch-pi-fast-footer PATH_TO_PI_BUNDLE_CHUNK")
+
+path = Path(sys.argv[1]).resolve()
+source = path.read_text(encoding="utf-8")
+if INLINE_NEW in source and STATUS_NEW in source:
+    print(f"already patched: {path}")
+    raise SystemExit(0)
+if source.count(INLINE_OLD) != 1 or source.count(STATUS_OLD) != 1:
+    raise SystemExit(f"unsupported Pi bundle or partial patch: {path}")
+
+patched = source.replace(INLINE_OLD, INLINE_NEW, 1).replace(STATUS_OLD, STATUS_NEW, 1)
+fd, temporary = tempfile.mkstemp(dir=path.parent)
+try:
+    with os.fdopen(fd, "w") as bundle:
+        bundle.write(patched)
+    os.chmod(temporary, stat.S_IMODE(path.stat().st_mode))
+    os.replace(temporary, path)
+except BaseException:
+    os.unlink(temporary)
+    raise
+print(f"patched: {path}")
