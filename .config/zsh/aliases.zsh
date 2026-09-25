@@ -17,7 +17,10 @@ alias m="master"
 alias lg="lazygit"
 alias phx="iex -S mix phx.server"
 alias wtc="wt switch --create"
-alias wts="wt switch"
+wts() {
+  git fetch --all --prune &&
+    wt switch --remotes "$@"
+}
 alias v='$EDITOR'
 alias vim='$EDITOR'
 alias y="yazi"
