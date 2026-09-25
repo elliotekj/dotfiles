@@ -1,11 +1,15 @@
 {
   "packages": [
-    "npm:pi-autoresearch"
+    "npm:pi-autoresearch",
+    "npm:@tunnckocore/pi-gpt-fast-mode"
   ],
   "lastChangelogVersion": "0.87.1",
   "theme": "everforest",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6-luna",
   "defaultThinkingLevel": "xhigh",
-  "quietStartup": true
+  "quietStartup": true,
+  "pi-gpt-fast-mode": {
+    "enabled": true
+  }
 }
