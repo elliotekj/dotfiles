@@ -41,6 +41,7 @@ path=(
     $HOME/.local/bin
     $HOME/.local/share/mise/shims
     $HOME/.cargo/bin
+    $HOME/.bend/bin
     $HOME/.fiberplane/bin
     $HOME/.maestro/bin
     $path
